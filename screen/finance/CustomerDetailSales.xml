@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="客户明细销售表"
+	default-menu-index="42">
+
+	<transition name="findCustomerDetailSales">
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find entity-name="CustomerDetailSales" list="customerDetailSalesList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+	
+		<form-list name="CustomerDetailSales" list="customerDetailSalesList" transition="findCustomerDetailSales" show-csv-button="true" show-text-button="true" show-pdf-button="true" header-dialog="true" saved-finds="true" select-columns="true">
+			<auto-fields-entity entity-name="CustomerDetailSales" field-type="display" />
+		</form-list>
+	</widgets>
+</screen>

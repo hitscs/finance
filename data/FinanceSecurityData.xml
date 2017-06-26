@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml type="seed">
+
+
+    <moqui.screen.SubscreensItem screenLocation="component://root/screen/root.xml"
+            subscreenName="finance" userGroupId="ALL_USERS" menuTitle="开通金融" menuIndex="40" menuInclude="Y"
+            subscreenLocation="component://finance/screen/finance.xml"/>
+
+    <moqui.security.ArtifactGroup artifactGroupId="FINANCE_APP" description="开通金融"/>
+    <moqui.security.ArtifactGroupMember artifactGroupId="FINANCE_APP" artifactTypeEnumId="AT_XML_SCREEN"
+            inheritAuthz="Y" artifactName="component://finance/screen/finance.xml"/>
+
+    <!-- Full permissions for the ADMIN user group -->
+    <moqui.security.ArtifactAuthz artifactAuthzId="FINANCET_AUTHZ_ALL" userGroupId="ADMIN" artifactGroupId="FINANCE_APP"
+            authzTypeEnumId="AUTHZT_ALWAYS" authzActionEnumId="AUTHZA_ALL"/>
+</entity-facade-xml>

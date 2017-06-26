@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
+    <!-- 产品发行表 -->
+    <entity entity-name="ReleasedProduct" package="finance.product" short-alias="rproducts" cache="true">
+        <field name="productId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="pseudoId" type="id" default="productId"><description>产品代码（起始）</description></field>
+        <field name="productName" type="text-medium" not-null="true"><description>产品名称</description></field>
+        <field name="provider" type="text-medium"  not-null="true"><description>产品提供方</description></field>
+        <field name="productType" type="text-medium" not-null="true"><description>产品类型（“理财产品”，“私募债”，“收益权转让”等）</description></field>
+        <field name="publisher" type="text-medium"  not-null="true"><description>发行方</description></field>
+        <field name="publisherTradingCertificate" type="text-medium"  not-null="true"><description>发行方营业执照</description></field>
+        <field name="publisherBank" type="text-medium"  not-null="true"><description>发行方开户银行</description></field>
+        <field name="province" type="text-medium"  not-null="true"><description>所属省</description></field>
+        <field name="city" type="text-medium"  not-null="true"><description>所属市</description></field>
+        
+        <field name="publisherBranchBank" type="text-medium"  not-null="true"><description>发行方开户分支银行</description></field>
+        <field name="publisherBankAccount" type="text-medium"  not-null="true"><description>发行方银行账户</description></field>
+        
+        <field name="riskInstruction" type="text-long" not-null="true"><description>产品风险说明</description></field> 
+        <field name="earningInstruction" type="text-long" not-null="true"><description>产品收益说明</description></field> 
+        <field name="description" type="text-long" not-null="true"><description>产品描述</description></field> 
+        <field name="riskEvaluation" type="number-integer" not-null="true"><description>是否需要风险评测（0：需要；1：不需要）</description></field>
+        <field name="riskRating" type="text-medium"  not-null="false"><description>产品风险等级（不需要风险评测时置空；L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
+        
+        <field name="numberOfDays" type="text-medium"  not-null="true"><description>产品期限（天）</description></field>
+        <field name="daysOfYear" type="text-medium"  not-null="true"><description>年化天数（365：按照一年365天计息；360：按照一年360天计息）</description></field>
+        <field name="interestDate" type="date"  not-null="true"><description>起息日（20150421）</description></field>        
+        <field name="maturityDate" type="date"  not-null="true"><description>到期日（20151211）</description></field>
+        <field name="revenueType" type="text-medium"  not-null="true"><description>收益类型（1：保本保息；2：保低预期；3：保本预期；4：非保本预期；5：非保本浮动；6保本浮动收益；7：保底）</description></field>
+        <field name="fixedYieldRate" type="number-float"><description>固定年化收益率（固定收益类产品必填，如：0.071）</description></field>
+        <field name="floatingYieldRate" type="text-medium"><description>浮动年化收益率（浮动收益类产品必填，如：0.068-0.075）</description></field>
+        
+        <field name="totalAmountToRaise" type="text-medium" not-null="true"><description>募集总金额</description></field>
+        
+        <field name="minAmountToRaise" type="text-medium" not-null="true"><description>最低募集成功金额</description></field>
+        <field name="minimumMoney" type="text-medium" not-null="true"><description>起售金额</description></field>        
+        <field name="perMoney" type="text-medium" not-null="true"><description>单位加价金额</description></field>
+        
+        
+        <field name="startTime" type="date-time" not-null="true"><description>上架时间</description></field>
+        <field name="endTime" type="date-time" not-null="true"><description>下架时间</description></field>
+        <field name="remark" type="text-long" not-null="false"><description>备注</description></field>
+        
+        <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
+    </entity>
+    
+    <!-- 客户销售明细表 -->
+    <entity entity-name="CustomerDetailSales" package="finance.product" short-alias="" cache="true">
+        <field name="customerDetailId" type="text-medium" not-null="true" is-pk="true"><description>ID</description></field>
+        <field name="transactionId" type="text-medium" not-null="true"><description>交易编号</description></field>
+        <field name="transactionTime" type="text-medium" not-null="true"><description>交易时间戳</description></field>
+        <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
+        <field name="assetShare" type="number-integer" not-null="true"><description>资产份额</description></field>
+        <field name="customerType" type="number-integer" not-null="true"><description>机构标志（0：个人；1：机构）</description></field>
+        <field name="certificateType" type="number-integer" not-null="true"><description>证件类型</description></field>
+        <field name="username" type="text-medium" not-null="true"><description>客户姓名</description></field>
+        <field name="userFullName" type="text-medium" not-null="false"><description>客户全称</description></field>
+        <field name="certificateNumber" type="text-medium" not-null="true"><description>证件编号</description></field>
+        <field name="cellPhone" type="text-medium" not-null="false"><description>手机</description></field>
+        
+        <field name="sex" type="number-integer" not-null="false"><description>性别</description></field>
+        <field name="certificateAddress" type="text-medium" not-null="false"><description>证件地址</description></field>
+        <field name="telephone" type="text-medium" not-null="false"><description>电话</description></field>
+        <field name="postalcode" type="text-medium" not-null="false"><description>邮政编码</description></field>
+        <field name="contactAddress" type="text-medium" not-null="false"><description>联系地址</description></field>
+        
+        <field name="riskRating" type="text-medium" not-null="true"><description>风险承受级别（L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
+        
+        <field name="orderId" type="text-medium" not-null="true"><description>订单标识</description></field>
+        <field name="daysOfYear" type="text-medium" not-null="true"><description>计息年天数</description></field>
+        <field name="yieldRate" type="number-float" not-null="true"><description>年化收益率</description></field>
+        
+
+    </entity>    
+    <!-- 产品销售表 -->
+    <entity entity-name="SoldProduct" package="finance.product" short-alias="sproducts" cache="true">
+        <field name="productId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="pseudoId" type="id" default="productId"><description>产品编码</description></field>
+        <field name="productName" type="text-medium"><description>产品名称</description></field>
+        <field name="description" type="text-long"><description>产品描述</description></field>
+        <field name="totalCirculation" type="number-integer"><description>总发行量</description></field>
+        <field name="totalSales" type="number-float"><description>总销售量</description></field>
+        <field name="issuePrice" type="number-integer"><description>发行价</description></field>
+        <field name="positionUserUpperLimit" type="number-integer"><description>持仓户数上限</description></field>
+        <field name="couponRate" type="text-medium"><description>票面利率</description></field>
+        <field name="interestPaymentTimes" type="number-integer"><description>年付息次数</description></field>
+        <field name="interestArrangement" type="text-medium"><description>付息安排</description></field>
+        <field name="releaseStartDate" type="text-medium"><description>发行开始日期</description></field>
+        <field name="releaseEndDate" type="text-medium"><description>发行结束日期</description></field>
+        <field name="maturityDate" type="text-medium"><description>到期日期</description></field>
+        <field name="interestDate" type="text-medium"><description>起息日期</description></field>
+        <field name="minimumMoney" type="number-integer"><description>起售金额</description></field>
+        <field name="maximumMoney" type="number-integer"><description>最高认购金额</description></field>
+        <field name="perMoney" type="number-integer"><description>单位加价金额</description></field>
+        
+        <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
+    </entity>
+
+</entities>

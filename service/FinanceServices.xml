@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.1.xsd">
+	<service verb="create" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="pseudoId" required="true" />
+			<parameter name="productName" required="true" />
+			<parameter name="provider" required="true" default-value="开通金融信息服务有限公司" />
+			<parameter name="productType" required="true" />
+			<parameter name="publisher" required="true" />
+			<parameter name="publisherTradingCertificate" required="true" />
+			<parameter name="publisherBank" required="true" />
+			<parameter name="province" required="true" />
+			<parameter name="city" required="true" />
+			<parameter name="publisherBranchBank" required="true" />
+			<parameter name="publisherBankAccount" required="true" />
+			<parameter name="riskInstruction" required="true" />
+			<parameter name="earningInstruction" required="true" />
+			<parameter name="description" required="true" />
+			<parameter name="riskEvaluation" required="true" />
+			<parameter name="riskRating" required="false" />
+			<parameter name="numberOfDays" required="true" />
+			<parameter name="daysOfYear" required="true" />
+			<parameter name="interestDate" required="true" format="yyyyMMdd" />
+			<parameter name="maturityDate" required="true" format="yyyyMMdd" />
+			<parameter name="revenueType" required="true" />
+			<parameter name="fixedYieldRate" />
+			<parameter name="floatingYieldRate" />
+			<parameter name="totalAmountToRaise" required="true" />
+			<parameter name="minAmountToRaise" required="true" />
+			<parameter name="minimumMoney" required="true" />
+			<parameter name="perMoney" required="true" />
+			<parameter name="startTime" required="true" format="yyyyMMdd HH:mm:ss" />
+			<parameter name="endTime" required="true" format="yyyyMMdd HH:mm:ss" />
+			<parameter name="remark" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<service-call name="create#ReleasedProduct" out-map="context" in-map="context" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">创建失败</message>
+				</then>
+				<else>
+					<message>创建成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>
+	<service verb="update" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="productId" required="true" />
+			<parameter name="pseudoId" required="true" />
+			<parameter name="productName" required="true" />
+			<parameter name="provider" required="true" default-value="开通金融信息服务有限公司" />
+			<parameter name="productType" required="true" />
+			<parameter name="publisher" required="true" />
+			<parameter name="publisherTradingCertificate" required="true" />
+			<parameter name="publisherBank" required="true" />
+			<parameter name="province" required="true" />
+			<parameter name="city" required="true" />
+			<parameter name="publisherBranchBank" required="true" />
+			<parameter name="publisherBankAccount" required="true" />
+			<parameter name="riskInstruction" required="true" />
+			<parameter name="earningInstruction" required="true" />
+			<parameter name="description" required="true" />
+			<parameter name="riskEvaluation" required="true" />
+			<parameter name="riskRating" required="false" />
+			<parameter name="numberOfDays" required="true" />
+			<parameter name="daysOfYear" required="true" />
+			<parameter name="interestDate" required="true" format="yyyyMMdd" />
+			<parameter name="maturityDate" required="true" format="yyyyMMdd" />
+			<parameter name="revenueType" required="true" />
+			<parameter name="fixedYieldRate" />
+			<parameter name="floatingYieldRate" />
+			<parameter name="totalAmountToRaise" required="true" />
+			<parameter name="minAmountToRaise" required="true" />
+			<parameter name="minimumMoney" required="true" />
+			<parameter name="perMoney" required="true" />
+			<parameter name="startTime" required="true" format="yyyyMMdd HH:mm:ss" />
+			<parameter name="endTime" required="true" format="yyyyMMdd HH:mm:ss" />
+			<parameter name="remark" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<service-call name="update#ReleasedProduct" out-map="context" in-map="context" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">修改失败</message>
+				</then>
+				<else>
+					<message>修改成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>
+	<service verb="select" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="productId" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<!-- <service-call name="update#ReleasedProduct" out-map="context" in-map="context" /> -->
+			<entity-find-one value-field="product" entity-name="ReleasedProduct">
+				<field-map field-name="productId" />
+			</entity-find-one>
+		</actions>
+	</service>
+	<service verb="sendToSFTP" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="productId" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<entity-find-one value-field="product" entity-name="ReleasedProduct">
+				<field-map field-name="productId" />
+			</entity-find-one>
+			<script>
+import com.finance.utils.SFTPParameter
+import com.finance.utils.SftpUtil
+
+	          SFTPParameter para = new SFTPParameter();
+	
+	    para.hostName = "127.0.0.1";
+		para.userName = "sunmingjun";
+		para.passWord = "sunmingjun";
+		para.port = 22;
+	 header="产品提供方|产品名称|产品类型|发行方|发行方营业执照|发行方开户银行|所属省|所属市|发行方开户分支行|发行方银行账号|产品风险说明|产品收益说明|产品描述|是否需要风险测评|产品风险等级|产品期限（天）|年化天数|起息日|到期日|收益类型|固定年化收益率|浮动年化收益率|募集总金额|子包最低募集成功金额|起售金额|单位加价金额|上架时间|下架时间|备注|打款银行账户名称|大包产品名称|交易所代码|产品系列编号"
+	 
+	 //productString=product.
+	// content=header+""
+	 
+	 
+	 
+	String makeDir = "/home/cfiusr/D/E/F/G/H/J/kk"
+			SftpUtil.makeDir(para, makeDir)
+			 
+			 
+			  </script>
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">发送失败</message>
+				</then>
+				<else>
+					<message>发送成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>
+</services>

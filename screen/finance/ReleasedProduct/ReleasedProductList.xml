@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品发布文件"
+	default-menu-index="40">
+	<transition name="releasedProductDetail">
+		<default-response url="../ReleasedProductDetail" />
+	</transition>
+	<transition name="findReleasedProduct">
+		<default-response url="." />
+	</transition>
+	<transition name="createReleasedProduct">
+		<service-call name="FinanceServices.create#ReleasedProduct" />
+		<default-response url="." />
+	</transition>
+	<transition name="sendToSFTP">
+		<service-call name="FinanceServices.sendToSFTP#ReleasedProduct" />
+		<default-response url="." />
+	</transition>	
+	<transition name="deleteReleasedProduct">
+		<service-call name="delete#finance.product.ReleasedProduct" />
+		<default-response url="." />
+	</transition>
+	<transition name="getCityList">
+		<actions>
+			<entity-find entity-name="moqui.basic.GeoAssocAndToDetail" list="geoList">
+				<econdition field-name="geoId" from="province" />
+			</entity-find>
+			<script>ec.web.sendJsonResponse(geoList)</script>
+		</actions>
+		<default-response type="none" />
+	</transition>
+	<actions>
+		<entity-find entity-name="ReleasedProduct" list="releasedProductList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+		<container-dialog id="CreateReleasedProductDialog" button-text="新建产品发布文件">
+			<form-single name="CreateReleasedProduct" transition="createReleasedProduct">
+				<field name="productId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="pseudoId">
+					<default-field title="产品编码：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productName">
+					<default-field title="产品名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="provider">
+					<default-field title="产品提供方：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productType">
+					<default-field title="产品类型：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="publisher">
+					<default-field title="发行方：">
+						<text-line size="50" />
+					</default-field>
+				</field>
+				<field name="publisherTradingCertificate">
+					<default-field title="发行方营业执照：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="publisherBank">
+					<default-field title="发行方开户银行：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="province">
+					<default-field title="所属省：">
+						<drop-down>
+							<entity-options key="${geoId}" text="${geoNameLocal}">
+								<entity-find entity-name="moqui.basic.Geo" list="geoList">
+									<econdition field-name="geoTypeEnumId" value="GEOT_PROVINCE" />
+								</entity-find>
+							</entity-options>
+							<list-options list="geoList" key="${geoCodeNumeric}" text="${geoNameLocal}" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="city">
+					<default-field title="所属市：">
+						<drop-down>
+							<dynamic-options transition="getCityList" value-field="toGeoId" label-field="geoName">
+								<depends-on field="province" />
+							</dynamic-options>
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="publisherBranchBank">
+					<default-field title="发行方开户分支银行：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="publisherBankAccount">
+					<default-field title="发行方银行账户：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="riskInstruction">
+					<default-field title="产品风险说明：">
+						<text-area />
+					</default-field>
+				</field>
+				<field name="earningInstruction">
+					<default-field title="产品收益说明：">
+						<text-area />
+					</default-field>
+				</field>
+				<field name="description">
+					<default-field title="产品描述：">
+						<text-area />
+					</default-field>
+				</field>
+				<field name="riskEvaluation">
+					<default-field title="是否需要风险评测：">
+						<drop-down>
+							<option key="0" text="需要" />
+							<option key="1" text="不需要" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="riskRating">
+					<default-field title="产品风险等级：">
+						<drop-down allow-empty="true">
+							<option key="L" text="安全" />
+							<option key="ML" text="保守" />
+							<option key="M" text="稳健" />
+							<option key="MH" text="积极" />
+							<option key="H" text="激进" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="numberOfDays">
+					<default-field title="产品期限（天）：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="daysOfYear">
+					<default-field title="年化天数：">
+						<drop-down>
+							<option key="365" text="365" />
+							<option key="360" text="360" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="interestDate">
+					<default-field title="起息日：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="maturityDate">
+					<default-field title="到期日：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="revenueType">
+					<default-field title="收益类型：">
+						<drop-down>
+							<option key="1" text="保本保息" />
+							<option key="2" text="保低预期" />
+							<option key="3" text="保本预期" />
+							<option key="4" text="非保本预期" />
+							<option key="5" text="非保本浮动" />
+							<option key="6" text="保本浮动收益" />
+							<option key="7" text="保底" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="fixedYieldRate">
+					<default-field title="固定年化收益率：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="floatingYieldRate">
+					<default-field title="浮动年化收益率：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="totalAmountToRaise">
+					<default-field title="募集总金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="minAmountToRaise">
+					<default-field title="最低募集成功金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="minimumMoney">
+					<default-field title="起售金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="perMoney">
+					<default-field title="单位加价金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="startTime">
+					<default-field title="上架时间：">
+						<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
+					</default-field>
+				</field>
+				<field name="endTime">
+					<default-field title="下架时间：">
+						<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
+					</default-field>
+				</field>
+				<field name="remark">
+					<default-field title="备注：">
+						<text-area />
+					</default-field>
+				</field>
+				<!-- <field name="requirePasswordChange"><default-field> <drop-down><option key="Y"/><option key="N"/></drop-down></default-field></field> -->
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="pseudoId" />
+						<field-ref name="productName" />
+					</field-row>
+					<field-row>
+						<field-ref name="productType" />
+						<field-ref name="provider" />
+					</field-row>
+					<field-ref name="publisher" />
+					<field-row>
+						<field-ref name="province" />
+						<field-ref name="city" />
+					</field-row>
+					<field-row>
+						<field-ref name="publisherTradingCertificate" />
+						<field-ref name="publisherBank" />
+					</field-row>
+					<field-row>
+						<field-ref name="publisherBranchBank" />
+						<field-ref name="publisherBankAccount" />
+					</field-row>
+					<field-row>
+						<field-ref name="riskInstruction" />
+						<field-ref name="earningInstruction" />
+					</field-row>
+					<field-row>
+						<field-ref name="description" />
+					</field-row>
+					<field-row>
+						<field-ref name="riskEvaluation" />
+						<field-ref name="riskRating" />
+					</field-row>
+					<field-row>
+						<field-ref name="numberOfDays" />
+						<field-ref name="daysOfYear" />
+					</field-row>
+					<field-row>
+						<field-ref name="interestDate" />
+						<field-ref name="maturityDate" />
+					</field-row>
+					<field-row>
+						<field-ref name="revenueType" />
+					</field-row>
+					<field-row>
+						<field-ref name="fixedYieldRate" />
+						<field-ref name="floatingYieldRate" />
+					</field-row>
+					<field-row>
+						<field-ref name="totalAmountToRaise" />
+						<field-ref name="minAmountToRaise" />
+					</field-row>
+					<field-row>
+						<field-ref name="minimumMoney" />
+						<field-ref name="perMoney" />
+					</field-row>
+					<field-row>
+						<field-ref name="startTime" />
+						<field-ref name="endTime" />
+					</field-row>
+					<field-ref name="remark" />
+					<field-ref name="submitButton" />
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<form-list name="ReleasedProduct" list="releasedProductList" transition="findReleasedProduct"><!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" 
+				select-columns="true" -->
+			<field name="pseudoId">
+				<header-field show-order-by="true" title="产品编码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${pseudoId}" url="releasedProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productName">
+				<header-field show-order-by="true" title="产品名称">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productName}" url="releasedProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productType">
+				<header-field show-order-by="true" title="产品类型">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="publisher">
+				<header-field show-order-by="true" title="发行方">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="riskRating">
+				<header-field show-order-by="true" title="产品风险等级">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<drop-down allow-empty="true" style="readOnly">
+						<option key="L" text="安全" />
+						<option key="ML" text="保守" />
+						<option key="M" text="稳健" />
+						<option key="MH" text="积极" />
+						<option key="H" text="激进" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="delete">
+				<header-field title="查找">
+					<submit />
+				</header-field>
+				<default-field>
+					<link text="删除" url="deleteReleasedProduct" confirmation="确定要删除吗？">
+						<parameter name="productId" />
+					</link>
+					<link text="发送" url="sendToSFTP" confirmation="确定要发送吗？">
+						<parameter name="productId" />
+					</link>
+				</default-field>
+			</field>
+			<!-- <field name="searchButton"> <header-field title="查找"> <submit /> </header-field> <default-field> <display text="" /> </default-field> </field> -->
+		</form-list>
+	</widgets>
+</screen>

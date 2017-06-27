@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="客户销售列表" default-menu-index="41">
+
+	<transition name="customersSoldDetail">
+		<default-response url="../CustomersSoldDetail" />
+	</transition>
+	<transition name="findCustomersSold">
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find entity-name="CustomersSold" list="customersSoldList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+
+		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold" show-csv-button="true" show-text-button="true" header-dialog="true">
+
+			<field name="username">
+				<header-field show-order-by="true" title="客户姓名">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="username" url="customersSoldDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productName">
+				<header-field show-order-by="true" title="产品名称">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display></display>
+				</default-field>
+			</field>
+			<field name="transactionId">
+				<header-field show-order-by="true" title="交易编号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="certificateType">
+				<header-field show-order-by="true" title="证件类型">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="certificateNumber">
+				<header-field show-order-by="true" title="证件编号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+
+		</form-list>
+
+	</widgets>
+</screen>

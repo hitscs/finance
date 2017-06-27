@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表" default-menu-index="41">
+
+	<transition name="soldProductDetail">
+		<default-response url="../SoldProductDetail" />
+	</transition>
+		<transition name="findSoldProduct">
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find entity-name="SoldProduct" list="soldProductList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+
+		<form-list name="SoldProduct" list="soldProductList" transition="findSoldProduct" show-csv-button="true" show-text-button="true" header-dialog="true">
+
+			<field name="pseudoId">
+				<header-field show-order-by="true" title="产品编码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${pseudoId}" url="soldProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productName">
+				<header-field show-order-by="true" title="产品名称">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productName}" url="soldProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="totalCirculation">
+				<header-field show-order-by="true" title="总发行量">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="totalSales">
+				<header-field show-order-by="true" title="总销售量">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="issuePrice">
+				<header-field show-order-by="true" title="发行价">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="totalCirculation">
+				<header-field show-order-by="true" title="总发行量">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="couponRate">
+				<header-field show-order-by="true" title="票面利率">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+		</form-list>
+
+	</widgets>
+</screen>

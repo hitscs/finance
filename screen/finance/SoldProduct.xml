@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表"
-	default-menu-index="41">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表" default-menu-index="41">
 
-	<transition name="findSoldProduct">
-		<default-response url="." />
-	</transition>
-	<actions>
-		<entity-find entity-name="SoldProduct" list="soldProductList">
-			<search-form-inputs />
-		</entity-find>
-	</actions>
+	<subscreens default-item="SoldProductList" />
 	<widgets>
-	
-		<form-list name="SoldProduct" list="soldProductList" transition="findSoldProduct" show-csv-button="true" show-text-button="true" show-pdf-button="true" header-dialog="true" saved-finds="true" select-columns="true">
-			<auto-fields-entity entity-name="SoldProduct" field-type="display" />
-		</form-list>
+		<subscreens-active />
 	</widgets>
 </screen>

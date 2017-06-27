@@ -46,7 +46,7 @@
     </entity>
     
     <!-- 客户销售明细表 -->
-    <entity entity-name="CustomerDetailSales" package="finance.product" short-alias="" cache="true">
+    <entity entity-name="CustomersSold" package="finance.product" short-alias="" cache="true">
         <field name="customerDetailId" type="text-medium" not-null="true" is-pk="true"><description>ID</description></field>
         <field name="transactionId" type="text-medium" not-null="true"><description>交易编号</description></field>
         <field name="transactionTime" type="text-medium" not-null="true"><description>交易时间戳</description></field>

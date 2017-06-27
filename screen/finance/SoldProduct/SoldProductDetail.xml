@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表" default-menu-index="41">
+<parameter name="productId" required="true"/>
+	<actions>
+		<entity-find-one entity-name="SoldProduct" value-field="soldProduct" />
+	</actions>
+	<widgets>
+		<form-single name="SoldProductForm" map="soldProduct">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+<!-- 	    <field name="productId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="pseudoId" type="id" default="productId"><description>产品编码</description></field>
+        <field name="productName" type="text-medium"><description>产品名称</description></field>
+        <field name="description" type="text-long"><description>产品描述</description></field>
+        <field name="totalCirculation" type="number-integer"><description>总发行量</description></field>
+        <field name="totalSales" type="number-float"><description>总销售量</description></field>
+        <field name="issuePrice" type="number-integer"><description>发行价</description></field>
+        <field name="positionUserUpperLimit" type="number-integer"><description>持仓户数上限</description></field>
+        <field name="couponRate" type="text-medium"><description>票面利率</description></field>
+        <field name="interestPaymentTimes" type="number-integer"><description>年付息次数</description></field>
+        <field name="interestArrangement" type="text-medium"><description>付息安排</description></field>
+        <field name="releaseStartDate" type="text-medium"><description>发行开始日期</description></field>
+        <field name="releaseEndDate" type="text-medium"><description>发行结束日期</description></field>
+        <field name="maturityDate" type="text-medium"><description>到期日期</description></field>
+        <field name="interestDate" type="text-medium"><description>起息日期</description></field>
+        <field name="minimumMoney" type="number-integer"><description>起售金额</description></field>
+        <field name="maximumMoney" type="number-integer"><description>最高认购金额</description></field>
+        <field name="perMoney" type="number-integer"><description>单位加价金额</description></field>	
+ -->		
+		
+		
+		</form-single>
+		
+		
+		
+	</widgets>
+</screen>

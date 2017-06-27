@@ -358,7 +358,7 @@ public class SftpUtil {
 		// File file = new File("D:/appl/cmd.txt");
 		// String delFile = "/home/cfiusr/test/cmd.txt";
 		try {
-			String makeDir = "/home/cfiusr/D/E/F/G/H/J/kk";
+			String makeDir = "/home/cfiusr/";
 			makeDir(para, makeDir);
 			// downloadFiles(para);
 			// uploadFile(para, file);

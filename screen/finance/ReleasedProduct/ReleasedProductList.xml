@@ -14,7 +14,7 @@
 	<transition name="sendToSFTP">
 		<service-call name="FinanceServices.sendToSFTP#ReleasedProduct" />
 		<default-response url="." />
-	</transition>	
+	</transition>
 	<transition name="deleteReleasedProduct">
 		<service-call name="delete#finance.product.ReleasedProduct" />
 		<default-response url="." />
@@ -91,7 +91,7 @@
 				<field name="city">
 					<default-field title="所属市：">
 						<drop-down>
-							<dynamic-options transition="getCityList" value-field="toGeoId" label-field="geoName">
+							<dynamic-options transition="getCityList" value-field="toGeoId" label-field="geoNameLocal">
 								<depends-on field="province" />
 							</dynamic-options>
 						</drop-down>
@@ -222,6 +222,36 @@
 						<text-area />
 					</default-field>
 				</field>
+				<field name="payBankAccount">
+					<default-field title="打款银行账户名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productCategoryName">
+					<default-field title="大包产品名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="exchangeCode">
+					<default-field title="交易所代码：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productRangeNumber">
+					<default-field title="产品系列编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="projectCode">
+					<default-field title="与互联网合作项目的编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="文件版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
 				<!-- <field name="requirePasswordChange"><default-field> <drop-down><option key="Y"/><option key="N"/></drop-down></default-field></field> -->
 				<field name="submitButton">
 					<default-field title="提交">
@@ -289,6 +319,18 @@
 						<field-ref name="endTime" />
 					</field-row>
 					<field-ref name="remark" />
+					<field-row>
+						<field-ref name="payBankAccount" />
+						<field-ref name="productCategoryName" />
+					</field-row>
+					<field-row>
+						<field-ref name="exchangeCode" />
+						<field-ref name="productRangeNumber" />
+					</field-row>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
 					<field-ref name="submitButton" />
 				</field-layout>
 			</form-single>

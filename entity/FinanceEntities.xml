@@ -21,7 +21,7 @@
         <field name="earningInstruction" type="text-long" not-null="true"><description>产品收益说明</description></field> 
         <field name="description" type="text-long" not-null="true"><description>产品描述</description></field> 
         <field name="riskEvaluation" type="number-integer" not-null="true"><description>是否需要风险评测（0：需要；1：不需要）</description></field>
-        <field name="riskRating" type="text-medium"  not-null="false"><description>产品风险等级（不需要风险评测时置空；L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
+        <field name="riskRating" type="text-medium"  not-null="false" default=""><description>产品风险等级（不需要风险评测时置空；L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
         
         <field name="numberOfDays" type="text-medium"  not-null="true"><description>产品期限（天）</description></field>
         <field name="daysOfYear" type="text-medium"  not-null="true"><description>年化天数（365：按照一年365天计息；360：按照一年360天计息）</description></field>
@@ -40,7 +40,18 @@
         
         <field name="startTime" type="date-time" not-null="true"><description>上架时间</description></field>
         <field name="endTime" type="date-time" not-null="true"><description>下架时间</description></field>
-        <field name="remark" type="text-long" not-null="false"><description>备注</description></field>
+        <field name="remark" type="text-long" not-null="false" default=""><description>备注</description></field>
+        
+         <field name="payBankAccount" type="text-medium" not-null="true"><description>打款银行账户名称</description></field>
+         <field name="productCategoryName" type="text-medium" not-null="true"><description>大包产品名称</description></field>
+         <field name="exchangeCode" type="text-medium" not-null="true"><description>交易所代码</description></field>
+         <field name="productRangeNumber" type="text-medium" not-null="true"><description>产品系列编号</description></field>
+        
+         <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
+        
+        
+        
         
         <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
     </entity>

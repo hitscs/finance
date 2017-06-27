@@ -21,3 +21,31 @@ SFTPParameter para = new SFTPParameter();
 	 
 	String makeDir = "/home/cfiusr/D/E/F/G/H/J/kk"
 			SftpUtil.makeDir(para, makeDir)
+			
+			
+			
+			
+			para.uploadPath =makeDir
+			SftpUtil.uploadFile(para, file)
+			
+			
+			
+			makeDir.replace("-", "").replace(".0", "")
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

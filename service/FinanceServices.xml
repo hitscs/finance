@@ -129,14 +129,14 @@
 		<actions>
 			<entity-find-one value-field="product" entity-name="ReleasedProduct">
 				<field-map field-name="productId" />
-			</entity-find-one><log message="${product}"/>
+			</entity-find-one>
 			<entity-find-one value-field="provence" entity-name="moqui.basic.Geo">
 				<field-map field-name="geoId" from="product.province" />
-			</entity-find-one><log message="${provence}"/>
+			</entity-find-one>
 			
 			<entity-find-one value-field="city" entity-name="moqui.basic.Geo">
 				<field-map field-name="geoId" from="product.city" />
-			</entity-find-one><log message="${city}"/>
+			</entity-find-one>
 			
  			<script><![CDATA[
 				import com.finance.utils.SFTPParameter
@@ -158,9 +158,14 @@
 				startTime=ec.l10n.format(product.startTime, "yyyyMMdd HH:mm:ss")
 				endTime=ec.l10n.format(product.endTime, "yyyyMMdd HH:mm:ss")
 				
-				
-				
-				
+				def riskRating=product.riskRating
+				if(null==product.riskRating){
+				riskRating=""
+				}
+				def remark=product.remark
+				if(null==product.remark){
+				remark=""
+				}
 				
 				
 				header="产品提供方|产品名称|产品类型|发行方|发行方营业执照|发行方开户银行|所属省|所属市|发行方开户分支行|发行方银行账号|"
@@ -168,9 +173,9 @@
                 header=header+"浮动年化收益率|募集总金额|子包最低募集成功金额|起售金额|单位加价金额|上架时间|下架时间|备注|打款银行账户名称|大包产品名称|交易所代码|产品系列编号"
 				productString="|"+product.provider+"|"+product.productName+"|"+product.productType+"|"+product.publisher+"|"+product.publisherTradingCertificate
 				productString=productString+"|"+product.publisherBank+"|"+provence.geoNameLocal+"|"+city.geoNameLocal+"|"+product.publisherBranchBank+"|"+product.publisherBankAccount+"|"+product.riskInstruction
-				productString=productString+"|"+product.earningInstruction+"|"+product.description+"|"+product.riskEvaluation+"|"+product.riskRating==null?"":product.riskRating+"|"+product.numberOfDays+"|"+product.daysOfYear
+				productString=productString+"|"+product.earningInstruction+"|"+product.description+"|"+product.riskEvaluation+"|"+riskRating+"|"+product.numberOfDays+"|"+product.daysOfYear
 				productString=productString+"|"+interestDate+"|"+maturityDate+"|"+product.revenueType+"|"+product.fixedYieldRate+"|"+product.floatingYieldRate+"|"+product.totalAmountToRaise
-				productString=productString+"|"+product.minAmountToRaise+"|"+product.minimumMoney+"|"+product.perMoney+"|"+startTime+"|"+endTime+"|"+product.remark==null?"":product.remark+"|"+product.payBankAccount+"|"+product.productCategoryName+"|"+product.exchangeCode+"|"+product.productRangeNumber
+				productString=productString+"|"+product.minAmountToRaise+"|"+product.minimumMoney+"|"+product.perMoney+"|"+startTime+"|"+endTime+"|"+remark+"|"+product.payBankAccount+"|"+product.productCategoryName+"|"+product.exchangeCode+"|"+product.productRangeNumber
 			    content=header+productString
 			    
 			    path="D:/upload/"

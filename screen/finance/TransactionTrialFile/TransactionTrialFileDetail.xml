@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表"
 	default-menu-index="41">
-	<parameter name="productId" required="true" />
+	<parameter name="ttfId" required="true" />
 	<actions>
-		<entity-find-one entity-name="SoldProduct" value-field="soldProduct" />
+		<entity-find-one entity-name="TransactionTrialFile" value-field="transactionTrialFile" />
 	</actions>
 	<widgets>
-		<form-single name="SoldProductForm" map="soldProduct">
+		<form-single name="TransactionTrialFileForm" map="transactionTrialFile">
 			<field name="productId">
 				<default-field>
 					<hidden />

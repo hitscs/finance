@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表"
+	default-menu-index="41">
+	<transition name="soldProductDetail">
+		<default-response url="../SoldProductDetail" />
+	</transition>
+	<transition name="findSoldProduct">
+		<default-response url="." />
+	</transition>
+	<transition name="createReleasedProduct">
+		<service-call name="FinanceServices.create#SoldProduct" />
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find entity-name="SoldProduct" list="soldProductList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+		<container-dialog id="CreateSoldProductDialog" button-text="新建产品发布文件">
+			<form-single name="CreateSoldProduct" transition="createSoldProduct">
+				<field name="productId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="pseudoId">
+					<default-field title="产品编码：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productName">
+					<default-field title="产品名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="description">
+					<default-field title="产品描述：">
+						<text-area />
+					</default-field>
+				</field>
+				<field name="totalCirculation">
+					<default-field title="总发行量：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="totalSales">
+					<default-field title="总销售量：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="issuePrice">
+					<default-field title="发行价：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="positionUserUpperLimit">
+					<default-field title="持仓户数上限：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="couponRate">
+					<default-field title="票面利率：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="interestPaymentTimes">
+					<default-field title="年付息次数：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="interestArrangement">
+					<default-field title="付息安排：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="releaseStartDate">
+					<default-field title="发行开始日期：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="releaseEndDate">
+					<default-field title="发行结束日期：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="maturityDate">
+					<default-field title="到期日期：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="interestDate">
+					<default-field title="起息日期：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="minimumMoney">
+					<default-field title="起售金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="maximumMoney">
+					<default-field title="最高认购金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="perMoney">
+					<default-field title="单位加价金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="pseudoId" />
+						<field-ref name="productName" />
+					</field-row>
+					<field-row>
+						<field-ref name="description" />
+					</field-row>
+					<field-row>
+						<field-ref name="totalCirculation" />
+						<field-ref name="totalSales" />
+					</field-row>
+					<field-row>
+						<field-ref name="issuePrice" />
+						<field-ref name="positionUserUpperLimit" />
+					</field-row>
+					<field-row>
+						<field-ref name="couponRate" />
+						<field-ref name="interestPaymentTimes" />
+					</field-row>
+					<field-row>
+						<field-ref name="interestArrangement" />
+					</field-row>
+					<field-row>
+						<field-ref name="releaseStartDate" />
+						<field-ref name="releaseEndDate" />
+					</field-row>
+					<field-row>
+						<field-ref name="maturityDate" />
+						<field-ref name="interestDate" />
+					</field-row>
+					<field-row>
+						<field-ref name="minimumMoney" />
+						<field-ref name="maximumMoney" />
+					</field-row>
+					<field-row>
+						<field-ref name="perMoney" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<form-list name="SoldProduct" list="soldProductList" transition="findSoldProduct" show-csv-button="true" show-text-button="true" header-dialog="true">
+			<field name="pseudoId">
+				<header-field show-order-by="true" title="产品编码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${pseudoId}" url="soldProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productName">
+				<header-field show-order-by="true" title="产品名称">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productName}" url="soldProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="totalCirculation">
+				<header-field show-order-by="true" title="总发行量">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="totalSales">
+				<header-field show-order-by="true" title="总销售量">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="issuePrice">
+				<header-field show-order-by="true" title="发行价">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="totalCirculation">
+				<header-field show-order-by="true" title="总发行量">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="couponRate">
+				<header-field show-order-by="true" title="票面利率">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+		</form-list>
+	</widgets>
+</screen>

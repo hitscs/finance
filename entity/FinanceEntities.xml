@@ -107,5 +107,59 @@
         
         <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
     </entity>
+    <!-- 机构客户开户信息文件 -->
+    <entity entity-name="InstitutionalCustomers" package="finance.product" short-alias="" cache="true">
+        <field name="icId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="institutionAbbreviation" type="id" default="icId"><description>机构简称</description></field>
+        <field name="institutionFullName" type="text-medium"><description>机构全称</description></field>
+        <field name="registeredAddress" type="text-medium"><description>注册地址</description></field>
+        <field name="passportType" type="number-integer"><description>证件类别</description></field>
+        <field name="passportNo" type="text-medium"><description>证件编号</description></field>
+        <field name="legalPersonName" type="text-medium"><description>法人或负责人姓名</description></field>
+        <field name="legalPersonPassport" type="text-medium"><description>法人或负责人证件</description></field>
+        <field name="telephone" type="text-medium"><description>联系电话</description></field>
+        <field name="address" type="text-medium"><description>地址</description></field>
+        <field name="handlerName" type="text-medium"><description>经办人姓名</description></field>
+        <field name="handlerPassport" type="text-medium"><description>经办人证件</description></field>
+        <field name="mailAddress" type="text-medium"><description>投资企业邮箱地址</description></field>
 
+        
+    </entity>
+    <!-- 交易试算文件 -->
+    <entity entity-name="TransactionTrialFile" package="finance.product" short-alias="" cache="true">
+        <field name="ttfId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="kaitongOrderNumber" type="text-medium"><description>开通订单号</description></field>
+        <field name="orgOrderNumber" type="text-medium"><description>机构订单号</description></field>
+        <field name="productCode" type="text-medium"><description>产品代码</description></field>
+        <field name="customerName" type="text-medium"><description>客户姓名</description></field>
+        <field name="passportType" type="number-integer"><description>客户证件类别</description></field>
+        <field name="passportNo" type="text-medium"><description>客户证件编号</description></field>
+        <field name="institutionId" type="text-medium"><description>机构客户ID</description></field>
+        <field name="repaymentPrincipal" type="number-float"><description>还款本金</description></field>
+        <field name="repaymentInterest" type="number-float"><description>还款利息</description></field>
+        <field name="totalRepaymentAmount" type="number-float"><description>还款总金额</description></field>
+        <field name="paymentDueDay" type="text-medium"><description>到期还款日</description></field>
+        <field name="isRedeem" type="number-integer"><description>是否赎回</description></field>
+
+        
+    </entity>
+    <!-- 交易试算结果文件 -->
+    <entity entity-name="TransactionTrialResultsFile" package="finance.product" short-alias="" cache="true">
+        <field name="ttrfId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="kaitongOrderNumber" type="text-medium"><description>开通订单号</description></field>
+        <field name="orgOrderNumber" type="text-medium"><description>机构订单号</description></field>
+        <field name="productCode" type="text-medium"><description>产品代码</description></field>
+        <field name="customerName" type="text-medium"><description>客户姓名</description></field>
+        <field name="passportType" type="number-integer"><description>客户证件类别</description></field>
+        <field name="passportNo" type="text-medium"><description>客户证件编号</description></field>
+        <field name="institutionId" type="text-medium"><description>机构客户ID</description></field>
+        <field name="repaymentPrincipal" type="number-float"><description>还款本金</description></field>
+        <field name="repaymentInterest" type="number-float"><description>还款利息</description></field>
+        <field name="totalRepaymentAmount" type="number-float"><description>还款总金额</description></field>
+        <field name="paymentDueDay" type="text-medium"><description>到期还款日</description></field>
+        <field name="treatmentResult" type="text-medium"><description>处理结果</description></field>
+        <field name="isRedeem" type="number-integer"><description>是否赎回</description></field>
+
+        
+    </entity>    
 </entities>

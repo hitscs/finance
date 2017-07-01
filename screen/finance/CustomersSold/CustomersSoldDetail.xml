@@ -1,49 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表" default-menu-index="41">
-<parameter name="customerDetailId" required="true"/>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表"
+	default-menu-index="41">
+	<parameter name="customerDetailId" required="true" />
 	<actions>
 		<entity-find-one entity-name="CustomersSold" value-field="customersSold" />
 	</actions>
 	<widgets>
 		<form-single name="CustomersSoldForm" map="customersSold">
-		
-		
-<!-- 		        <field name="customerDetailId" type="text-medium" not-null="true" is-pk="true"><description>ID</description></field>
-        <field name="transactionId" type="text-medium" not-null="true"><description>交易编号</description></field>
-        <field name="transactionTime" type="text-medium" not-null="true"><description>交易时间戳</description></field>
-        <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
-        <field name="assetShare" type="number-integer" not-null="true"><description>资产份额</description></field>
-        <field name="customerType" type="number-integer" not-null="true"><description>机构标志（0：个人；1：机构）</description></field>
-        <field name="certificateType" type="number-integer" not-null="true"><description>证件类型</description></field>
-        <field name="username" type="text-medium" not-null="true"><description>客户姓名</description></field>
-        <field name="userFullName" type="text-medium" not-null="false"><description>客户全称</description></field>
-        <field name="certificateNumber" type="text-medium" not-null="true"><description>证件编号</description></field>
-        <field name="cellPhone" type="text-medium" not-null="false"><description>手机</description></field>
-        
-        <field name="sex" type="number-integer" not-null="false"><description>性别</description></field>
-        <field name="certificateAddress" type="text-medium" not-null="false"><description>证件地址</description></field>
-        <field name="telephone" type="text-medium" not-null="false"><description>电话</description></field>
-        <field name="postalcode" type="text-medium" not-null="false"><description>邮政编码</description></field>
-        <field name="contactAddress" type="text-medium" not-null="false"><description>联系地址</description></field>
-        
-        <field name="riskRating" type="text-medium" not-null="true"><description>风险承受级别（L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
-        
-        <field name="orderId" type="text-medium" not-null="true"><description>订单标识</description></field>
-        <field name="daysOfYear" type="text-medium" not-null="true"><description>计息年天数</description></field>
-        <field name="yieldRate" type="number-float" not-null="true"><description>年化收益率</description></field> -->
-		
-		
-		
-		
-		
-		
-		
-	
-		
-		
+			<field name="customerDetailId">
+				<default-field>
+					<hidden />
+				</default-field>
+			</field>
+			<field name="transactionId">
+				<default-field title="交易编号：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="transactionTime">
+				<default-field title="交易时间：">
+					<date-time/>
+				</default-field>
+			</field>
+			<field name="productCode">
+				<default-field title="产品代码：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="assetShare">
+				<default-field title="资产份额：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="customerType">
+				<default-field title="机构标志：">
+					<text-line size="50" />
+				</default-field>
+			</field>
+			<field name="certificateType">
+				<default-field title="证件类型：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="username">
+				<default-field title="客户姓名：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="userFullName">
+				<default-field title="客户全称：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="certificateNumber">
+				<default-field title="证件编号：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="cellPhone">
+				<default-field title="手机：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="sex">
+				<default-field title="性别：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="certificateAddress">
+				<default-field title="证件地址：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="telephone">
+				<default-field title="电话：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="postalcode">
+				<default-field title="邮政编码：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="contactAddress">
+				<default-field title="联系地址：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="riskRating">
+				<default-field title="风险承受级别：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="orderId">
+				<default-field title="订单标识：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="daysOfYear">
+				<default-field title="计息年天数：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="yieldRate">
+				<default-field title="年化收益率：">
+					<text-line size="20" />
+				</default-field>
+			</field>
 		</form-single>
-		
-		
-		
 	</widgets>
 </screen>

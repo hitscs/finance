@@ -1,21 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="客户销售列表" default-menu-index="41">
-
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="客户销售列表"
+	default-menu-index="41">
 	<transition name="customersSoldDetail">
 		<default-response url="../CustomersSoldDetail" />
 	</transition>
 	<transition name="findCustomersSold">
 		<default-response url="." />
 	</transition>
+	<transition name="importCustomersSold">
+	<service-call name="FinanceServices.importFromSFTP#CustomersSold" />
+		<default-response url="." />
+	</transition>	
 	<actions>
 		<entity-find entity-name="CustomersSold" list="customersSoldList">
 			<search-form-inputs />
 		</entity-find>
 	</actions>
 	<widgets>
-
-		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold" show-csv-button="true" show-text-button="true" header-dialog="true">
-
+		<container>
+			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/> -->
+			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
+			<link url="importCustomersSold" text="导入客户销售列表" />
+		</container>
+		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold" show-csv-button="true">
 			<field name="username">
 				<header-field show-order-by="true" title="客户姓名">
 					<text-find size="10" hide-options="true" />
@@ -56,8 +63,15 @@
 					<display />
 				</default-field>
 			</field>
-
+			<field name="find">
+				<header-field title="查找">
+					<submit />
+				</header-field>
+				<default-field>
+					<!-- <link text="删除" url="deleteReleasedProduct" confirmation="确定要删除吗？"> <parameter name="productId" /> </link> <link text="发送" url="sendToSFTP" confirmation="确定要发送吗？"> 
+						<parameter name="productId" /> </link> -->
+				</default-field>
+			</field>
 		</form-list>
-
 	</widgets>
 </screen>

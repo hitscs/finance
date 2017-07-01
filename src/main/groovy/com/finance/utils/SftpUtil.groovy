@@ -1,12 +1,5 @@
 package com.finance.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Vector;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.jcraft.jsch.Channel;
@@ -110,9 +103,8 @@ public class SftpUtil {
 	 * @throws JSchException
 	 * @throws InterruptedException
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<ChannelSftp.LsEntry> getFiles(SFTPParameter para)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		List<ChannelSftp.LsEntry> files = new ArrayList<ChannelSftp.LsEntry>();
 		if (para != null) {
 			if (connectSFTP(para, para.conFTPTryCount)) {
@@ -160,6 +152,34 @@ public class SftpUtil {
 	}
 
 	/**
+	 * 以流形式下载目录下所有文件
+	 * @param para
+	 * @return
+	 * @throws InterruptedException
+	 * @throws JSchException
+	 * @throws SftpException
+	 */
+	public static List downloadFilesAsInputStream(SFTPParameter para) throws InterruptedException, JSchException, SftpException {
+		List list=new ArrayList();
+		List<ChannelSftp.LsEntry> files = getFiles(para);
+		if (!para.isConnected)
+			connectSFTP(para, para.conFTPTryCount);
+		for (ChannelSftp.LsEntry file : files) {
+			ChannelSftp cs = para.sftp;
+			if (!para.downloadPath.endsWith("/"))
+				para.downloadPath = para.downloadPath + "/";
+			String fromFile = para.downloadPath + file.getFilename();
+			Map map=new HashMap();
+			map.put("fileName",file.getFilename());
+			map.put("fileContent", cs.get(fromFile));
+			list.add(map);
+		}
+		return list;
+	}
+	
+	
+	
+	/**
 	 * upload file to SFTP
 	 * 
 	 * @param para
@@ -170,7 +190,7 @@ public class SftpUtil {
 	 * @throws SftpException
 	 */
 	public static Boolean uploadFile(SFTPParameter para, File file)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		Boolean ret = false;
 		if (!file.exists())
 			return ret;
@@ -185,6 +205,28 @@ public class SftpUtil {
 	}
 
 	/**
+	 * 以流形式上传文件
+	 * @param para
+	 * @param file
+	 * @return
+	 * @throws InterruptedException
+	 * @throws JSchException
+	 * @throws SftpException
+	 */
+	public static Boolean uploadFileInputStream(SFTPParameter para, InputStream instream,String fileName)
+	throws InterruptedException, JSchException, SftpException {
+		Boolean ret = false;
+		if (connectSFTP(para, para.conFTPTryCount)) {
+			ChannelSftp cs = para.sftp;
+			if (!para.uploadPath.endsWith("/"))
+				para.uploadPath = para.uploadPath + "/";
+			cs.cd(para.uploadPath);
+			cs.put(instream, fileName);
+			ret = true;
+		}
+		return ret;
+	}
+	/**
 	 * upload files to SFTP server .
 	 * 
 	 * @param para
@@ -195,7 +237,7 @@ public class SftpUtil {
 	 * @throws InterruptedException
 	 */
 	public static Boolean uploadFiles(SFTPParameter para, List<File> files)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		Boolean ret = true;
 		if (files == null || files.size() <= 0)
 			return ret;
@@ -222,7 +264,7 @@ public class SftpUtil {
 	 * @throws InterruptedException
 	 */
 	public static Boolean deleteFile(SFTPParameter para, String filepath)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		Boolean ret = false;
 		if (connectSFTP(para, para.conFTPTryCount)) {
 			para.sftp.rm(filepath);
@@ -241,7 +283,7 @@ public class SftpUtil {
 	 * @throws InterruptedException
 	 */
 	public static Boolean deleteFiles(SFTPParameter para, List<String> list)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		Boolean ret = true;
 		if (list == null || list.size() <= 0)
 			ret = false;
@@ -268,9 +310,8 @@ public class SftpUtil {
 	 * @throws JSchException
 	 * @throws SftpException
 	 */
-	@SuppressWarnings("unchecked")
 	public static boolean isFileExist(SFTPParameter para, String path, String file)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		if (connectSFTP(para, para.conFTPTryCount)) {
 			Vector<ChannelSftp.LsEntry> files = null;
 			ChannelSftp cs = para.sftp;
@@ -296,9 +337,8 @@ public class SftpUtil {
 	 * @throws JSchException
 	 * @throws SftpException
 	 */
-	@SuppressWarnings("unchecked")
 	public static boolean isDirExist(SFTPParameter para, String path, String dirname)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		if (connectSFTP(para, para.conFTPTryCount)) {
 			Vector<ChannelSftp.LsEntry> files = null;
 			ChannelSftp cs = para.sftp;
@@ -324,7 +364,7 @@ public class SftpUtil {
 	 * @throws SftpException
 	 */
 	public static void makeDir(SFTPParameter para, String makeDir)
-			throws InterruptedException, JSchException, SftpException {
+	throws InterruptedException, JSchException, SftpException {
 		if ("".equals(makeDir) || makeDir == null)
 			return;
 		connectSFTP(para, para.conFTPTryCount);

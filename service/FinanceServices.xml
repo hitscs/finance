@@ -21,7 +21,7 @@
 			<parameter name="numberOfDays" required="true" />
 			<parameter name="daysOfYear" required="true" />
 			<parameter name="interestDate" required="true" />
-			<parameter name="maturityDate" required="true"/>
+			<parameter name="maturityDate" required="true" />
 			<parameter name="revenueType" required="true" />
 			<parameter name="fixedYieldRate" />
 			<parameter name="floatingYieldRate" />
@@ -29,8 +29,8 @@
 			<parameter name="minAmountToRaise" required="true" />
 			<parameter name="minimumMoney" required="true" />
 			<parameter name="perMoney" required="true" />
-			<parameter name="startTime" required="true"/>
-			<parameter name="endTime" required="true"/>
+			<parameter name="startTime" required="true" />
+			<parameter name="endTime" required="true" />
 			<parameter name="remark" />
 			<parameter name="payBankAccount" required="true" />
 			<parameter name="productCategoryName" required="true" />
@@ -133,12 +133,10 @@
 			<entity-find-one value-field="provence" entity-name="moqui.basic.Geo">
 				<field-map field-name="geoId" from="product.province" />
 			</entity-find-one>
-			
 			<entity-find-one value-field="city" entity-name="moqui.basic.Geo">
 				<field-map field-name="geoId" from="product.city" />
 			</entity-find-one>
-			
- 			<script><![CDATA[
+			<script><![CDATA[
 				import com.finance.utils.SFTPParameter
 				import com.finance.utils.SftpUtil
                 import org.moqui.context.ExecutionContext
@@ -158,6 +156,10 @@
 				startTime=ec.l10n.format(product.startTime, "yyyyMMdd HH:mm:ss")
 				endTime=ec.l10n.format(product.endTime, "yyyyMMdd HH:mm:ss")
 				
+				toDay=ec.l10n.format(new Timestamp(System.currentTimeMillis()), "yyyyMMdd")
+				
+				instId="hezuo"
+				
 				def riskRating=product.riskRating
 				if(null==product.riskRating){
 				riskRating=""
@@ -166,7 +168,6 @@
 				if(null==product.remark){
 				remark=""
 				}
-				
 				
 				header="产品提供方|产品名称|产品类型|发行方|发行方营业执照|发行方开户银行|所属省|所属市|发行方开户分支行|发行方银行账号|"
                 header=header+"产品风险说明|产品收益说明|产品描述|是否需要风险测评|产品风险等级|产品期限（天）|年化天数|起息日|到期日|收益类型|固定年化收益率|"
@@ -178,19 +179,57 @@
 				productString=productString+"|"+product.minAmountToRaise+"|"+product.minimumMoney+"|"+product.perMoney+"|"+startTime+"|"+endTime+"|"+remark+"|"+product.payBankAccount+"|"+product.productCategoryName+"|"+product.exchangeCode+"|"+product.productRangeNumber
 			    content=header+productString
 			    
-			    path="D:/upload/"
-			    fileName=product.projectCode+"_产品发布文件_"+product.versionNo+".txt"
-                File testFile = new File(path+fileName)
-                testFile.createNewFile()
-                FileOutputStream fos = new FileOutputStream(testFile)
-                org.apache.commons.io.IOUtils.write(content.getBytes(), fos)
 
+				String makeDir = "/home/"+instId+"/download/"+toDay+"/"
+				SftpUtil.makeDir(para, makeDir)
+				
+				para.uploadPath =makeDir
+				
+				InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
+
+		        SftpUtil.uploadFileInputStream(para, instream,fileName)
+            ]]>
+			</script>
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">发送失败</message>
+				</then>
+				<else>
+					<message>发送成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>
+	<service verb="importFromSFTP" noun="CustomersSold" authenticate="anonymous-all" allow-remote="false">
+		<actions>
+			<script><![CDATA[
+				import com.finance.utils.SFTPParameter
+				import com.finance.utils.SftpUtil
+                import org.moqui.context.ExecutionContext
+                
+				SFTPParameter para = new SFTPParameter();
+
+				para.hostName = "127.0.0.1";
+				para.userName = "sunmingjun";
+				para.passWord = "sunmingjun";
+				para.port = 22;
+				
+				ExecutionContext ec = context.ec
+				interestDate=ec.l10n.format(product.interestDate, "yyyyMMdd")
+				maturityDate=ec.l10n.format(product.maturityDate, "yyyyMMdd")
+				startTime=ec.l10n.format(product.startTime, "yyyyMMdd HH:mm:ss")
+				endTime=ec.l10n.format(product.endTime, "yyyyMMdd HH:mm:ss")
+				
 
 				String makeDir = "/home/hezuo/"
 				SftpUtil.makeDir(para, makeDir)
 				
 				para.uploadPath =makeDir
-                SftpUtil.uploadFile(para, testFile)
+				
+				InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
+
+		        SftpUtil.uploadFileInputStream(para, instream,fileName)
+		        
             ]]>
 			</script>
 			<if condition="ec.message.hasError()">

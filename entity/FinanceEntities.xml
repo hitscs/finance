@@ -61,7 +61,7 @@
         <field name="customerDetailId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="transactionId" type="text-medium" not-null="true"><description>交易编号</description></field>
         <field name="transactionTime" type="text-medium" not-null="true"><description>交易时间戳</description></field>
-        <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
+        <field name="productCode" type="text-medium" not-null="false"><description>产品代码</description></field>
         <field name="assetShare" type="number-integer" not-null="true"><description>资产份额</description></field>
         <field name="customerType" type="number-integer" not-null="true"><description>机构标志（0：个人；1：机构）</description></field>
         <field name="certificateType" type="number-integer" not-null="true"><description>证件类型</description></field>
@@ -85,6 +85,7 @@
         <field name="fileName" type="text-medium" not-null="true"><description>导入文件名称</description></field>
         <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
         <field name="importDate" type="text-medium" not-null="true"><description>导入时间（文件夹名）</description></field>
+        <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
 
@@ -109,6 +110,10 @@
         <field name="minimumMoney" type="number-integer"><description>起售金额</description></field>
         <field name="maximumMoney" type="number-integer"><description>最高认购金额</description></field>
         <field name="perMoney" type="number-integer"><description>单位加价金额</description></field>
+
+
+         <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
         <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
     </entity>
@@ -128,24 +133,28 @@
         <field name="handlerPassport" type="text-medium"><description>经办人证件</description></field>
         <field name="mailAddress" type="text-medium"><description>投资企业邮箱地址</description></field>
 
-        
+         <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
+       
     </entity>
     <!-- 交易试算文件 -->
     <entity entity-name="TransactionTrialFile" package="finance.product" short-alias="" cache="true">
         <field name="ttfId" type="id" is-pk="true"><description>主键ID</description></field>
-        <field name="kaitongOrderNumber" type="text-medium"><description>开通订单号</description></field>
-        <field name="orgOrderNumber" type="text-medium"><description>机构订单号</description></field>
-        <field name="productCode" type="text-medium"><description>产品代码</description></field>
-        <field name="customerName" type="text-medium"><description>客户姓名</description></field>
-        <field name="passportType" type="number-integer"><description>客户证件类别</description></field>
-        <field name="passportNo" type="text-medium"><description>客户证件编号</description></field>
-        <field name="institutionId" type="text-medium"><description>机构客户ID</description></field>
-        <field name="repaymentPrincipal" type="number-float"><description>还款本金</description></field>
-        <field name="repaymentInterest" type="number-float"><description>还款利息</description></field>
-        <field name="totalRepaymentAmount" type="number-float"><description>还款总金额</description></field>
-        <field name="paymentDueDay" type="text-medium"><description>到期还款日</description></field>
-        <field name="isRedeem" type="number-integer"><description>是否赎回</description></field>
+        <field name="kaitongOrderNumber" type="text-medium" not-null="false"><description>开通订单号</description></field>
+        <field name="orgOrderNumber" type="text-medium" not-null="false"><description>机构订单号</description></field>
+        <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
+        <field name="customerName" type="text-medium" not-null="true"><description>客户姓名</description></field>
+        <field name="passportType" type="number-integer" not-null="true"><description>客户证件类别</description></field>
+        <field name="passportNo" type="text-medium" not-null="true"><description>客户证件编号</description></field>
+        <field name="institutionId" type="text-medium" not-null="true"><description>机构客户ID</description></field>
+        <field name="repaymentPrincipal" type="number-float" not-null="true"><description>还款本金</description></field>
+        <field name="repaymentInterest" type="number-float" not-null="true"><description>还款利息</description></field>
+        <field name="totalRepaymentAmount" type="number-float" not-null="true"><description>还款总金额</description></field>
+        <field name="paymentDueDay" type="text-medium" not-null="true"><description>到期还款日</description></field>
+        <field name="isRedeem" type="number-integer" not-null="true"><description>是否赎回</description></field>
 
+          <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
     </entity>
     <!-- 交易试算结果文件 -->
@@ -165,6 +174,11 @@
         <field name="treatmentResult" type="text-medium"><description>处理结果</description></field>
         <field name="isRedeem" type="number-integer"><description>是否赎回</description></field>
 
+        <field name="fileName" type="text-medium" not-null="true"><description>导入文件名称</description></field>
+        <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
+        <field name="importDate" type="text-medium" not-null="true"><description>导入时间（文件夹名）</description></field>
+        <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+        <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
     </entity>    
 </entities>

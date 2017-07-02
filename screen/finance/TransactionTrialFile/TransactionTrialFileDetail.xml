@@ -1,99 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表"
 	default-menu-index="41">
-	<parameter name="ttfId" required="true" />
+	<parameter name="ttfId" required="true" from="ttfId" />
+	<transition name="updateTransactionTrialFile">
+		<service-call name="FinanceServices.update#TransactionTrialFile" />
+		<default-response url="." />
+	</transition>
 	<actions>
 		<entity-find-one entity-name="TransactionTrialFile" value-field="transactionTrialFile" />
 	</actions>
 	<widgets>
-		<form-single name="TransactionTrialFileForm" map="transactionTrialFile">
-			<field name="productId">
+		<form-single name="TransactionTrialFileForm" map="transactionTrialFile" transition="updateTransactionTrialFile">
+			<field name="ttfId">
 				<default-field>
 					<hidden />
 				</default-field>
 			</field>
-			<field name="pseudoId">
-				<default-field title="产品编码：">
+			<field name="kaitongOrderNumber">
+				<default-field title="开通订单号：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="productName">
-				<default-field title="产品名称：">
+			<field name="orgOrderNumber">
+				<default-field title="机构订单号：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="description">
-				<default-field title="产品描述：">
-					<text-area />
-				</default-field>
-			</field>
-			<field name="totalCirculation">
-				<default-field title="总发行量：">
+			<field name="productCode">
+				<default-field title="产品代码：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="totalSales">
-				<default-field title="总销售量：">
+			<field name="customerName">
+				<default-field title="客户姓名：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="issuePrice">
-				<default-field title="发行价：">
+			<field name="passportType">
+				<default-field title="客户证件类别：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="positionUserUpperLimit">
-				<default-field title="持仓户数上限：">
+			<field name="passportNo">
+				<default-field title="客户证件编号：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="couponRate">
-				<default-field title="票面利率：">
+			<field name="institutionId">
+				<default-field title="机构客户ID：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="interestPaymentTimes">
-				<default-field title="年付息次数：">
+			<field name="repaymentPrincipal">
+				<default-field title="还款本金：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="interestArrangement">
-				<default-field title="付息安排：">
+			<field name="repaymentInterest">
+				<default-field title="还款利息：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="releaseStartDate">
-				<default-field title="发行开始日期：">
+			<field name="totalRepaymentAmount">
+				<default-field title="还款总金额：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="paymentDueDay">
+				<default-field title="到期还款日：">
 					<date-time type="date" format="yyyy-MM-dd" />
 				</default-field>
 			</field>
-			<field name="releaseEndDate">
-				<default-field title="发行结束日期：">
-					<date-time type="date" format="yyyy-MM-dd" />
-				</default-field>
-			</field>
-			<field name="maturityDate">
-				<default-field title="到期日期：">
-					<date-time type="date" format="yyyy-MM-dd" />
-				</default-field>
-			</field>
-			<field name="interestDate">
-				<default-field title="起息日期：">
-					<date-time type="date" format="yyyy-MM-dd" />
-				</default-field>
-			</field>
-			<field name="minimumMoney">
-				<default-field title="起售金额：">
+			<field name="isRedeem">
+				<default-field title="是否赎回：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="maximumMoney">
-				<default-field title="最高认购金额：">
+			<field name="projectCode">
+				<default-field title="项目编号：">
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="perMoney">
-				<default-field title="单位加价金额：">
+			<field name="versionNo">
+				<default-field title="版本号：">
 					<text-line size="20" />
 				</default-field>
 			</field>
@@ -104,41 +93,37 @@
 			</field>
 			<field-layout>
 				<field-row>
-					<field-ref name="pseudoId" />
-					<field-ref name="productName" />
+					<field-ref name="kaitongOrderNumber" />
+					<field-ref name="orgOrderNumber" />
 				</field-row>
 				<field-row>
-					<field-ref name="description" />
+					<field-ref name="productCode" />
 				</field-row>
 				<field-row>
-					<field-ref name="totalCirculation" />
-					<field-ref name="totalSales" />
+					<field-ref name="customerName" />
+					<field-ref name="passportType" />
 				</field-row>
 				<field-row>
-					<field-ref name="issuePrice" />
-					<field-ref name="positionUserUpperLimit" />
+					<field-ref name="passportNo" />
+					<field-ref name="institutionId" />
 				</field-row>
 				<field-row>
-					<field-ref name="couponRate" />
-					<field-ref name="interestPaymentTimes" />
+					<field-ref name="repaymentPrincipal" />
+					<field-ref name="repaymentInterest" />
 				</field-row>
 				<field-row>
-					<field-ref name="interestArrangement" />
+					<field-ref name="totalRepaymentAmount" />
 				</field-row>
 				<field-row>
-					<field-ref name="releaseStartDate" />
-					<field-ref name="releaseEndDate" />
+					<field-ref name="paymentDueDay" />
+					<field-ref name="isRedeem" />
 				</field-row>
 				<field-row>
-					<field-ref name="maturityDate" />
-					<field-ref name="interestDate" />
+					<field-ref name="projectCode" />
+					<field-ref name="versionNo" />
 				</field-row>
 				<field-row>
-					<field-ref name="minimumMoney" />
-					<field-ref name="maximumMoney" />
-				</field-row>
-				<field-row>
-					<field-ref name="perMoney" />
+					<field-ref name="submitButton" />
 				</field-row>
 			</field-layout>
 		</form-single>

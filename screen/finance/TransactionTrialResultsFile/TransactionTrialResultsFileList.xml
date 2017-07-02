@@ -1,217 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="产品销售表"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="交易试算结果文件列表"
 	default-menu-index="41">
-	<transition name="soldProductDetail">
-		<default-response url="../SoldProductDetail" />
+	<transition name="transactionTrialResultsFileDetail">
+		<default-response url="../TransactionTrialResultsFileDetail" />
 	</transition>
-	<transition name="findSoldProduct">
+	<transition name="findTransactionTrialResultsFile">
 		<default-response url="." />
 	</transition>
-	<transition name="createReleasedProduct">
-		<service-call name="FinanceServices.create#SoldProduct" />
+	<transition name="importTransactionTrialResultsFile">
+		<service-call name="FinanceServices.importFromSFTP#TransactionTrialResultsFile" />
 		<default-response url="." />
 	</transition>
+	<transition name="deleteTransactionTrialResultsFile">
+		<service-call name="delete#finance.product.TransactionTrialResultsFile" />
+		<default-response url="." />
+	</transition>	
 	<actions>
-		<entity-find entity-name="SoldProduct" list="soldProductList">
+		<entity-find entity-name="TransactionTrialResultsFile" list="transactionTrialResultsFileList">
 			<search-form-inputs />
 		</entity-find>
 	</actions>
 	<widgets>
-		<container-dialog id="CreateSoldProductDialog" button-text="新建产品发布文件">
-			<form-single name="CreateSoldProduct" transition="createSoldProduct">
-				<field name="productId">
-					<default-field>
-						<hidden />
-					</default-field>
-				</field>
-				<field name="pseudoId">
-					<default-field title="产品编码：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="productName">
-					<default-field title="产品名称：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="description">
-					<default-field title="产品描述：">
-						<text-area />
-					</default-field>
-				</field>
-				<field name="totalCirculation">
-					<default-field title="总发行量：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="totalSales">
-					<default-field title="总销售量：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="issuePrice">
-					<default-field title="发行价：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="positionUserUpperLimit">
-					<default-field title="持仓户数上限：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="couponRate">
-					<default-field title="票面利率：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="interestPaymentTimes">
-					<default-field title="年付息次数：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="interestArrangement">
-					<default-field title="付息安排：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="releaseStartDate">
-					<default-field title="发行开始日期：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="releaseEndDate">
-					<default-field title="发行结束日期：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="maturityDate">
-					<default-field title="到期日期：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="interestDate">
-					<default-field title="起息日期：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="minimumMoney">
-					<default-field title="起售金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="maximumMoney">
-					<default-field title="最高认购金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="perMoney">
-					<default-field title="单位加价金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="submitButton">
-					<default-field title="提交">
-						<submit />
-					</default-field>
-				</field>
-				<field-layout>
-					<field-row>
-						<field-ref name="pseudoId" />
-						<field-ref name="productName" />
-					</field-row>
-					<field-row>
-						<field-ref name="description" />
-					</field-row>
-					<field-row>
-						<field-ref name="totalCirculation" />
-						<field-ref name="totalSales" />
-					</field-row>
-					<field-row>
-						<field-ref name="issuePrice" />
-						<field-ref name="positionUserUpperLimit" />
-					</field-row>
-					<field-row>
-						<field-ref name="couponRate" />
-						<field-ref name="interestPaymentTimes" />
-					</field-row>
-					<field-row>
-						<field-ref name="interestArrangement" />
-					</field-row>
-					<field-row>
-						<field-ref name="releaseStartDate" />
-						<field-ref name="releaseEndDate" />
-					</field-row>
-					<field-row>
-						<field-ref name="maturityDate" />
-						<field-ref name="interestDate" />
-					</field-row>
-					<field-row>
-						<field-ref name="minimumMoney" />
-						<field-ref name="maximumMoney" />
-					</field-row>
-					<field-row>
-						<field-ref name="perMoney" />
-					</field-row>
-				</field-layout>
-			</form-single>
-		</container-dialog>
-		<form-list name="SoldProduct" list="soldProductList" transition="findSoldProduct" show-csv-button="true" show-text-button="true" header-dialog="true">
-			<field name="pseudoId">
-				<header-field show-order-by="true" title="产品编码">
+		<container>
+			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/> -->
+			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
+			<link url="importTransactionTrialResultsFile" text="导入交易试算结果文件" />
+		</container>	
+		<form-list name="TransactionTrialResultsFile" list="transactionTrialResultsFileList" transition="findTransactionTrialResultsFile">
+			<field name="kaitongOrderNumber">
+				<header-field show-order-by="true" title="开通订单号">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
-					<link text="${pseudoId}" url="soldProductDetail" link-type="anchor"></link>
+					<link text="${kaitongOrderNumber}" url="transactionTrialResultsFileDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
-			<field name="productName">
-				<header-field show-order-by="true" title="产品名称">
+			<field name="orgOrderNumber">
+				<header-field show-order-by="true" title="机构订单号">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
-					<link text="${productName}" url="soldProductDetail" link-type="anchor"></link>
+					<link text="${orgOrderNumber}" url="transactionTrialResultsFileDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
-			<field name="totalCirculation">
-				<header-field show-order-by="true" title="总发行量">
+			<field name="productCode">
+				<header-field show-order-by="true" title="产品代码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productCode}" url="transactionTrialResultsFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="customerName">
+				<header-field show-order-by="true" title="客户姓名">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<field name="totalSales">
-				<header-field show-order-by="true" title="总销售量">
+			<field name="repaymentPrincipal">
+				<header-field show-order-by="true" title="还款本金">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<field name="issuePrice">
-				<header-field show-order-by="true" title="发行价">
+			<field name="repaymentInterest">
+				<header-field show-order-by="true" title="还款利息">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<field name="totalCirculation">
-				<header-field show-order-by="true" title="总发行量">
+			<field name="totalRepaymentAmount">
+				<header-field show-order-by="true" title="还款总金额">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<field name="couponRate">
-				<header-field show-order-by="true" title="票面利率">
-					<text-find size="10" hide-options="true" />
+			<field name="delete">
+				<header-field title="查找">
+					<submit />
 				</header-field>
 				<default-field>
-					<display />
+					<link text="删除" url="deleteTransactionTrialResultsFile" confirmation="确定要删除吗？">
+						<parameter name="ttfId" />
+					</link>
+<!-- 					<link text="发送" url="sendToSFTP" confirmation="确定要发送吗？">
+						<parameter name="ttfId" />
+					</link> -->
 				</default-field>
-			</field>
+			</field>			
 		</form-list>
 	</widgets>
 </screen>

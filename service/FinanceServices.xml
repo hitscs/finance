@@ -202,7 +202,6 @@
 		</actions>
 	</service>
 	<service verb="importFromSFTP" noun="CustomersSold" authenticate="anonymous-all" allow-remote="false">
-	
 		<actions>
 			<script><![CDATA[
 import com.finance.utils.SFTPParameter
@@ -283,7 +282,8 @@ for(Map map:list){
 						customersSold.put("fileName",fileName)//导入文件名称
 						customersSold.put("instId",instId)//互联网平台Id
 						customersSold.put("importDate",importDate)//导入时间（文件夹名）
-						customersSold.put("productCode",fileNameSplit[0])//产品代码
+						//customersSold.put("productCode",fileNameSplit[0])//产品代码
+						customersSold.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
 						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
 						customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 
@@ -307,4 +307,277 @@ for(Map map:list){
 			</if>
 		</actions>
 	</service>
+	
+	
+	<service verb="create" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="kaitongOrderNumber" required="false" />
+			<parameter name="orgOrderNumber" required="false" />
+			<parameter name="productCode" required="true" />
+			<parameter name="customerName" required="true" />
+			<parameter name="passportType" required="true" />
+			<parameter name="passportNo" required="true" />
+			<parameter name="institutionId" required="true" />
+			<parameter name="repaymentPrincipal" required="true" />
+			<parameter name="repaymentInterest" required="true" />
+			<parameter name="totalRepaymentAmount" required="true" />
+			<parameter name="paymentDueDay" required="true" format="yyyyMMdd"/>
+			<parameter name="isRedeem" required="true" />
+
+			<parameter name="projectCode" required="true" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<service-call name="create#TransactionTrialFile" out-map="context" in-map="context" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">创建失败</message>
+				</then>
+				<else>
+					<message>创建成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>	
+	
+	
+	<service verb="update" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="ttfId" required="true" />
+			<parameter name="kaitongOrderNumber" required="false" />
+			<parameter name="orgOrderNumber" required="false" />
+			<parameter name="productCode" required="true" />
+			<parameter name="customerName" required="true" />
+			<parameter name="passportType" required="true" />
+			<parameter name="passportNo" required="true" />
+			<parameter name="institutionId" required="true" />
+			<parameter name="repaymentPrincipal" required="true" />
+			<parameter name="repaymentInterest" required="true" />
+			<parameter name="totalRepaymentAmount" required="true" />
+			<parameter name="paymentDueDay" required="true" format="yyyyMMdd"/>
+			<parameter name="isRedeem" required="true" />
+
+			<parameter name="projectCode" required="true" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<service-call name="update#TransactionTrialFile" out-map="context" in-map="context" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">创建失败</message>
+				</then>
+				<else>
+					<message>创建成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>		
+	
+	
+	<service verb="sendToSFTP" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false" type="inline">
+		<in-parameters>
+			<parameter name="projectCode" required="true" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<entity-find list="fileList" entity-name="TransactionTrialFile">
+                  <econdition field-name="projectCode" from="projectCode"/>
+                  <econdition field-name="versionNo" from="versionNo"/>
+			</entity-find>
+
+			<script><![CDATA[
+                         import org.moqui.entity.EntityValue
+
+                         import com.finance.utils.DateUtils
+                         import com.finance.utils.SFTPParameter
+                         import com.finance.utils.SftpUtil
+                
+                
+		                SFTPParameter para = new SFTPParameter();
+		
+						para.hostName = "127.0.0.1";
+						para.userName = "sunmingjun";
+						para.passWord = "sunmingjun";
+						para.port = 22;
+
+						def uploadDate=DateUtils.getNowTime("yyyyMMdd")
+						
+						def instId="hezuo"
+						
+
+						Float sum=0.00
+						String fileString="";
+						for(EntityValue file:fileList){
+							sum=sum+file.totalRepaymentAmount
+							def kaitongOrderNumber=file.kaitongOrderNumber
+							if(null==file.kaitongOrderNumber){
+							kaitongOrderNumber=""
+							}
+							def orgOrderNumber=file.orgOrderNumber
+							if(null==file.orgOrderNumber){
+							orgOrderNumber=""
+							}
+							fileString=fileString+"|"+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+file.institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-", "")+"|\r\n"
+						}
+						lineOne="版本号:"+versionNo+"|总笔数:"+fileList.size()+"|总金额:"+sum+"|\r\n"
+						header="开通订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|\r\n"
+						
+						content=lineOne+header+fileString
+		
+						String makeDir = "/home/"+instId+"/download/"+uploadDate+"/"
+						SftpUtil.makeDir(para, makeDir)
+						
+						para.uploadPath =makeDir
+						
+						InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
+		
+						fileName=projectCode+"_交易试算文件_"+versionNo+".txt"
+						SftpUtil.uploadFileInputStream(para, instream,fileName)
+            ]]>
+			</script>
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">发送失败</message>
+				</then>
+				<else>
+					<message>发送成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>	
+	
+	<service verb="importFromSFTP" noun="TransactionTrialResultsFile" authenticate="anonymous-all" allow-remote="false">
+		<actions>
+			<script><![CDATA[
+import com.finance.utils.SFTPParameter
+import com.finance.utils.SftpUtil
+import org.moqui.context.ExecutionContext
+import com.finance.utils.DateUtils
+import org.moqui.entity.EntityValue
+import org.moqui.entity.EntityList
+
+SFTPParameter para = new SFTPParameter();
+
+para.hostName = "127.0.0.1";
+para.userName = "sunmingjun";
+para.passWord = "sunmingjun";
+para.port = 22;
+
+
+ExecutionContext ec = context.ec
+
+def importDate=DateUtils.getNowTime("yyyyMMdd")
+
+def instId="hezuo"
+
+para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
+
+String str = "交易试算结果文件";
+
+
+List list=SftpUtil.downloadFilesAsInputStream(para)
+
+LineNumberReader reader ;
+for(Map map:list){
+	String fileName=map.get("fileName");
+	if(fileName.contains(str)){
+	   EntityList resultsFileList = ec.entity.find("finance.product.TransactionTrialResultsFile").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
+	   if(resultsFileList.size() >0)print "---------------------------已经成功导入过，不能再次导入"
+	   if(resultsFileList.size() == 0){
+				String[] fileNameSplit=fileName.split("_")
+				InputStream instream =map.get("fileContent");
+
+				reader=new LineNumberReader(new InputStreamReader(instream ,"UTF-8"));
+				String s = "";
+
+				while ((s = reader.readLine()) != null) {
+					if(reader.getLineNumber()>1){
+						String[] ss=s.split('\\|');
+						println ss
+						EntityValue resultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
+						
+						//customersSold.put("customerDetailId",ss[0])
+						customersSold.put("transactionId",ss[0])//交易编号
+						customersSold.put("transactionTime",ss[1])//交易时间戳
+						customersSold.put("assetShare",ss[2])//资产份额
+						customersSold.put("customerType",ss[3])//机构标志
+						//println "--------------------------------------------------------------------机构标志:"+ss[3]
+						customersSold.put("certificateType",ss[4])//证件类别
+						customersSold.put("username",ss[5])//客户姓名
+						customersSold.put("userFullName",ss[6])//客户全称
+						customersSold.put("certificateNumber",ss[7])//证件编号
+						customersSold.put("cellPhone",ss[8])//手机
+						customersSold.put("sex",ss[9])//性别
+						customersSold.put("certificateAddress",ss[10])//证件地址
+						//println "--------------------------------------------------------------------证件地址:"+ss[10]
+						customersSold.put("telephone",ss[11])//电话
+						customersSold.put("postalcode",ss[12])//邮政编码
+						customersSold.put("contactAddress",ss[13])//联系地址
+						customersSold.put("riskRating",ss[14])//风险承受级别
+						//println "--------------------------------------------------------------------风险承受级别:"+ss[14]
+						customersSold.put("orderId",ss[15])//订单标识
+						customersSold.put("daysOfYear",ss[16])//计息年化天数
+						customersSold.put("yieldRate",ss[17])//年化收益率
+						//println "--------------------------------------------------------------------年化收益率:"+ss[17]
+						//println "--------------------------------------------------------------------导入文件名称:"+fileName
+						//println "--------------------------------------------------------------------互联网平台Id:"+instId
+						//println "--------------------------------------------------------------------导入时间（文件夹名）:"+importDate
+						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
+						//println "--------------------------------------------------------------------版本号:"+fileNameSplit[2].replace(".txt", "")
+						customersSold.put("fileName",fileName)//导入文件名称
+						customersSold.put("instId",instId)//互联网平台Id
+						customersSold.put("importDate",importDate)//导入时间（文件夹名）
+						//customersSold.put("productCode",fileNameSplit[0])//产品代码
+						customersSold.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
+						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
+						customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
+
+						customersSold.create()
+						}
+				}
+				reader.close();
+				}
+			}
+}
+		        
+            ]]>
+			</script>
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">获取失败</message>
+				</then>
+				<else>
+					<message>获取成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </services>

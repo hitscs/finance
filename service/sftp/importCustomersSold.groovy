@@ -1,96 +1,83 @@
-/*
- * This software is in the public domain under CC0 1.0 Universal plus a 
- * Grant of Patent License.
- * 
- * To the extent possible under law, the author(s) have dedicated all
- * copyright and related and neighboring rights to this software to the
- * public domain worldwide. This software is distributed without any
- * warranty.
- * 
- * You should have received a copy of the CC0 Public Domain Dedication
- * along with this software (see the LICENSE.md file). If not, see
- * <http://creativecommons.org/publicdomain/zero/1.0/>.
- */
-
+import com.finance.utils.SFTPParameter
+import com.finance.utils.SftpUtil
 import org.moqui.context.ExecutionContext
-import org.moqui.entity.EntityCondition
-import org.moqui.entity.EntityFind
-import org.moqui.entity.EntityList
+import com.finance.utils.DateUtils
 import org.moqui.entity.EntityValue
+import org.moqui.entity.EntityList
 
-// org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("findParty")
+SFTPParameter para = new SFTPParameter();
+
+para.hostName = "127.0.0.1";
+para.userName = "sunmingjun";
+para.passWord = "sunmingjun";
+para.port = 22;
+
 
 ExecutionContext ec = context.ec
 
-// NOTE: doing a find with a static view-entity because the Entity Facade will only select the fields specified and the
-//     join in the associated member-entities
-EntityFind ef = ec.entity.find("mantle.party.FindPartyView").distinct(true)
-// don't do distinct, SQL quandary with distinct, limited select, and order by with upper needing to be selected; seems to get good results in general without: .distinct(true)
+def importDate=DateUtils.getNowTime("yyyyMMdd")
 
-ef.selectField("partyId")
+def instId="hezuo"
 
-if (partyId) { ef.condition(ec.entity.conditionFactory.makeCondition("partyId", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + partyId + "%").ignoreCase()) }
-if (pseudoId) { ef.condition(ec.entity.conditionFactory.makeCondition("pseudoId", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + pseudoId + "%").ignoreCase()) }
-if (partyTypeEnumId) { ef.condition("partyTypeEnumId", partyTypeEnumId) }
-if (disabled) { ef.condition("disabled", disabled) }
-if (hasDuplicates) { ef.condition("hasDuplicates", hasDuplicates) }
-if (roleTypeId) { ef.condition("roleTypeId", roleTypeId) }
-if (username) { ef.condition(ec.entity.conditionFactory.makeCondition("username", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + username + "%").ignoreCase()) }
+para.downloadPath = "/home/"+instId+"/upload/"+toDay+"/";
 
-if (combinedName) {
-    // support splitting by just one space for first/last names
-    String fnSplit = combinedName
-    String lnSplit = combinedName
-    if (combinedName.contains(" ")) {
-        fnSplit = combinedName.substring(0, combinedName.indexOf(" "))
-        lnSplit = combinedName.substring(combinedName.indexOf(" ") + 1)
-    }
-    cnCondList = [ec.entity.conditionFactory.makeCondition("organizationName", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + combinedName + "%").ignoreCase(),
-            ec.entity.conditionFactory.makeCondition("firstName", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + fnSplit + "%").ignoreCase(),
-            ec.entity.conditionFactory.makeCondition("lastName", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + lnSplit + "%").ignoreCase()]
-    ef.condition(ec.entity.conditionFactory.makeCondition(cnCondList, EntityCondition.OR))
+String str = "客户明细销售表";
+
+
+List list=SftpUtil.downloadFilesAsInputStream(para)
+
+LineNumberReader reader ;
+for(Map map:list){
+	String fileName=map.get("fileName");
+	if(fileName.contains(str)){
+		EntityList customersSoldList = ec.entity.find("finance.product.CustomersSold").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
+		if(customersSoldList.size() == 0){
+			String[] fileNameSplit=fileName.split("_")
+			InputStream instream =map.get("fileContent");
+
+			reader=new LineNumberReader(new InputStreamReader(instream ,"UTF-8"));
+			String s = "";
+
+			while ((s = reader.readLine()) != null) {
+				if(reader.getLineNumber()>1){
+					String[] ss=s.split('\\|');
+
+					EntityValue customersSold =ec.entity.makeValue("finance.product.CustomersSold").setSequencedIdPrimary()
+
+
+					customersSold.put("transactionId",ss[0])//交易编号
+					customersSold.put("transactionTime",ss[1])//交易时间戳
+					customersSold.put("assetShare",ss[2])//资产份额
+					customersSold.put("customerType",ss[3])//机构标志
+					println "--------------------------------------------------------------------机构标志:"+ss[3]
+					customersSold.put("certificateType",ss[4])//证件类别
+					customersSold.put("username",ss[5])//客户姓名
+					customersSold.put("userFullName",ss[6])//客户全称
+					customersSold.put("certificateNumber",ss[7])//证件编号
+					customersSold.put("cellPhone",ss[8])//手机
+					customersSold.put("sex",ss[9])//性别
+					customersSold.put("certificateAddress",ss[10])//证件地址
+					println "--------------------------------------------------------------------证件地址:"+ss[10]
+					customersSold.put("telephone",ss[11])//电话
+					customersSold.put("postalcode",ss[12])//邮政编码
+					customersSold.put("contactAddress",ss[13])//联系地址
+					customersSold.put("riskRating",ss[14])//风险承受级别
+					println "--------------------------------------------------------------------风险承受级别:"+ss[14]
+					customersSold.put("orderId",ss[15])//订单标识
+					customersSold.put("daysOfYear",ss[16])//计息年化天数
+					customersSold.put("yieldRate",ss[17])//年化收益率
+					println "--------------------------------------------------------------------年化收益率:"+ss[17]
+					customersSold.put("fileName",fileName)//导入文件名称
+					customersSold.put("instId",instId)//互联网平台Id
+					customersSold.put("importDate",importDate)//导入时间（文件夹名）
+					customersSold.put("productCode",fileNameSplit[0])//产品代码
+					println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
+					customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
+
+					customersSold.create()
+				}
+			}
+			reader.close();
+		}
+	}
 }
-
-if (organizationName) { ef.condition(ec.entity.conditionFactory.makeCondition("organizationName", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + organizationName + "%").ignoreCase()) }
-if (firstName) { ef.condition(ec.entity.conditionFactory.makeCondition("firstName", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + firstName + "%").ignoreCase()) }
-if (lastName) { ef.condition(ec.entity.conditionFactory.makeCondition("lastName", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + lastName + "%").ignoreCase()) }
-if (suffix) { ef.condition(ec.entity.conditionFactory.makeCondition("suffix", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + suffix + "%").ignoreCase()) }
-
-if (address1) { ef.condition(ec.entity.conditionFactory.makeCondition("address1", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + address1 + "%").ignoreCase()) }
-if (address2) { ef.condition(ec.entity.conditionFactory.makeCondition("address2", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + address2 + "%").ignoreCase()) }
-if (city) { ef.condition(ec.entity.conditionFactory.makeCondition("city", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + city + "%").ignoreCase()) }
-if (stateProvinceGeoId) { ef.condition("stateProvinceGeoId", stateProvinceGeoId) }
-if (postalCode) { ef.condition(ec.entity.conditionFactory.makeCondition("postalCode", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + postalCode + "%").ignoreCase()) }
-
-if (countryCode) { ef.condition("countryCode", countryCode) }
-if (areaCode) { ef.condition("areaCode", areaCode) }
-if (contactNumber) { ef.condition(ec.entity.conditionFactory.makeCondition("contactNumber", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + contactNumber + "%")) }
-
-if (emailAddress) { ef.condition(ec.entity.conditionFactory.makeCondition("emailAddress", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + emailAddress + "%").ignoreCase()) }
-
-if (assetSerialNumber) { ef.condition(ec.entity.conditionFactory.makeCondition("assetSerialNumber", EntityCondition.LIKE, (leadingWildcard ? "%" : "") + assetSerialNumber + "%").ignoreCase()) }
-
-if (orderByField) {
-    if (orderByField.contains("combinedName")) {
-        if (orderByField.contains("-")) ef.orderBy("-organizationName,-firstName,-lastName")
-        else ef.orderBy("organizationName,firstName,lastName")
-    } else {
-        ef.orderBy(orderByField)
-    }
-}
-
-if (!pageNoLimit) { ef.offset(pageIndex as int, pageSize as int); ef.limit(pageSize as int) }
-
-// logger.warn("======= find#Party cond: ${ef.getWhereEntityCondition()}")
-
-partyIdList = []
-EntityList el = ef.list()
-for (EntityValue ev in el) partyIdList.add(ev.partyId)
-
-partyIdListCount = ef.count()
-partyIdListPageIndex = ef.pageIndex
-partyIdListPageSize = ef.pageSize
-partyIdListPageMaxIndex = ((BigDecimal) (partyIdListCount - 1)).divide(partyIdListPageSize, 0, BigDecimal.ROUND_DOWN) as int
-partyIdListPageRangeLow = partyIdListPageIndex * partyIdListPageSize + 1
-partyIdListPageRangeHigh = (partyIdListPageIndex * partyIdListPageSize) + partyIdListPageSize
-if (partyIdListPageRangeHigh > partyIdListCount) partyIdListPageRangeHigh = partyIdListCount

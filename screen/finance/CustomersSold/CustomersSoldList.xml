@@ -22,23 +22,23 @@
 			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
 			<link url="importCustomersSold" text="导入客户销售列表" />
 		</container>
-		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold" show-csv-button="true">
+		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold">
 			<field name="username">
 				<header-field show-order-by="true" title="客户姓名">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
-					<link text="username" url="customersSoldDetail" link-type="anchor"></link>
+					<link text="${username}" url="customersSoldDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
-			<field name="productName">
+<!-- 			<field name="productName">
 				<header-field show-order-by="true" title="产品名称">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display></display>
 				</default-field>
-			</field>
+			</field> -->
 			<field name="transactionId">
 				<header-field show-order-by="true" title="交易编号">
 					<text-find size="10" hide-options="true" />

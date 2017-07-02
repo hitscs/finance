@@ -58,7 +58,7 @@
     
     <!-- 客户销售明细表 -->
     <entity entity-name="CustomersSold" package="finance.product" short-alias="" cache="true">
-        <field name="customerDetailId" type="text-medium" not-null="true" is-pk="true"><description>ID</description></field>
+        <field name="customerDetailId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="transactionId" type="text-medium" not-null="true"><description>交易编号</description></field>
         <field name="transactionTime" type="text-medium" not-null="true"><description>交易时间戳</description></field>
         <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
@@ -81,6 +81,11 @@
         <field name="orderId" type="text-medium" not-null="true"><description>订单标识</description></field>
         <field name="daysOfYear" type="text-medium" not-null="true"><description>计息年天数</description></field>
         <field name="yieldRate" type="number-float" not-null="true"><description>年化收益率</description></field>
+        
+        <field name="fileName" type="text-medium" not-null="true"><description>导入文件名称</description></field>
+        <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
+        <field name="importDate" type="text-medium" not-null="true"><description>导入时间（文件夹名）</description></field>
+        <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
 
     </entity>    

@@ -83,7 +83,7 @@
 				</default-field>
 			</field>
 			<field name="treatmentResult">
-				<default-field title="是否赎回">
+				<default-field title="处理结果：">
 					<text-line size="20" />
 				</default-field>
 			</field>

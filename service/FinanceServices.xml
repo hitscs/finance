@@ -497,48 +497,33 @@ for(Map map:list){
 				String s = "";
 
 				while ((s = reader.readLine()) != null) {
-					if(reader.getLineNumber()>1){
+					if(reader.getLineNumber()>2){
 						String[] ss=s.split('\\|');
 						println ss
 						EntityValue resultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
 						
-						//customersSold.put("customerDetailId",ss[0])
-						customersSold.put("transactionId",ss[0])//交易编号
-						customersSold.put("transactionTime",ss[1])//交易时间戳
-						customersSold.put("assetShare",ss[2])//资产份额
-						customersSold.put("customerType",ss[3])//机构标志
-						//println "--------------------------------------------------------------------机构标志:"+ss[3]
-						customersSold.put("certificateType",ss[4])//证件类别
-						customersSold.put("username",ss[5])//客户姓名
-						customersSold.put("userFullName",ss[6])//客户全称
-						customersSold.put("certificateNumber",ss[7])//证件编号
-						customersSold.put("cellPhone",ss[8])//手机
-						customersSold.put("sex",ss[9])//性别
-						customersSold.put("certificateAddress",ss[10])//证件地址
-						//println "--------------------------------------------------------------------证件地址:"+ss[10]
-						customersSold.put("telephone",ss[11])//电话
-						customersSold.put("postalcode",ss[12])//邮政编码
-						customersSold.put("contactAddress",ss[13])//联系地址
-						customersSold.put("riskRating",ss[14])//风险承受级别
-						//println "--------------------------------------------------------------------风险承受级别:"+ss[14]
-						customersSold.put("orderId",ss[15])//订单标识
-						customersSold.put("daysOfYear",ss[16])//计息年化天数
-						customersSold.put("yieldRate",ss[17])//年化收益率
-						//println "--------------------------------------------------------------------年化收益率:"+ss[17]
-						//println "--------------------------------------------------------------------导入文件名称:"+fileName
-						//println "--------------------------------------------------------------------互联网平台Id:"+instId
-						//println "--------------------------------------------------------------------导入时间（文件夹名）:"+importDate
-						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
-						//println "--------------------------------------------------------------------版本号:"+fileNameSplit[2].replace(".txt", "")
-						customersSold.put("fileName",fileName)//导入文件名称
-						customersSold.put("instId",instId)//互联网平台Id
-						customersSold.put("importDate",importDate)//导入时间（文件夹名）
-						//customersSold.put("productCode",fileNameSplit[0])//产品代码
-						customersSold.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
-						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
-						customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
+						
+						resultsFile.put("kaitongOrderNumber",ss[0])//开通订单号
+						resultsFile.put("orgOrderNumber",ss[1])//机构订单号
+						resultsFile.put("productCode",ss[2])//产品代码
+						resultsFile.put("customerName",ss[3])//客户姓名
+						resultsFile.put("passportType",ss[4])//客户证件类别
+						resultsFile.put("passportNo",ss[5])//客户证件编号
+						resultsFile.put("institutionId",ss[6])//机构客户ID
+						resultsFile.put("repaymentPrincipal",ss[7])//还款本金
+						resultsFile.put("repaymentInterest",ss[8])//还款利息
+						resultsFile.put("totalRepaymentAmount",ss[9])//还款总金额
+						resultsFile.put("paymentDueDay",ss[10])//到期还款日
+						resultsFile.put("treatmentResult",ss[11])//处理结果
 
-						customersSold.create()
+
+						resultsFile.put("fileName",fileName)//导入文件名称
+						resultsFile.put("instId",instId)//互联网平台Id
+						resultsFile.put("importDate",importDate)//导入时间（文件夹名）
+						resultsFile.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
+						resultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
+
+						resultsFile.create()						
 						}
 				}
 				reader.close();

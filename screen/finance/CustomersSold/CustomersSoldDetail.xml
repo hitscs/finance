@@ -19,7 +19,7 @@
 			</field>
 			<field name="transactionTime">
 				<default-field title="交易时间：">
-					<date-time/>
+					<date-time />
 				</default-field>
 			</field>
 			<field name="productCode">
@@ -107,6 +107,61 @@
 					<text-line size="20" />
 				</default-field>
 			</field>
+			<field name="projectCode">
+				<default-field title="项目编号：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="versionNo">
+				<default-field title="文件版本号：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field-layout>
+				<field-row>
+					<field-ref name="transactionId" />
+					<field-ref name="transactionTime" />
+				</field-row>
+				<field-row>
+					<field-ref name="productCode" />
+					<field-ref name="assetShare" />
+				</field-row>
+				<field-row>
+					<field-ref name="customerType" />
+					<field-ref name="certificateType" />
+				</field-row>
+				<field-row>
+					<field-ref name="username" />
+					<field-ref name="userFullName" />
+				</field-row>
+				<field-row>
+					<field-ref name="certificateNumber" />
+					<field-ref name="cellPhone" />
+				</field-row>
+				<field-row>
+					<field-ref name="sex" />
+					<field-ref name="certificateAddress" />
+				</field-row>
+				<field-row>
+					<field-ref name="telephone" />
+					<field-ref name="postalcode" />
+				</field-row>
+				<field-row>
+					<field-ref name="contactAddress" />
+					<field-ref name="riskRating" />
+				</field-row>
+				<field-row>
+					<field-ref name="orderId" />
+					<field-ref name="daysOfYear" />
+				</field-row>
+				<field-row>
+					<field-ref name="yieldRate" />
+				</field-row>
+				<field-row>
+					<field-ref name="projectCode" />
+					<field-ref name="versionNo" />
+				</field-row>
+			</field-layout>
 		</form-single>
 	</widgets>
 </screen>

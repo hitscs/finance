@@ -368,10 +368,10 @@ for(Map map:list){
 			<service-call name="update#TransactionTrialFile" out-map="context" in-map="context" />
 			<if condition="ec.message.hasError()">
 				<then>
-					<message error="true">创建失败</message>
+					<message error="true">修改失败</message>
 				</then>
 				<else>
-					<message>创建成功</message>
+					<message>修改成功</message>
 				</else>
 			</if>
 		</actions>

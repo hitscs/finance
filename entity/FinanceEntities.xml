@@ -144,7 +144,7 @@
         <field name="orgOrderNumber" type="text-medium" not-null="false"><description>机构订单号</description></field>
         <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
         <field name="customerName" type="text-medium" not-null="true"><description>客户姓名</description></field>
-        <field name="passportType" type="number-integer" not-null="true"><description>客户证件类别</description></field>
+        <field name="passportType" type="number-integer" not-null="false"><description>客户证件类别</description></field>
         <field name="passportNo" type="text-medium" not-null="true"><description>客户证件编号</description></field>
         <field name="institutionId" type="text-medium" not-null="true"><description>机构客户ID</description></field>
         <field name="repaymentPrincipal" type="number-float" not-null="true"><description>还款本金</description></field>

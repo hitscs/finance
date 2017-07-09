@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" include-child-content="true"
-	menu-image="glyphicon glyphicon-wrench" menu-image-type="icon" default-menu-title="开通金融">
+	menu-image="glyphicon glyphicon-wrench" menu-image-type="icon" default-menu-title="外贸信托">
 	<subscreens default-item="ReleasedProduct">
 	
 <!-- 	<subscreens-item name="ReleasedProduct"/>

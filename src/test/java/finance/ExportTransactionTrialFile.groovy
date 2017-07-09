@@ -1,5 +1,6 @@
 package finance
 
+import static org.junit.Assert.*
 import org.junit.Test
 import org.moqui.entity.EntityValue
 
@@ -37,7 +38,7 @@ class ExportTransactionTrialFile {
 							fileString=fileString+"|"+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+file.institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-", "")+"|\r\n"
 						}
 						lineOne="版本号:"+file.versionNo+"|总笔数:"+fileList.size()+"|总金额:"+sum+"|\r\n"
-						header="开通订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|\r\n"
+						header="外贸信托订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|\r\n"
 						
 						content=lineOne+header+fileString
 		

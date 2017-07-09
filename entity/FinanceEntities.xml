@@ -2,7 +2,7 @@
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
     <!-- 产品发行表 -->
-    <entity entity-name="ReleasedProduct" package="finance.product" short-alias="rproducts" cache="true">
+    <entity entity-name="ReleasedProduct" package="finance.product" short-alias="rproducts" cache="true" group="finance">
         <field name="productId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="pseudoId" type="id" default="productId"><description>产品代码（起始）</description></field>
         <field name="productName" type="text-medium" not-null="true"><description>产品名称</description></field>
@@ -16,10 +16,10 @@
         
         <field name="publisherBranchBank" type="text-medium"  not-null="true"><description>发行方开户分支银行</description></field>
         <field name="publisherBankAccount" type="text-medium"  not-null="true"><description>发行方银行账户</description></field>
-        
-        <field name="riskInstruction" type="text-long" not-null="true"><description>产品风险说明</description></field> 
-        <field name="earningInstruction" type="text-long" not-null="true"><description>产品收益说明</description></field> 
-        <field name="description" type="text-long" not-null="true"><description>产品描述</description></field> 
+        <!-- mysql对所有字段长度有限制，所以用text-very-long -->
+        <field name="riskInstruction" type="text-very-long" not-null="true"><description>产品风险说明</description></field> 
+        <field name="earningInstruction" type="text-very-long" not-null="true"><description>产品收益说明</description></field> 
+        <field name="description" type="text-very-long" not-null="true"><description>产品描述</description></field> 
         <field name="riskEvaluation" type="number-integer" not-null="true"><description>是否需要风险评测（0：需要；1：不需要）</description></field>
         <field name="riskRating" type="text-medium"  not-null="false" default=""><description>产品风险等级（不需要风险评测时置空；L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
         
@@ -27,9 +27,10 @@
         <field name="daysOfYear" type="text-medium"  not-null="true"><description>年化天数（365：按照一年365天计息；360：按照一年360天计息）</description></field>
         <field name="interestDate" type="date"  not-null="true"><description>起息日（20150421）</description></field>        
         <field name="maturityDate" type="date"  not-null="true"><description>到期日（20151211）</description></field>
+        <field name="paymentDueDay" type="date"  not-null="true"><description>到期还款日（20151211）</description></field>
         <field name="revenueType" type="text-medium"  not-null="true"><description>收益类型（1：保本保息；2：保低预期；3：保本预期；4：非保本预期；5：非保本浮动；6保本浮动收益；7：保底）</description></field>
         <field name="fixedYieldRate" type="number-float"><description>固定年化收益率（固定收益类产品必填，如：0.071）</description></field>
-        <field name="floatingYieldRate" type="text-medium"><description>浮动年化收益率（浮动收益类产品必填，如：0.068-0.075）</description></field>
+        <field name="floatingYieldRate" type="number-float"><description>浮动年化收益率（浮动收益类产品必填，如：0.068-0.075）</description></field>
         
         <field name="totalAmountToRaise" type="text-medium" not-null="true"><description>募集总金额</description></field>
         
@@ -40,14 +41,14 @@
         
         <field name="startTime" type="date-time" not-null="true"><description>上架时间</description></field>
         <field name="endTime" type="date-time" not-null="true"><description>下架时间</description></field>
-        <field name="remark" type="text-long" not-null="false" default=""><description>备注</description></field>
+        <field name="remark" type="text-very-long" not-null="false" default=""><description>备注</description></field>
         
          <field name="payBankAccount" type="text-medium" not-null="true"><description>打款银行账户名称</description></field>
          <field name="productCategoryName" type="text-medium" not-null="true"><description>大包产品名称</description></field>
          <field name="exchangeCode" type="text-medium" not-null="true"><description>交易所代码</description></field>
-         <field name="productRangeNumber" type="text-medium" not-null="true"><description>产品系列编号</description></field>
+         <!-- <field name="productRangeNumber" type="text-medium" not-null="false"><description>产品系列编号</description></field> -->
         
-         <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="projectCode" type="id" default="productId"><description>与互联网合作项目的编号</description></field>
          <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
         
@@ -57,7 +58,7 @@
     </entity>
     
     <!-- 客户销售明细表 -->
-    <entity entity-name="CustomersSold" package="finance.product" short-alias="" cache="true">
+    <entity entity-name="CustomersSold" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="customerDetailId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="transactionId" type="text-medium" not-null="true"><description>交易编号</description></field>
         <field name="transactionTime" type="text-medium" not-null="true"><description>交易时间戳</description></field>
@@ -91,7 +92,7 @@
 
     </entity>    
     <!-- 产品销售表 -->
-    <entity entity-name="SoldProduct" package="finance.product" short-alias="sproducts" cache="true">
+    <entity entity-name="SoldProduct" package="finance.product" short-alias="sproducts" cache="true" group="finance">
         <field name="productId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="pseudoId" type="id" default="productId"><description>产品编码</description></field>
         <field name="productName" type="text-medium"><description>产品名称</description></field>
@@ -118,7 +119,7 @@
         <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
     </entity>
     <!-- 机构客户开户信息文件 -->
-    <entity entity-name="InstitutionalCustomers" package="finance.product" short-alias="" cache="true">
+    <entity entity-name="InstitutionalCustomers" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="icId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="institutionAbbreviation" type="id" default="icId"><description>机构简称</description></field>
         <field name="institutionFullName" type="text-medium"><description>机构全称</description></field>
@@ -138,9 +139,9 @@
        
     </entity>
     <!-- 交易试算文件 -->
-    <entity entity-name="TransactionTrialFile" package="finance.product" short-alias="" cache="true">
+    <entity entity-name="TransactionTrialFile" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="ttfId" type="id" is-pk="true"><description>主键ID</description></field>
-        <field name="kaitongOrderNumber" type="text-medium" not-null="false"><description>开通订单号</description></field>
+        <field name="kaitongOrderNumber" type="text-medium" not-null="false"><description>外贸信托订单号</description></field>
         <field name="orgOrderNumber" type="text-medium" not-null="false"><description>机构订单号</description></field>
         <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
         <field name="customerName" type="text-medium" not-null="true"><description>客户姓名</description></field>
@@ -158,9 +159,9 @@
         
     </entity>
     <!-- 交易试算结果文件 -->
-    <entity entity-name="TransactionTrialResultsFile" package="finance.product" short-alias="" cache="true">
+    <entity entity-name="TransactionTrialResultsFile" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="ttrfId" type="id" is-pk="true"><description>主键ID</description></field>
-        <field name="kaitongOrderNumber" type="text-medium"><description>开通订单号</description></field>
+        <field name="kaitongOrderNumber" type="text-medium"><description>外贸信托订单号</description></field>
         <field name="orgOrderNumber" type="text-medium"><description>机构订单号</description></field>
         <field name="productCode" type="text-medium"><description>产品代码</description></field>
         <field name="customerName" type="text-medium"><description>客户姓名</description></field>

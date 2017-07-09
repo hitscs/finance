@@ -17,7 +17,7 @@
 					</default-field>
 				</field>
 				<field name="kaitongOrderNumber">
-					<default-field title="开通订单号：">
+					<default-field title="外贸信托订单号：">
 						<text-line size="20" />
 					</default-field>
 				</field>

@@ -85,9 +85,9 @@ along with this software (see the LICENSE.md file). If not, see
     <GeoAssoc geoId="CHN" toGeoId="CHN_91" geoAssocTypeEnumId="GAT_REGIONS"/><!-- China ==- 香港特别行政区  -->
     <GeoAssoc geoId="CHN" toGeoId="CHN_92" geoAssocTypeEnumId="GAT_REGIONS"/><!-- China ==- 澳门特别行政区  -->
     <!-- 地级市数据 -->
-    <Geo geoCodeNumeric="110100" geoId="CHN_1101" geoNameLocal="市辖区" geoTypeEnumId="GEOT_CITY" geoName="市辖区"/>
+    <Geo geoCodeNumeric="110100" geoId="CHN_1101" geoNameLocal="北京市" geoTypeEnumId="GEOT_CITY" geoName="北京市"/>
     <Geo geoCodeNumeric="110200" geoId="CHN_1102" geoNameLocal="县" geoTypeEnumId="GEOT_CITY" geoName="县"/>
-    <Geo geoCodeNumeric="120100" geoId="CHN_1201" geoNameLocal="市辖区" geoTypeEnumId="GEOT_CITY" geoName="市辖区"/>
+    <Geo geoCodeNumeric="120100" geoId="CHN_1201" geoNameLocal="天津市" geoTypeEnumId="GEOT_CITY" geoName="天津市"/>
     <Geo geoCodeNumeric="120200" geoId="CHN_1202" geoNameLocal="县" geoTypeEnumId="GEOT_CITY" geoName="县"/>
     <Geo geoCodeNumeric="130100" geoId="CHN_1301" geoNameLocal="石家庄市" geoTypeEnumId="GEOT_CITY" geoName="石家庄市"/>
     <Geo geoCodeNumeric="130200" geoId="CHN_1302" geoNameLocal="唐山市" geoTypeEnumId="GEOT_CITY" geoName="唐山市"/>
@@ -159,7 +159,7 @@ along with this software (see the LICENSE.md file). If not, see
     <Geo geoCodeNumeric="231100" geoId="CHN_2311" geoNameLocal="黑河市" geoTypeEnumId="GEOT_CITY" geoName="黑河市"/>
     <Geo geoCodeNumeric="231200" geoId="CHN_2312" geoNameLocal="绥化市" geoTypeEnumId="GEOT_CITY" geoName="绥化市"/>
     <Geo geoCodeNumeric="232700" geoId="CHN_2327" geoNameLocal="大兴安岭地区" geoTypeEnumId="GEOT_CITY" geoName="大兴安岭地区"/>
-    <Geo geoCodeNumeric="310100" geoId="CHN_3101" geoNameLocal="市辖区" geoTypeEnumId="GEOT_CITY" geoName="市辖区"/>
+    <Geo geoCodeNumeric="310100" geoId="CHN_3101" geoNameLocal="上海市" geoTypeEnumId="GEOT_CITY" geoName="上海市"/>
     <Geo geoCodeNumeric="310200" geoId="CHN_3102" geoNameLocal="县" geoTypeEnumId="GEOT_CITY" geoName="县"/>
     <Geo geoCodeNumeric="320100" geoId="CHN_3201" geoNameLocal="南京市" geoTypeEnumId="GEOT_CITY" geoName="南京市"/>
     <Geo geoCodeNumeric="320200" geoId="CHN_3202" geoNameLocal="无锡市" geoTypeEnumId="GEOT_CITY" geoName="无锡市"/>
@@ -323,7 +323,7 @@ along with this software (see the LICENSE.md file). If not, see
     <Geo geoCodeNumeric="460200" geoId="CHN_4602" geoNameLocal="三亚市" geoTypeEnumId="GEOT_CITY" geoName="三亚市"/>
     <Geo geoCodeNumeric="460300" geoId="CHN_4603" geoNameLocal="三沙市" geoTypeEnumId="GEOT_CITY" geoName="三沙市"/>
     <Geo geoCodeNumeric="469000" geoId="CHN_4690" geoNameLocal="省直辖县级行政区划" geoTypeEnumId="GEOT_CITY" geoName="省直辖县级行政区划"/>
-    <Geo geoCodeNumeric="500100" geoId="CHN_5001" geoNameLocal="市辖区" geoTypeEnumId="GEOT_CITY" geoName="市辖区"/>
+    <Geo geoCodeNumeric="500100" geoId="CHN_5001" geoNameLocal="重庆市" geoTypeEnumId="GEOT_CITY" geoName="重庆市"/>
     <Geo geoCodeNumeric="500200" geoId="CHN_5002" geoNameLocal="县" geoTypeEnumId="GEOT_CITY" geoName="县"/>
     <Geo geoCodeNumeric="510100" geoId="CHN_5101" geoNameLocal="成都市" geoTypeEnumId="GEOT_CITY" geoName="成都市"/>
     <Geo geoCodeNumeric="510300" geoId="CHN_5103" geoNameLocal="自贡市" geoTypeEnumId="GEOT_CITY" geoName="自贡市"/>

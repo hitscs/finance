@@ -28,7 +28,7 @@
 		</container>	
 		<form-list name="TransactionTrialResultsFile" list="transactionTrialResultsFileList" transition="findTransactionTrialResultsFile">
 			<field name="kaitongOrderNumber">
-				<header-field show-order-by="true" title="开通订单号">
+				<header-field show-order-by="true" title="外贸信托订单号">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>

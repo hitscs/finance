@@ -8,9 +8,9 @@
 		<default-response url="." />
 	</transition>
 	<transition name="importCustomersSold">
-	<service-call name="FinanceServices.importFromSFTP#CustomersSold" />
+		<service-call name="FinanceServices.importFromSFTP#CustomersSold" />
 		<default-response url="." />
-	</transition>	
+	</transition>
 	<actions>
 		<entity-find entity-name="CustomersSold" list="customersSoldList">
 			<search-form-inputs />
@@ -21,6 +21,34 @@
 			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/> -->
 			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
 			<link url="importCustomersSold" text="导入客户销售列表" />
+<!-- 			<container-dialog id="SendToSFTPDialog" button-text="生成交易试算文件">
+				<form-single name="SendToSFTPForm" transition="sendToSFTP">
+					<field name="projectCode">
+						<default-field title="项目编号：">
+							<text-line size="20" />
+						</default-field>
+					</field>
+					<field name="versionNo">
+						<default-field title="版本号：">
+							<text-line size="20" />
+						</default-field>
+					</field>
+					<field name="submitButton">
+						<default-field title="提交">
+							<submit />
+						</default-field>
+					</field>
+					<field-layout>
+						<field-row>
+							<field-ref name="projectCode" />
+							<field-ref name="versionNo" />
+						</field-row>
+						<field-row>
+							<field-ref name="submitButton" />
+						</field-row>
+					</field-layout>
+				</form-single>
+			</container-dialog> -->
 		</container>
 		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold">
 			<field name="username">
@@ -31,14 +59,8 @@
 					<link text="${username}" url="customersSoldDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
-<!-- 			<field name="productName">
-				<header-field show-order-by="true" title="产品名称">
-					<text-find size="10" hide-options="true" />
-				</header-field>
-				<default-field>
-					<display></display>
-				</default-field>
-			</field> -->
+			<!-- <field name="productName"> <header-field show-order-by="true" title="产品名称"> <text-find size="10" hide-options="true" /> </header-field> <default-field> <display></display> 
+				</default-field> </field> -->
 			<field name="transactionId">
 				<header-field show-order-by="true" title="交易编号">
 					<text-find size="10" hide-options="true" />
@@ -47,8 +69,8 @@
 					<display />
 				</default-field>
 			</field>
-			<field name="certificateType">
-				<header-field show-order-by="true" title="证件类型">
+			<field name="orderId">
+				<header-field show-order-by="true" title="订单标识">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>

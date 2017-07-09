@@ -4,7 +4,7 @@
 		<in-parameters>
 			<parameter name="pseudoId" required="true" />
 			<parameter name="productName" required="true" />
-			<parameter name="provider" required="true" default-value="开通金融信息服务有限公司" />
+			<parameter name="provider" required="true" default-value="外贸信托信息服务有限公司" />
 			<parameter name="productType" required="true" />
 			<parameter name="publisher" required="true" />
 			<parameter name="publisherTradingCertificate" required="true" />
@@ -22,6 +22,7 @@
 			<parameter name="daysOfYear" required="true" />
 			<parameter name="interestDate" required="true" />
 			<parameter name="maturityDate" required="true" />
+			<parameter name="paymentDueDay" required="true" />
 			<parameter name="revenueType" required="true" />
 			<parameter name="fixedYieldRate" />
 			<parameter name="floatingYieldRate" />
@@ -35,7 +36,7 @@
 			<parameter name="payBankAccount" required="true" />
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
-			<parameter name="productRangeNumber" required="true" />
+			<!-- <parameter name="productRangeNumber" required="true" /> -->
 			<parameter name="projectCode" required="true" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
@@ -58,7 +59,7 @@
 			<parameter name="productId" required="true" />
 			<parameter name="pseudoId" required="true" />
 			<parameter name="productName" required="true" />
-			<parameter name="provider" required="true" default-value="开通金融信息服务有限公司" />
+			<parameter name="provider" required="true" default-value="外贸信托信息服务有限公司" />
 			<parameter name="productType" required="true" />
 			<parameter name="publisher" required="true" />
 			<parameter name="publisherTradingCertificate" required="true" />
@@ -76,6 +77,7 @@
 			<parameter name="daysOfYear" required="true" />
 			<parameter name="interestDate" required="true" format="yyyyMMdd" />
 			<parameter name="maturityDate" required="true" format="yyyyMMdd" />
+			<parameter name="paymentDueDay" required="true" />
 			<parameter name="revenueType" required="true" />
 			<parameter name="fixedYieldRate" />
 			<parameter name="floatingYieldRate" />
@@ -89,7 +91,7 @@
 			<parameter name="payBankAccount" required="true" />
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
-			<parameter name="productRangeNumber" required="true" />
+			<!-- <parameter name="productRangeNumber" required="true" /> -->
 			<parameter name="projectCode" required="true" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
@@ -136,61 +138,7 @@
 			<entity-find-one value-field="city" entity-name="moqui.basic.Geo">
 				<field-map field-name="geoId" from="product.city" />
 			</entity-find-one>
-			<script><![CDATA[
-				import com.finance.utils.SFTPParameter
-				import com.finance.utils.SftpUtil
-                import org.moqui.context.ExecutionContext
-                import com.finance.utils.DateUtils
-                
-                
-				SFTPParameter para = new SFTPParameter();
-
-				para.hostName = "127.0.0.1";
-				para.userName = "sunmingjun";
-				para.passWord = "sunmingjun";
-				para.port = 22;
-				
-				ExecutionContext ec = context.ec
-				def interestDate=ec.l10n.format(product.interestDate, "yyyyMMdd")
-				def maturityDate=ec.l10n.format(product.maturityDate, "yyyyMMdd")
-				def startTime=ec.l10n.format(product.startTime, "yyyyMMdd HH:mm:ss")
-				def endTime=ec.l10n.format(product.endTime, "yyyyMMdd HH:mm:ss")
-				print "产品发行时间："+product.startTime
-				def uploadDate=DateUtils.getNowTime("yyyyMMdd")
-				
-				def instId="hezuo"
-				
-				def riskRating=product.riskRating
-				if(null==product.riskRating){
-				riskRating=""
-				}
-				def remark=product.remark
-				if(null==product.remark){
-				remark=""
-				}
-				
-				header="产品提供方|产品名称|产品类型|发行方|发行方营业执照|发行方开户银行|所属省|所属市|发行方开户分支行|发行方银行账号|"
-                header=header+"产品风险说明|产品收益说明|产品描述|是否需要风险测评|产品风险等级|产品期限（天）|年化天数|起息日|到期日|收益类型|固定年化收益率|"
-                header=header+"浮动年化收益率|募集总金额|子包最低募集成功金额|起售金额|单位加价金额|上架时间|下架时间|备注|打款银行账户名称|大包产品名称|交易所代码|产品系列编号"
-				productString="|"+product.provider+"|"+product.productName+"|"+product.productType+"|"+product.publisher+"|"+product.publisherTradingCertificate
-				productString=productString+"|"+product.publisherBank+"|"+provence.geoNameLocal+"|"+city.geoNameLocal+"|"+product.publisherBranchBank+"|"+product.publisherBankAccount+"|"+product.riskInstruction
-				productString=productString+"|"+product.earningInstruction+"|"+product.description+"|"+product.riskEvaluation+"|"+riskRating+"|"+product.numberOfDays+"|"+product.daysOfYear
-				productString=productString+"|"+interestDate+"|"+maturityDate+"|"+product.revenueType+"|"+product.fixedYieldRate+"|"+product.floatingYieldRate+"|"+product.totalAmountToRaise
-				productString=productString+"|"+product.minAmountToRaise+"|"+product.minimumMoney+"|"+product.perMoney+"|"+startTime+"|"+endTime+"|"+remark+"|"+product.payBankAccount+"|"+product.productCategoryName+"|"+product.exchangeCode+"|"+product.productRangeNumber
-			    content=header+productString
-			    
-
-				String makeDir = "/home/"+instId+"/download/"+uploadDate+"/"
-				SftpUtil.makeDir(para, makeDir)
-				
-				para.uploadPath =makeDir
-				
-				InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
-
-                fileName=product.projectCode+"_产品发布文件_"+product.versionNo+".txt"
-		        SftpUtil.uploadFileInputStream(para, instream,fileName)
-            ]]>
-			</script>
+			<script location="component://finance/service/finance/ExportReleasedProduct.groovy"/>
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">发送失败</message>
@@ -203,100 +151,7 @@
 	</service>
 	<service verb="importFromSFTP" noun="CustomersSold" authenticate="anonymous-all" allow-remote="false">
 		<actions>
-			<script><![CDATA[
-import com.finance.utils.SFTPParameter
-import com.finance.utils.SftpUtil
-import org.moqui.context.ExecutionContext
-import com.finance.utils.DateUtils
-import org.moqui.entity.EntityValue
-import org.moqui.entity.EntityList
-
-SFTPParameter para = new SFTPParameter();
-
-para.hostName = "127.0.0.1";
-para.userName = "sunmingjun";
-para.passWord = "sunmingjun";
-para.port = 22;
-
-
-ExecutionContext ec = context.ec
-
-def importDate=DateUtils.getNowTime("yyyyMMdd")
-
-def instId="hezuo"
-
-para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
-
-String str = "客户明细销售表";
-
-
-List list=SftpUtil.downloadFilesAsInputStream(para)
-
-LineNumberReader reader ;
-for(Map map:list){
-	String fileName=map.get("fileName");
-	if(fileName.contains(str)){
-	   EntityList customersSoldList = ec.entity.find("finance.product.CustomersSold").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
-	   if(customersSoldList.size() >0)print "---------------------------已经成功导入过，不能再次导入"
-	   if(customersSoldList.size() == 0){
-				String[] fileNameSplit=fileName.split("_")
-				InputStream instream =map.get("fileContent");
-
-				reader=new LineNumberReader(new InputStreamReader(instream ,"UTF-8"));
-				String s = "";
-
-				while ((s = reader.readLine()) != null) {
-					if(reader.getLineNumber()>1){
-						String[] ss=s.split('\\|');
-						//println ss
-						EntityValue customersSold =ec.entity.makeValue("finance.product.CustomersSold").setSequencedIdPrimary()
-						
-						//customersSold.put("customerDetailId",ss[0])
-						customersSold.put("transactionId",ss[0])//交易编号
-						customersSold.put("transactionTime",ss[1])//交易时间戳
-						customersSold.put("assetShare",ss[2])//资产份额
-						customersSold.put("customerType",ss[3])//机构标志
-						//println "--------------------------------------------------------------------机构标志:"+ss[3]
-						customersSold.put("certificateType",ss[4])//证件类别
-						customersSold.put("username",ss[5])//客户姓名
-						customersSold.put("userFullName",ss[6])//客户全称
-						customersSold.put("certificateNumber",ss[7])//证件编号
-						customersSold.put("cellPhone",ss[8])//手机
-						customersSold.put("sex",ss[9])//性别
-						customersSold.put("certificateAddress",ss[10])//证件地址
-						//println "--------------------------------------------------------------------证件地址:"+ss[10]
-						customersSold.put("telephone",ss[11])//电话
-						customersSold.put("postalcode",ss[12])//邮政编码
-						customersSold.put("contactAddress",ss[13])//联系地址
-						customersSold.put("riskRating",ss[14])//风险承受级别
-						//println "--------------------------------------------------------------------风险承受级别:"+ss[14]
-						customersSold.put("orderId",ss[15])//订单标识
-						customersSold.put("daysOfYear",ss[16])//计息年化天数
-						customersSold.put("yieldRate",ss[17])//年化收益率
-						//println "--------------------------------------------------------------------年化收益率:"+ss[17]
-						//println "--------------------------------------------------------------------导入文件名称:"+fileName
-						//println "--------------------------------------------------------------------互联网平台Id:"+instId
-						//println "--------------------------------------------------------------------导入时间（文件夹名）:"+importDate
-						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
-						//println "--------------------------------------------------------------------版本号:"+fileNameSplit[2].replace(".txt", "")
-						customersSold.put("fileName",fileName)//导入文件名称
-						customersSold.put("instId",instId)//互联网平台Id
-						customersSold.put("importDate",importDate)//导入时间（文件夹名）
-						//customersSold.put("productCode",fileNameSplit[0])//产品代码
-						customersSold.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
-						//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
-						customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
-
-						customersSold.create()
-						}
-				}
-				reader.close();
-				}
-			}
-}
-		        
-            ]]>
-			</script>
+			<script location="component://finance/service/finance/ImportCustomersSold.groovy"/>
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">获取失败</message>
@@ -306,9 +161,19 @@ for(Map map:list){
 				</else>
 			</if>
 		</actions>
+		
+		
+		
 	</service>
-	
-	
+	<!-- 自动生成交易试算文件 -->
+	<service verb="produce" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+		
+		
+		
+		
+		</in-parameters>
+	</service>
 	<service verb="create" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="kaitongOrderNumber" required="false" />
@@ -426,7 +291,7 @@ for(Map map:list){
 							fileString=fileString+"|"+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+file.institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-", "")+"|\r\n"
 						}
 						lineOne="版本号:"+versionNo+"|总笔数:"+fileList.size()+"|总金额:"+sum+"|\r\n"
-						header="开通订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|\r\n"
+						header="外贸信托订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|\r\n"
 						
 						content=lineOne+header+fileString
 		
@@ -503,7 +368,7 @@ for(Map map:list){
 						EntityValue resultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
 						
 						
-						resultsFile.put("kaitongOrderNumber",ss[0])//开通订单号
+						resultsFile.put("kaitongOrderNumber",ss[0])//外贸信托订单号
 						resultsFile.put("orgOrderNumber",ss[1])//机构订单号
 						resultsFile.put("productCode",ss[2])//产品代码
 						resultsFile.put("customerName",ss[3])//客户姓名

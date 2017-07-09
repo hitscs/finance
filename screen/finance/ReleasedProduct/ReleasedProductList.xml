@@ -217,6 +217,11 @@
 						<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
 					</default-field>
 				</field>
+				<field name="paymentDueDay">
+					<default-field title="到期还款日：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
 				<field name="remark">
 					<default-field title="备注：">
 						<text-area />
@@ -237,13 +242,13 @@
 						<text-line size="20" />
 					</default-field>
 				</field>
-				<field name="productRangeNumber">
+<!-- 				<field name="productRangeNumber">
 					<default-field title="产品系列编号：">
 						<text-line size="20" />
 					</default-field>
-				</field>
+				</field> -->
 				<field name="projectCode">
-					<default-field title="与互联网合作项目的编号：">
+					<default-field title="项目编号：">
 						<text-line size="20" />
 					</default-field>
 				</field>
@@ -300,6 +305,7 @@
 						<field-ref name="maturityDate" />
 					</field-row>
 					<field-row>
+						<field-ref name="paymentDueDay" />
 						<field-ref name="revenueType" />
 					</field-row>
 					<field-row>
@@ -325,7 +331,7 @@
 					</field-row>
 					<field-row>
 						<field-ref name="exchangeCode" />
-						<field-ref name="productRangeNumber" />
+						<!-- <field-ref name="productRangeNumber" /> -->
 					</field-row>
 					<field-row>
 						<field-ref name="projectCode" />

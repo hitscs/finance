@@ -58,7 +58,7 @@ for(Map map:list){
 					customersSold.put("cellPhone",ss[8])//手机
 					customersSold.put("sex",ss[9])//性别
 					customersSold.put("certificateAddress",ss[10])//证件地址
-					//println "--------------------------------------------------------------------证件地址:"+ss[10]
+					//println "--------------------------------------------------------------------证件地址:"+ss[9]
 					customersSold.put("telephone",ss[11])//电话
 					customersSold.put("postalcode",ss[12])//邮政编码
 					customersSold.put("contactAddress",ss[13])//联系地址

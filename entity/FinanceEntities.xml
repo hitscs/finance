@@ -71,7 +71,7 @@
         <field name="certificateNumber" type="text-medium" not-null="true"><description>证件编号</description></field>
         <field name="cellPhone" type="text-medium" not-null="false"><description>手机</description></field>
         
-        <field name="sex" type="number-integer" not-null="false"><description>性别</description></field>
+        <field name="sex" type="text-medium" not-null="false"><description>性别</description></field>
         <field name="certificateAddress" type="text-medium" not-null="false"><description>证件地址</description></field>
         <field name="telephone" type="text-medium" not-null="false"><description>电话</description></field>
         <field name="postalcode" type="text-medium" not-null="false"><description>邮政编码</description></field>

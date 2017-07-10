@@ -138,7 +138,7 @@
 			<entity-find-one value-field="city" entity-name="moqui.basic.Geo">
 				<field-map field-name="geoId" from="product.city" />
 			</entity-find-one>
-			<script location="component://finance/service/finance/ExportReleasedProduct.groovy"/>
+			<script location="component://finance/service/finance/ExportReleasedProduct.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">发送失败</message>
@@ -151,7 +151,7 @@
 	</service>
 	<service verb="importFromSFTP" noun="CustomersSold" authenticate="anonymous-all" allow-remote="false">
 		<actions>
-			<script location="component://finance/service/finance/ImportCustomersSold.groovy"/>
+			<script location="component://finance/service/finance/ImportCustomersSold.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">获取失败</message>
@@ -161,17 +161,10 @@
 				</else>
 			</if>
 		</actions>
-		
-		
-		
 	</service>
 	<!-- 自动生成交易试算文件 -->
 	<service verb="produce" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
-		
-		
-		
-		
 		</in-parameters>
 	</service>
 	<service verb="create" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
@@ -182,13 +175,12 @@
 			<parameter name="customerName" required="true" />
 			<parameter name="passportType" required="true" />
 			<parameter name="passportNo" required="true" />
-			<parameter name="institutionId" required="true" />
+			<parameter name="institutionId" required="false" />
 			<parameter name="repaymentPrincipal" required="true" />
 			<parameter name="repaymentInterest" required="true" />
 			<parameter name="totalRepaymentAmount" required="true" />
-			<parameter name="paymentDueDay" required="true" format="yyyyMMdd"/>
+			<parameter name="paymentDueDay" required="true" format="yyyyMMdd" />
 			<parameter name="isRedeem" required="true" />
-
 			<parameter name="projectCode" required="true" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
@@ -205,9 +197,7 @@
 				</else>
 			</if>
 		</actions>
-	</service>	
-	
-	
+	</service>
 	<service verb="update" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="ttfId" required="true" />
@@ -217,13 +207,12 @@
 			<parameter name="customerName" required="true" />
 			<parameter name="passportType" required="true" />
 			<parameter name="passportNo" required="true" />
-			<parameter name="institutionId" required="true" />
+			<parameter name="institutionId" required="false" />
 			<parameter name="repaymentPrincipal" required="true" />
 			<parameter name="repaymentInterest" required="true" />
 			<parameter name="totalRepaymentAmount" required="true" />
-			<parameter name="paymentDueDay" required="true" format="yyyyMMdd"/>
+			<parameter name="paymentDueDay" required="true" format="yyyyMMdd" />
 			<parameter name="isRedeem" required="true" />
-
 			<parameter name="projectCode" required="true" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
@@ -240,9 +229,7 @@
 				</else>
 			</if>
 		</actions>
-	</service>		
-	
-	
+	</service>
 	<service verb="sendToSFTP" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false" type="inline">
 		<in-parameters>
 			<parameter name="projectCode" required="true" />
@@ -252,60 +239,10 @@
 		</out-parameters>
 		<actions>
 			<entity-find list="fileList" entity-name="TransactionTrialFile">
-                  <econdition field-name="projectCode" from="projectCode"/>
-                  <econdition field-name="versionNo" from="versionNo"/>
+				<econdition field-name="projectCode" from="projectCode" />
+				<econdition field-name="versionNo" from="versionNo" />
 			</entity-find>
-
-			<script><![CDATA[
-                         import org.moqui.entity.EntityValue
-
-                         import com.finance.utils.DateUtils
-                         import com.finance.utils.SFTPParameter
-                         import com.finance.utils.SftpUtil
-                
-                
-		                SFTPParameter para = new SFTPParameter();
-		
-						para.hostName = "127.0.0.1";
-						para.userName = "sunmingjun";
-						para.passWord = "sunmingjun";
-						para.port = 22;
-
-						def uploadDate=DateUtils.getNowTime("yyyyMMdd")
-						
-						def instId="hezuo"
-						
-
-						Float sum=0.00
-						String fileString="";
-						for(EntityValue file:fileList){
-							sum=sum+file.totalRepaymentAmount
-							def kaitongOrderNumber=file.kaitongOrderNumber
-							if(null==file.kaitongOrderNumber){
-							kaitongOrderNumber=""
-							}
-							def orgOrderNumber=file.orgOrderNumber
-							if(null==file.orgOrderNumber){
-							orgOrderNumber=""
-							}
-							fileString=fileString+"|"+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+file.institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-", "")+"|\r\n"
-						}
-						lineOne="版本号:"+versionNo+"|总笔数:"+fileList.size()+"|总金额:"+sum+"|\r\n"
-						header="外贸信托订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|\r\n"
-						
-						content=lineOne+header+fileString
-		
-						String makeDir = "/home/"+instId+"/download/"+uploadDate+"/"
-						SftpUtil.makeDir(para, makeDir)
-						
-						para.uploadPath =makeDir
-						
-						InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
-		
-						fileName=projectCode+"_交易试算文件_"+versionNo+".txt"
-						SftpUtil.uploadFileInputStream(para, instream,fileName)
-            ]]>
-			</script>
+			<script location="component://finance/service/finance/ExportTransactionTrialFile.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">发送失败</message>
@@ -315,89 +252,10 @@
 				</else>
 			</if>
 		</actions>
-	</service>	
-	
+	</service>
 	<service verb="importFromSFTP" noun="TransactionTrialResultsFile" authenticate="anonymous-all" allow-remote="false">
 		<actions>
-			<script><![CDATA[
-import com.finance.utils.SFTPParameter
-import com.finance.utils.SftpUtil
-import org.moqui.context.ExecutionContext
-import com.finance.utils.DateUtils
-import org.moqui.entity.EntityValue
-import org.moqui.entity.EntityList
-
-SFTPParameter para = new SFTPParameter();
-
-para.hostName = "127.0.0.1";
-para.userName = "sunmingjun";
-para.passWord = "sunmingjun";
-para.port = 22;
-
-
-ExecutionContext ec = context.ec
-
-def importDate=DateUtils.getNowTime("yyyyMMdd")
-
-def instId="hezuo"
-
-para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
-
-String str = "交易试算结果文件";
-
-
-List list=SftpUtil.downloadFilesAsInputStream(para)
-
-LineNumberReader reader ;
-for(Map map:list){
-	String fileName=map.get("fileName");
-	if(fileName.contains(str)){
-	   EntityList resultsFileList = ec.entity.find("finance.product.TransactionTrialResultsFile").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
-	   if(resultsFileList.size() >0)print "---------------------------已经成功导入过，不能再次导入"
-	   if(resultsFileList.size() == 0){
-				String[] fileNameSplit=fileName.split("_")
-				InputStream instream =map.get("fileContent");
-
-				reader=new LineNumberReader(new InputStreamReader(instream ,"UTF-8"));
-				String s = "";
-
-				while ((s = reader.readLine()) != null) {
-					if(reader.getLineNumber()>2){
-						String[] ss=s.split('\\|');
-						println ss
-						EntityValue resultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
-						
-						
-						resultsFile.put("kaitongOrderNumber",ss[0])//外贸信托订单号
-						resultsFile.put("orgOrderNumber",ss[1])//机构订单号
-						resultsFile.put("productCode",ss[2])//产品代码
-						resultsFile.put("customerName",ss[3])//客户姓名
-						resultsFile.put("passportType",ss[4])//客户证件类别
-						resultsFile.put("passportNo",ss[5])//客户证件编号
-						resultsFile.put("institutionId",ss[6])//机构客户ID
-						resultsFile.put("repaymentPrincipal",ss[7])//还款本金
-						resultsFile.put("repaymentInterest",ss[8])//还款利息
-						resultsFile.put("totalRepaymentAmount",ss[9])//还款总金额
-						resultsFile.put("paymentDueDay",ss[10])//到期还款日
-						resultsFile.put("treatmentResult",ss[11])//处理结果
-
-
-						resultsFile.put("fileName",fileName)//导入文件名称
-						resultsFile.put("instId",instId)//互联网平台Id
-						resultsFile.put("importDate",importDate)//导入时间（文件夹名）
-						resultsFile.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
-						resultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
-
-						resultsFile.create()						
-						}
-				}
-				reader.close();
-				}
-			}
-}
-		        
-            ]]>
-			</script>
+			<script location="component://finance/service/finance/ImportTransactionTrialResultsFile.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">获取失败</message>
@@ -407,27 +265,5 @@ for(Map map:list){
 				</else>
 			</if>
 		</actions>
-	</service>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	</service>
 </services>

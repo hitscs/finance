@@ -194,7 +194,7 @@
 				</field-layout>
 			</form-single>
 		</container-dialog>
-		<form-list name="TransactionTrialFile" list="transactionTrialFileList" transition="findTransactionTrialFile" multi="true">
+		<form-list name="TransactionTrialFile" list="transactionTrialFileList" transition="findTransactionTrialFile" multi="false">
 			<field name="kaitongOrderNumber">
 				<header-field show-order-by="true" title="外贸信托订单号">
 					<text-find size="10" hide-options="true" />
@@ -251,7 +251,7 @@
 					<display />
 				</default-field>
 			</field>
-			<field name="_useRowSubmit">
+<!-- 			<field name="_useRowSubmit">
 				<default-field>
 					<hidden default-value="true" />
 				</default-field>
@@ -262,7 +262,7 @@
 						<option key="true" text=" " />
 					</check>
 				</default-field>
-			</field>
+			</field> -->
 			<field name="delete">
 				<header-field title="查找">
 					<submit />

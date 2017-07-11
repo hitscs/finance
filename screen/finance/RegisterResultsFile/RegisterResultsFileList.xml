@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="登记结果文件列表"
+	default-menu-index="41">
+	<transition name="transactionTrialFileDetail">
+		<default-response url="../TransactionTrialFileDetail" />
+	</transition>
+	<transition name="findTransactionTrialFile">
+		<default-response url="." />
+	</transition>
+	<transition name="createTransactionTrialFile">
+		<service-call name="FinanceServices.create#TransactionTrialFile" />
+		<default-response url="." />
+	</transition>
+	<transition name="sendToSFTP">
+		<service-call name="FinanceServices.sendToSFTP#TransactionTrialFile" />
+		<default-response url="." />
+	</transition>
+	<transition name="deleteTransactionTrialFile">
+		<service-call name="delete#finance.product.TransactionTrialFile" />
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find entity-name="RegisterResultsFile" list="registerResultsFileList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+		<container-dialog id="CreateTransactionTrialFileDialog" button-text="新建交易试算文件">
+			<form-single name="CreateTransactionTrialFile" transition="createTransactionTrialFile">
+				<field name="ttfId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="kaitongOrderNumber">
+					<default-field title="外贸信托订单号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="orgOrderNumber">
+					<default-field title="机构订单号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productCode">
+					<default-field title="产品代码：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="customerName">
+					<default-field title="客户姓名：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="passportType">
+					<default-field title="客户证件类别：">
+						<drop-down allow-empty="false">
+							<option key="0" text="身份证" />
+							<option key="1" text="护照" />
+							<option key="2" text="军官证" />
+							<option key="3" text="士兵证" />
+							<option key="4" text="回乡证" />
+							<option key="5" text="户口本" />
+							<option key="6" text="国外护照" />
+							<option key="7" text="组织机构代码证" />
+							<option key="8" text="营业执照" />
+							<option key="9" text="行政机关" />
+							<option key="10" text="社会团体" />
+							<option key="11" text="军队" />
+							<option key="12" text="武警" />
+							<option key="13" text="下属机构" />
+							<option key="14" text="基金会" />
+							<option key="15" text="台胞证" />
+							<option key="16" text="港澳台居民身份证" />
+							<option key="99" text="其他" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="passportNo">
+					<default-field title="客户证件编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="institutionId">
+					<default-field title="机构客户ID：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="repaymentPrincipal">
+					<default-field title="还款本金：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="repaymentInterest">
+					<default-field title="还款利息：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="totalRepaymentAmount">
+					<default-field title="还款总金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="paymentDueDay">
+					<default-field title="到期还款日：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="isRedeem">
+					<default-field title="是否赎回：">
+						<drop-down allow-empty="true">
+							<option key="0" text="赎回" />
+							<option key="1" text="校验" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="kaitongOrderNumber" />
+						<field-ref name="orgOrderNumber" />
+					</field-row>
+					<field-row>
+						<field-ref name="productCode" />
+					</field-row>
+					<field-row>
+						<field-ref name="customerName" />
+						<field-ref name="passportType" />
+					</field-row>
+					<field-row>
+						<field-ref name="passportNo" />
+						<field-ref name="institutionId" />
+					</field-row>
+					<field-row>
+						<field-ref name="repaymentPrincipal" />
+						<field-ref name="repaymentInterest" />
+					</field-row>
+					<field-row>
+						<field-ref name="totalRepaymentAmount" />
+					</field-row>
+					<field-row>
+						<field-ref name="paymentDueDay" />
+						<field-ref name="isRedeem" />
+					</field-row>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<container-dialog id="SendToSFTPDialog" button-text="发送交易试算文件">
+			<form-single name="SendToSFTPForm" transition="sendToSFTP">
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<form-list name="TransactionTrialFile" list="transactionTrialFileList" transition="findTransactionTrialFile" multi="false">
+			<field name="kaitongOrderNumber">
+				<header-field show-order-by="true" title="外贸信托订单号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${kaitongOrderNumber}" url="transactionTrialFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="orgOrderNumber">
+				<header-field show-order-by="true" title="机构订单号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${orgOrderNumber}" url="transactionTrialFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productCode">
+				<header-field show-order-by="true" title="产品代码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productCode}" url="transactionTrialFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="customerName">
+				<header-field show-order-by="true" title="客户姓名">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="repaymentPrincipal">
+				<header-field show-order-by="true" title="还款本金">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="repaymentInterest">
+				<header-field show-order-by="true" title="还款利息">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="totalRepaymentAmount">
+				<header-field show-order-by="true" title="还款总金额">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+<!-- 			<field name="_useRowSubmit">
+				<default-field>
+					<hidden default-value="true" />
+				</default-field>
+			</field>
+			<field name="_rowSubmit">
+				<default-field title="">
+					<check>
+						<option key="true" text=" " />
+					</check>
+				</default-field>
+			</field> -->
+			<field name="delete">
+				<header-field title="查找">
+					<submit />
+				</header-field>
+				<default-field>
+					<link text="删除" url="deleteTransactionTrialFile" confirmation="确定要删除吗？">
+						<parameter name="ttfId" />
+					</link>
+					<!-- <link text="发送" url="sendToSFTP" confirmation="确定要发送吗？"> <parameter name="ttfId" /> </link> -->
+				</default-field>
+			</field>
+		</form-list>
+	</widgets>
+</screen>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="登记结果文件"
+	default-menu-index="41">
+	<parameter name="ttfId" required="true" from="ttfId" />
+	<transition name="updateTransactionTrialFile">
+		<service-call name="FinanceServices.update#TransactionTrialFile" />
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find-one entity-name="TransactionTrialFile" value-field="transactionTrialFile" />
+	</actions>
+	<widgets>
+		<form-single name="TransactionTrialFileForm" map="transactionTrialFile" transition="updateTransactionTrialFile">
+				<field name="ttfId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="kaitongOrderNumber">
+					<default-field title="外贸信托订单号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="orgOrderNumber">
+					<default-field title="机构订单号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="productCode">
+					<default-field title="产品代码：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="customerName">
+					<default-field title="客户姓名：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="passportType">
+					<default-field title="客户证件类别：">
+					<drop-down allow-empty="false">
+						<option key="0" text="身份证" />
+						<option key="1" text="护照" />
+						<option key="2" text="军官证" />
+						<option key="3" text="士兵证" />
+						<option key="4" text="回乡证" />
+						<option key="5" text="户口本" />
+						<option key="6" text="国外护照" />
+						<option key="7" text="组织机构代码证" />
+						<option key="8" text="营业执照" />
+						<option key="9" text="行政机关" />
+						<option key="10" text="社会团体" />
+						<option key="11" text="军队" />
+						<option key="12" text="武警" />
+						<option key="13" text="下属机构" />
+						<option key="14" text="基金会" />
+						<option key="15" text="台胞证" />
+						<option key="16" text="港澳台居民身份证" />
+						<option key="99" text="其他" />
+					</drop-down>
+					</default-field>
+				</field>
+				<field name="passportNo">
+					<default-field title="客户证件编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="institutionId">
+					<default-field title="机构客户ID：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="repaymentPrincipal">
+					<default-field title="还款本金：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="repaymentInterest">
+					<default-field title="还款利息：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="totalRepaymentAmount">
+					<default-field title="还款总金额：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="paymentDueDay">
+					<default-field title="到期还款日：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>
+				<field name="isRedeem">
+					<default-field title="是否赎回：">
+					<drop-down allow-empty="true">
+						<option key="0" text="赎回" />
+						<option key="1" text="校验" />
+					</drop-down>
+					</default-field>
+				</field>
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>				
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="kaitongOrderNumber" />
+						<field-ref name="orgOrderNumber" />
+					</field-row>
+					<field-row>
+						<field-ref name="productCode" />
+					</field-row>
+					<field-row>
+						<field-ref name="customerName" />
+						<field-ref name="passportType" />
+					</field-row>
+					<field-row>
+						<field-ref name="passportNo" />
+						<field-ref name="institutionId" />
+					</field-row>
+					<field-row>
+						<field-ref name="repaymentPrincipal" />
+						<field-ref name="repaymentInterest" />
+					</field-row>
+					<field-row>
+						<field-ref name="totalRepaymentAmount" />
+					</field-row>
+					<field-row>
+						<field-ref name="paymentDueDay" />
+						<field-ref name="isRedeem" />
+					</field-row>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+	</widgets>
+</screen>

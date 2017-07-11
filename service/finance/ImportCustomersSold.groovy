@@ -82,26 +82,37 @@ for(Map map:list){
 					customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 
 					customersSold.create()
+					
+					//生成登记结果文件
+					EntityValue registerResultsFile =ec.entity.makeValue("finance.product.RegisterResultsFile").setSequencedIdPrimary()
+					
+					registerResultsFile.put("transactionId",ss[0])//交易编号
+					registerResultsFile.put("productCode", fileNameSplit[0])
+					
+					registerResultsFile.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
+					//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
+					registerResultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
+					registerResultsFile.create()
 					//同时生成交易试算文件
-					EntityValue transactionTrialFile =ec.entity.makeValue("finance.product.TransactionTrialFile").setSequencedIdPrimary()
-					
-					EntityValue releasedProduct = ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", fileNameSplit[0]).one()
-					
-					transactionTrialFile.put("kaitongOrderNumber", "")
-					transactionTrialFile.put("orgOrderNumber", "")
-					transactionTrialFile.put("productCode", fileNameSplit[0])
-					transactionTrialFile.put("customerName", ss[5])
-					transactionTrialFile.put("passportType", ss[4])
-					transactionTrialFile.put("passportNo", ss[7])
-					transactionTrialFile.put("institutionId", "")
-					transactionTrialFile.put("repaymentPrincipal", ss[2])
-					transactionTrialFile.put("repaymentInterest", Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
-					transactionTrialFile.put("totalRepaymentAmount", Double.parseDouble(ss[2])+Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
-					transactionTrialFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
-					transactionTrialFile.put("isRedeem", 0)//不确定
-					transactionTrialFile.put("projectCode", fileNameSplit[0])
-					transactionTrialFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))
-					transactionTrialFile.create()
+//					EntityValue transactionTrialFile =ec.entity.makeValue("finance.product.TransactionTrialFile").setSequencedIdPrimary()
+//					
+//					EntityValue releasedProduct = ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", fileNameSplit[0]).one()
+//					
+//					transactionTrialFile.put("kaitongOrderNumber", "")
+//					transactionTrialFile.put("orgOrderNumber", "")
+//					transactionTrialFile.put("productCode", fileNameSplit[0])
+//					transactionTrialFile.put("customerName", ss[5])
+//					transactionTrialFile.put("passportType", ss[4])
+//					transactionTrialFile.put("passportNo", ss[7])
+//					transactionTrialFile.put("institutionId", "")
+//					transactionTrialFile.put("repaymentPrincipal", ss[2])
+//					transactionTrialFile.put("repaymentInterest", Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
+//					transactionTrialFile.put("totalRepaymentAmount", Double.parseDouble(ss[2])+Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
+//					transactionTrialFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
+//					transactionTrialFile.put("isRedeem", 0)//不确定
+//					transactionTrialFile.put("projectCode", fileNameSplit[0])
+//					transactionTrialFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))
+//					transactionTrialFile.create()
 				}
 			}
 			reader.close();

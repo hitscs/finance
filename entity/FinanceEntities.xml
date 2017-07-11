@@ -181,5 +181,15 @@
         <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
-    </entity>    
+    </entity>
+        <!-- 登记结果文件 -->
+    <entity entity-name="RegisterResultsFile" package="finance.product" short-alias="" cache="true" group="finance">
+        <field name="rrfId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="transactionId" type="text-medium"><description>交易编号</description></field>
+        <field name="productCode" type="text-medium"><description>产品代码</description></field>
+
+        <field name="projectCode" type="text-medium" not-null="true" default="productCode"><description>与互联网合作项目的编号</description></field>
+        <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
+        
+    </entity>      
 </entities>

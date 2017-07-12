@@ -21,7 +21,7 @@ def instId="hezuo"
 
 para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
 
-String str = "交易试算结果文件";
+String str = "交易试算文件";
 
 
 List list=SftpUtil.downloadFilesAsInputStream(para)
@@ -30,7 +30,7 @@ LineNumberReader reader ;
 for(Map map:list){
 	String fileName=map.get("fileName");
 	if(fileName.contains(str)){
-	   EntityList resultsFileList = ec.entity.find("finance.product.TransactionTrialResultsFile").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
+	   EntityList resultsFileList = ec.entity.find("finance.product.TransactionTrialFile").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
 	   if(resultsFileList.size() >0)print "---------------------------已经成功导入过，不能再次导入"
 	   if(resultsFileList.size() == 0){
 				String[] fileNameSplit=fileName.split("_")
@@ -43,7 +43,7 @@ for(Map map:list){
 					if(reader.getLineNumber()>2){
 						String[] ss=s.split('\\|');
 						println ss
-						EntityValue resultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
+						EntityValue resultsFile =ec.entity.makeValue("finance.product.TransactionTrialFile").setSequencedIdPrimary()
 						
 						
 						resultsFile.put("kaitongOrderNumber",ss[0])//外贸信托订单号
@@ -57,7 +57,7 @@ for(Map map:list){
 						resultsFile.put("repaymentInterest",ss[8])//还款利息
 						resultsFile.put("totalRepaymentAmount",ss[9])//还款总金额
 						resultsFile.put("paymentDueDay",ss[10])//到期还款日
-						resultsFile.put("treatmentResult",ss[11])//处理结果
+						//resultsFile.put("treatmentResult",ss[11])//处理结果
 
 
 						resultsFile.put("fileName",fileName)//导入文件名称

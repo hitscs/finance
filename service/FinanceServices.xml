@@ -253,9 +253,9 @@
 			</if>
 		</actions>
 	</service>
-	<service verb="importFromSFTP" noun="TransactionTrialResultsFile" authenticate="anonymous-all" allow-remote="false">
+	<service verb="importFromSFTP" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<actions>
-			<script location="component://finance/service/finance/ImportTransactionTrialResultsFile.groovy" />
+			<script location="component://finance/service/finance/ImportTransactionTrialFile.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">获取失败</message>
@@ -266,4 +266,27 @@
 			</if>
 		</actions>
 	</service>
+	<service verb="sendToSFTP" noun="RegisterResultsFile" authenticate="anonymous-all" allow-remote="false" type="inline">
+		<in-parameters>
+			<parameter name="projectCode" required="true" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<entity-find list="fileList" entity-name="RegisterResultsFile">
+				<econdition field-name="projectCode" from="projectCode" />
+				<econdition field-name="versionNo" from="versionNo" />
+			</entity-find>
+			<script location="component://finance/service/finance/ExportRegisterResultsFile.groovy" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">发送失败</message>
+				</then>
+				<else>
+					<message>发送成功</message>
+				</else>
+			</if>
+		</actions>
+	</service>	
 </services>

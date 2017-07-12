@@ -11,8 +11,8 @@
 		<service-call name="FinanceServices.create#TransactionTrialFile" />
 		<default-response url="." />
 	</transition>
-	<transition name="sendToSFTP">
-		<service-call name="FinanceServices.sendToSFTP#TransactionTrialFile" />
+	<transition name="importFromSFTP">
+		<service-call name="FinanceServices.importFromSFTP#TransactionTrialFile" />
 		<default-response url="." />
 	</transition>
 	<transition name="deleteTransactionTrialFile">
@@ -25,7 +25,7 @@
 		</entity-find>
 	</actions>
 	<widgets>
-		<container-dialog id="CreateTransactionTrialFileDialog" button-text="新建交易试算文件">
+<!-- 		<container-dialog id="CreateTransactionTrialFileDialog" button-text="新建交易试算文件">
 			<form-single name="CreateTransactionTrialFile" transition="createTransactionTrialFile">
 				<field name="ttfId">
 					<default-field>
@@ -165,35 +165,13 @@
 					</field-row>
 				</field-layout>
 			</form-single>
-		</container-dialog>
-		<container-dialog id="SendToSFTPDialog" button-text="发送交易试算文件">
-			<form-single name="SendToSFTPForm" transition="sendToSFTP">
-				<field name="projectCode">
-					<default-field title="项目编号：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="versionNo">
-					<default-field title="版本号：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="submitButton">
-					<default-field title="提交">
-						<submit />
-					</default-field>
-				</field>
-				<field-layout>
-					<field-row>
-						<field-ref name="projectCode" />
-						<field-ref name="versionNo" />
-					</field-row>
-					<field-row>
-						<field-ref name="submitButton" />
-					</field-row>
-				</field-layout>
-			</form-single>
-		</container-dialog>
+		</container-dialog> -->
+
+				<container>
+
+			<link url="importFromSFTP" text="导入交易试算文件" />
+
+		</container>
 		<form-list name="TransactionTrialFile" list="transactionTrialFileList" transition="findTransactionTrialFile" multi="false">
 			<field name="kaitongOrderNumber">
 				<header-field show-order-by="true" title="外贸信托订单号">

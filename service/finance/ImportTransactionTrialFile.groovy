@@ -24,7 +24,7 @@ para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
 String str = "交易试算文件";
 
 
-List list=SftpUtil.downloadFilesAsInputStream(para)
+List list=SftpUtil.downloadFilesAsInputStreamByName(para,str)
 
 LineNumberReader reader ;
 for(Map map:list){
@@ -38,8 +38,33 @@ for(Map map:list){
 
 				reader=new LineNumberReader(new InputStreamReader(instream ,"UTF-8"));
 				String s = "";
-
+				EntityValue meta =ec.entity.makeValue("finance.product.TransactionTrialFileMeta").setSequencedIdPrimary()
 				while ((s = reader.readLine()) != null) {
+					
+					if(reader.getLineNumber()==1){
+						String[] ss=s.split('\\|');
+						println ss
+						
+						meta.put("productCode",fileNameSplit[0])//产品代码
+						meta.put("totalRoll",ss[1].replace("总笔数:", ""))//总笔数
+						meta.put("totalMoney",ss[2].replace("总金额:", ""))//总金额
+						
+						
+						
+						meta.put("fileName",fileName)//导入文件名称
+						meta.put("instId",instId)//互联网平台Id
+						meta.put("importDate",importDate)//导入时间（文件夹名）
+						meta.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
+						meta.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
+						meta.create()
+					}
+					
+					
+					
+					//println meta.get("ttfmId")+"--------------------------------------------------------"
+					
+					
+					
 					if(reader.getLineNumber()>2){
 						String[] ss=s.split('\\|');
 						println ss
@@ -66,7 +91,8 @@ for(Map map:list){
 						resultsFile.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
 						resultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 
-						resultsFile.create()						
+						resultsFile.create()	
+						
 						}
 				}
 				reader.close();

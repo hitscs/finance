@@ -124,6 +124,33 @@ public class SftpUtil {
 	}
 
 	/**
+	 * @param para
+	 * @param fileNameContains文件名中包含文字
+	 * @return
+	 * @throws InterruptedException
+	 * @throws JSchException
+	 * @throws SftpException
+	 */
+	public static List<ChannelSftp.LsEntry> getFiles(SFTPParameter para,String fileNameContains)
+	throws InterruptedException, JSchException, SftpException {
+		List<ChannelSftp.LsEntry> files = new ArrayList<ChannelSftp.LsEntry>();
+		if (para != null) {
+			if (connectSFTP(para, para.conFTPTryCount)) {
+				ChannelSftp cs = para.sftp;
+				Vector<ChannelSftp.LsEntry> fs = null;
+				fs = cs.ls(para.downloadPath);
+
+				for (ChannelSftp.LsEntry entry : fs) {
+					if (!entry.getAttrs().isDir()&&entry.filename.contains(fileNameContains)) {
+						files.add(entry);
+					}
+				}
+			}
+
+		}
+		return files;
+	}
+	/**
 	 * download files from SFTP
 	 * 
 	 * @param para
@@ -177,7 +204,23 @@ public class SftpUtil {
 		return list;
 	}
 	
-	
+	public static List downloadFilesAsInputStreamByName(SFTPParameter para,String fileNameContains) throws InterruptedException, JSchException, SftpException {
+		List list=new ArrayList();
+		List<ChannelSftp.LsEntry> files = getFiles(para,fileNameContains);
+		if (!para.isConnected)
+			connectSFTP(para, para.conFTPTryCount);
+		for (ChannelSftp.LsEntry file : files) {
+			ChannelSftp cs = para.sftp;
+			if (!para.downloadPath.endsWith("/"))
+				para.downloadPath = para.downloadPath + "/";
+			String fromFile = para.downloadPath + file.getFilename();
+			Map map=new HashMap();
+			map.put("fileName",file.getFilename());
+			map.put("fileContent", cs.get(fromFile));
+			list.add(map);
+		}
+		return list;
+	}
 	
 	/**
 	 * upload file to SFTP

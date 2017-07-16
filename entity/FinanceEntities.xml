@@ -138,6 +138,21 @@
          <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
        
     </entity>
+    <!-- 交易试算文件META -->
+    <entity entity-name="TransactionTrialFileMeta" package="finance.product" short-alias="" cache="true" group="finance">
+        <field name="ttfmId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
+        <field name="totalRoll" type="text-medium" not-null="true"><description>总笔数</description></field>
+        <field name="totalMoney" type="text-medium" not-null="true"><description>总金额</description></field>
+
+
+        <field name="fileName" type="text-medium" not-null="true"><description>导入文件名称</description></field>
+        <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
+        <field name="importDate" type="text-medium" not-null="true"><description>导入时间（文件夹名）</description></field>
+          <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
+        
+    </entity>    
     <!-- 交易试算文件 -->
     <entity entity-name="TransactionTrialFile" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="ttfId" type="id" is-pk="true"><description>主键ID</description></field>
@@ -152,12 +167,28 @@
         <field name="repaymentInterest" type="number-float" not-null="true"><description>还款利息</description></field>
         <field name="totalRepaymentAmount" type="number-float" not-null="true"><description>还款总金额</description></field>
         <field name="paymentDueDay" type="text-medium" not-null="true"><description>到期还款日</description></field>
-        <field name="isRedeem" type="number-integer" not-null="true"><description>是否赎回</description></field>
+        <field name="isRedeem" type="number-integer" not-null="false"><description>是否赎回</description></field>
 
+        <field name="fileName" type="text-medium" not-null="true"><description>导入文件名称</description></field>
+        <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
+        <field name="importDate" type="text-medium" not-null="true"><description>导入时间（文件夹名）</description></field>
           <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
          <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         
     </entity>
+    <!-- 交易试算结果文件META -->
+    <entity entity-name="TransactionTrialResultsFileMeta" package="finance.product" short-alias="" cache="true" group="finance">
+        <field name="ttrfmId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="productCode" type="text-medium" not-null="true"><description>产品代码</description></field>
+        <field name="totalRoll" type="text-medium" not-null="true"><description>总笔数</description></field>
+        <field name="totalMoney" type="text-medium" not-null="true"><description>总金额</description></field>
+        <field name="treatmentResult" type="text-medium"><description>处理结果</description></field>
+
+        <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
+          <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
+         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
+        
+    </entity>     
     <!-- 交易试算结果文件 -->
     <entity entity-name="TransactionTrialResultsFile" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="ttrfId" type="id" is-pk="true"><description>主键ID</description></field>
@@ -175,9 +206,7 @@
         <field name="treatmentResult" type="text-medium"><description>处理结果</description></field>
         <field name="isRedeem" type="number-integer"><description>是否赎回</description></field>
 
-        <field name="fileName" type="text-medium" not-null="true"><description>导入文件名称</description></field>
-        <field name="instId" type="text-medium" not-null="true"><description>互联网平台Id</description></field>
-        <field name="importDate" type="text-medium" not-null="true"><description>导入时间（文件夹名）</description></field>
+
         <field name="projectCode" type="text-medium" not-null="true"><description>与互联网合作项目的编号</description></field>
         <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
         

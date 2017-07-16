@@ -7,10 +7,14 @@
 	<transition name="findTransactionTrialResultsFile">
 		<default-response url="." />
 	</transition>
-	<transition name="importTransactionTrialResultsFile">
-		<service-call name="FinanceServices.importFromSFTP#TransactionTrialResultsFile" />
+	<transition name="sendToSFTP">
+		<service-call name="FinanceServices.sendToSFTP#TransactionTrialResultsFile" />
 		<default-response url="." />
 	</transition>
+	<transition name="produce">
+		<service-call name="FinanceServices.produce#TransactionTrialResultsFile" />
+		<default-response url="." />
+	</transition>	
 	<transition name="deleteTransactionTrialResultsFile">
 		<service-call name="delete#finance.product.TransactionTrialResultsFile" />
 		<default-response url="." />
@@ -21,11 +25,62 @@
 		</entity-find>
 	</actions>
 	<widgets>
-		<container>
-			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/> -->
-			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
-			<link url="importTransactionTrialResultsFile" text="导入交易试算结果文件" />
-		</container>	
+			<container-dialog id="produceFileDialog" button-text="生成交易试算结果文件">
+			<form-single name="ProduceFileForm" transition="produce">
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>	
+		<container-dialog id="SendToSFTPDialog" button-text="发送交易试算结果文件">
+			<form-single name="SendToSFTPForm" transition="sendToSFTP">
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>	
 		<form-list name="TransactionTrialResultsFile" list="transactionTrialResultsFileList" transition="findTransactionTrialResultsFile">
 			<field name="kaitongOrderNumber">
 				<header-field show-order-by="true" title="外贸信托订单号">

@@ -24,12 +24,12 @@ para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
 String str = "客户明细销售表";
 
 
-List list=SftpUtil.downloadFilesAsInputStream(para)
+List list=SftpUtil.downloadFilesAsInputStreamByName(para,str)
 
 LineNumberReader reader ;
 for(Map map:list){
 	String fileName=map.get("fileName");
-	if(fileName.contains(str)){
+	//if(fileName.contains(str)){
 		EntityList customersSoldList = ec.entity.find("finance.product.CustomersSold").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
 		if(customersSoldList.size() >0)println "---------------------------已经成功导入过，不能再次导入------------------------------------"
 		if(customersSoldList.size() == 0){
@@ -78,7 +78,7 @@ for(Map map:list){
 					customersSold.put("importDate",importDate)//导入时间（文件夹名）
 					//customersSold.put("productCode",fileNameSplit[0])//产品代码
 					customersSold.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
-					//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
+					println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
 					customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 
 					customersSold.create()
@@ -93,29 +93,29 @@ for(Map map:list){
 					//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
 					registerResultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 					registerResultsFile.create()
-					//同时生成交易试算文件
-//					EntityValue transactionTrialFile =ec.entity.makeValue("finance.product.TransactionTrialFile").setSequencedIdPrimary()
+					//同时生成交易试算结果文件
+//					EntityValue transactionTrialResultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
 //					
 //					EntityValue releasedProduct = ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", fileNameSplit[0]).one()
 //					
-//					transactionTrialFile.put("kaitongOrderNumber", "")
-//					transactionTrialFile.put("orgOrderNumber", "")
-//					transactionTrialFile.put("productCode", fileNameSplit[0])
-//					transactionTrialFile.put("customerName", ss[5])
-//					transactionTrialFile.put("passportType", ss[4])
-//					transactionTrialFile.put("passportNo", ss[7])
-//					transactionTrialFile.put("institutionId", "")
-//					transactionTrialFile.put("repaymentPrincipal", ss[2])
-//					transactionTrialFile.put("repaymentInterest", Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
-//					transactionTrialFile.put("totalRepaymentAmount", Double.parseDouble(ss[2])+Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
-//					transactionTrialFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
-//					transactionTrialFile.put("isRedeem", 0)//不确定
-//					transactionTrialFile.put("projectCode", fileNameSplit[0])
-//					transactionTrialFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))
-//					transactionTrialFile.create()
+//					transactionTrialResultsFile.put("kaitongOrderNumber", "")
+//					transactionTrialResultsFile.put("orgOrderNumber", "")
+//					transactionTrialResultsFile.put("productCode", fileNameSplit[0])
+//					transactionTrialResultsFile.put("customerName", ss[5])
+//					transactionTrialResultsFile.put("passportType", ss[4])
+//					transactionTrialResultsFile.put("passportNo", ss[7])
+//					transactionTrialResultsFile.put("institutionId", "")
+//					transactionTrialResultsFile.put("repaymentPrincipal", ss[2])
+//					transactionTrialResultsFile.put("repaymentInterest", Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
+//					transactionTrialResultsFile.put("totalRepaymentAmount", Double.parseDouble(ss[2])+Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
+//					transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
+//					//transactionTrialResultsFile.put("isRedeem", 0)//不确定
+//					transactionTrialResultsFile.put("projectCode", fileNameSplit[0])
+//					transactionTrialResultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))
+//					transactionTrialResultsFile.create()
 				}
 			}
 			reader.close();
 		}
-	}
+	//}
 }

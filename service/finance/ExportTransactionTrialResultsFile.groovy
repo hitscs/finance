@@ -30,7 +30,7 @@ for(EntityValue file:fileList){
 		kaitongOrderNumber="\"\""
 	}
 	def orgOrderNumber=file.orgOrderNumber
-	if(null==file.orgOrderNumber.trim().equals("")){
+	if(null==file.orgOrderNumber||file.orgOrderNumber.trim().equals("")){
 		orgOrderNumber="\"\""
 	}
 	fileString=fileString+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+file.institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-", "")+"|"+file.treatmentResult+"\r\n"

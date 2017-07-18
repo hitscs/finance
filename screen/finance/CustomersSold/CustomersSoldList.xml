@@ -11,6 +11,10 @@
 		<service-call name="FinanceServices.importFromSFTP#CustomersSold" />
 		<default-response url="." />
 	</transition>
+		<transition name="exportCustomersSold">
+		<service-call name="FinanceServices.exportCustomersSold#CustomersSold" />
+		<default-response url="." />
+	</transition>
 	<actions>
 		<entity-find entity-name="CustomersSold" list="customersSoldList">
 			<search-form-inputs />
@@ -21,8 +25,8 @@
 			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/> -->
 			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
 			<link url="importCustomersSold" text="导入客户销售列表" />
-<!-- 			<container-dialog id="SendToSFTPDialog" button-text="生成交易试算文件">
-				<form-single name="SendToSFTPForm" transition="sendToSFTP">
+			<container-dialog id="ExportCustomersSoldDialog" button-text="导出客户销售列表">
+				<form-single name="ExportCustomersSoldForm" transition="exportCustomersSold">
 					<field name="projectCode">
 						<default-field title="项目编号：">
 							<text-line size="20" />
@@ -48,7 +52,7 @@
 						</field-row>
 					</field-layout>
 				</form-single>
-			</container-dialog> -->
+			</container-dialog>
 		</container>
 		<form-list name="CustomersSold" list="customersSoldList" transition="findCustomersSold">
 			<field name="username">
@@ -79,6 +83,22 @@
 			</field>
 			<field name="certificateNumber">
 				<header-field show-order-by="true" title="证件编号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="projectCode">
+				<header-field show-order-by="true" title="项目编号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="versionNo">
+				<header-field show-order-by="true" title="版本号">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>

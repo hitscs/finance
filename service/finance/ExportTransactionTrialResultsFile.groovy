@@ -26,14 +26,18 @@ String fileString="";
 for(EntityValue file:fileList){
 	sum=sum+file.totalRepaymentAmount
 	def kaitongOrderNumber=file.kaitongOrderNumber
-	if(null==file.kaitongOrderNumber||file.kaitongOrderNumber.trim().equals("")){
+    if(null==file.kaitongOrderNumber||file.kaitongOrderNumber.trim().equals("")){
 		kaitongOrderNumber="\"\""
 	}
 	def orgOrderNumber=file.orgOrderNumber
 	if(null==file.orgOrderNumber||file.orgOrderNumber.trim().equals("")){
 		orgOrderNumber="\"\""
 	}
-	fileString=fileString+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+file.institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-", "")+"|"+file.treatmentResult+"\r\n"
+	def institutionId=file.institutionId
+	if(null==file.institutionId||file.institutionId.trim().equals("")){
+		institutionId="\"\""
+	}
+	fileString=fileString+kaitongOrderNumber+"|"+orgOrderNumber+"|"+file.productCode+"|"+file.customerName+"|"+file.passportType+"|"+file.passportNo+"|"+institutionId+"|"+file.repaymentPrincipal+"|"+file.repaymentInterest+"|"+file.totalRepaymentAmount+"|"+file.paymentDueDay.replace("-","")+"|"+file.treatmentResult+"\r\n"
 }
 lineOne="版本号:"+versionNo+"|总笔数:"+fileMeta.totalRoll+"|总金额:"+fileMeta.totalMoney+"|处理结果:"+fileMeta.treatmentResult+"\r\n"
 header="外贸信托订单号|机构订单号|产品代码|客户姓名|客户证件类别|客户证件编号|机构客户ID|还款本金|还款利息|还款总金额|到期还款日|处理结果\r\n"

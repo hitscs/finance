@@ -40,8 +40,8 @@ for(EntityValue customersSold:customersSoldList){
 	transactionTrialResultsFile.put("passportNo", customersSold.get("certificateNumber"))
 	transactionTrialResultsFile.put("institutionId", "")
 	transactionTrialResultsFile.put("repaymentPrincipal", customersSold.get("assetShare"))
-	transactionTrialResultsFile.put("repaymentInterest", Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/365*Double.parseDouble(customersSold.get("daysOfYear").toString()))
-	transactionTrialResultsFile.put("totalRepaymentAmount", Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/365*Double.parseDouble(customersSold.get("daysOfYear").toString()))
+	transactionTrialResultsFile.put("repaymentInterest", Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/365*Double.parseDouble(customersSold.get("daysOfYear").toString()))
+	transactionTrialResultsFile.put("totalRepaymentAmount", Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/365*Double.parseDouble(customersSold.get("daysOfYear").toString()))
 	transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
 
 

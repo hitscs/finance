@@ -65,8 +65,8 @@ for(Map map:list){
 					customersSold.put("riskRating",ss[14])//风险承受级别
 					//println "--------------------------------------------------------------------风险承受级别:"+ss[14]
 					customersSold.put("orderId",ss[15])//订单标识
-					customersSold.put("daysOfYear",ss[16])//计息年化天数
-					customersSold.put("yieldRate",ss[17])//年化收益率
+					customersSold.put("daysOfYear",ss[17])//计息年化天数
+					customersSold.put("yieldRate",ss[16])//年化收益率
 					//println "--------------------------------------------------------------------年化收益率:"+ss[17]
 					//println "--------------------------------------------------------------------导入文件名称:"+fileName
 					//println "--------------------------------------------------------------------互联网平台Id:"+instId

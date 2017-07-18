@@ -162,7 +162,21 @@
 			</if>
 		</actions>
 	</service>
+	<service verb="exportCustomersSold" noun="CustomersSold" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="projectCode" required="true" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<actions>
+			<script location="component://finance/service/finance/ExportCustomersSold.groovy" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">导出失败</message>
+				</then>
 
+			</if>
+		</actions>
+	</service>
 	<service verb="create" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="kaitongOrderNumber" required="false" />
@@ -237,7 +251,7 @@
 			<entity-find list="trialResultsFileMeta" entity-name="TransactionTrialResultsFileMeta">
 				<econdition field-name="projectCode" from="projectCode" />
 				<econdition field-name="versionNo" from="versionNo" />
-			</entity-find>		
+			</entity-find>
 			<entity-find list="fileList" entity-name="TransactionTrialResultsFile">
 				<econdition field-name="projectCode" from="projectCode" />
 				<econdition field-name="versionNo" from="versionNo" />
@@ -300,7 +314,7 @@
 			<entity-find list="trialFileMeta" entity-name="TransactionTrialFileMeta">
 				<econdition field-name="projectCode" from="projectCode" />
 				<econdition field-name="versionNo" from="versionNo" />
-			</entity-find>		
+			</entity-find>
 			<entity-find list="trialFileList" entity-name="TransactionTrialFile">
 				<econdition field-name="projectCode" from="projectCode" />
 				<econdition field-name="versionNo" from="versionNo" />
@@ -308,7 +322,7 @@
 			<entity-find list="customersSoldList" entity-name="CustomersSold">
 				<econdition field-name="projectCode" from="projectCode" />
 				<econdition field-name="versionNo" from="versionNo" />
-			</entity-find>			
+			</entity-find>
 			<script location="component://finance/service/finance/ProduceTransactionTrialResultsFile.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
@@ -319,5 +333,5 @@
 				</else>
 			</if>
 		</actions>
-	</service>	
+	</service>
 </services>

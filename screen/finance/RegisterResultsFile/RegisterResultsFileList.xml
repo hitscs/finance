@@ -25,7 +25,7 @@
 		</entity-find>
 	</actions>
 	<widgets>
-		<container-dialog id="CreateRegisterResultsFileDialog" button-text="新建登记结果文件">
+<!-- 		<container-dialog id="CreateRegisterResultsFileDialog" button-text="新建登记结果文件">
 			<form-single name="CreateRegisterResultsFile" transition="createRegisterResultsFile">
 				<field name="rrfId">
 					<default-field>
@@ -71,7 +71,7 @@
 					</field-row>
 				</field-layout>
 			</form-single>
-		</container-dialog>
+		</container-dialog> -->
 		<container-dialog id="SendToSFTPDialog" button-text="发送登记结果文件">
 			<form-single name="SendToSFTPForm" transition="sendToSFTP">
 				<field name="projectCode">

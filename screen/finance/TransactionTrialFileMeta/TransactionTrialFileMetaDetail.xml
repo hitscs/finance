@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="交易试算文件"
+	default-menu-index="41">
+	<parameter name="ttfmId" required="true" from="ttfmId" />
+	<!-- <transition name="updateTransactionTrialFile"> <service-call name="FinanceServices.update#TransactionTrialFile" /> <default-response url="." /> </transition> -->
+	<transition name="findTransactionTrialFile">
+		<default-response url="." />
+	</transition>
+	<transition name="deleteTransactionTrialFile">
+		<service-call name="delete#finance.product.TransactionTrialFile" />
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find-one entity-name="TransactionTrialFileMeta" value-field="transactionTrialFileMeta" />
+		<entity-find entity-name="TransactionTrialFile" list="transactionTrialFileList">
+			<econdition field-name="projectCode" from="transactionTrialFileMeta.projectCode" />
+			<econdition field-name="versionNo" from="transactionTrialFileMeta.versionNo" />
+		</entity-find>
+		<!-- <set field="projectCode" from="transactionTrialFileMeta.projectCode"/> <set field="versionNo" from="transactionTrialFileMeta.versionNo"/> -->
+	</actions>
+	<widgets>
+		<form-single name="TransactionTrialFileMetaForm" map="transactionTrialFileMeta" transition="updateTransactionTrialFileMeta">
+			<field name="ttfmId">
+				<default-field>
+					<hidden />
+				</default-field>
+			</field>
+			<field name="productCode">
+				<default-field title="产品代码：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="totalRoll">
+				<default-field title="总笔数：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="totalMoney">
+				<default-field title="总金额：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="instId">
+				<default-field title="互联网平台Id：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="importDate" >
+				<default-field title="导入时间：" >
+					<!-- <date-time type="date" format="yyyy-MM-dd" /> -->
+					<text-line size="20" format="yyyy-MM-dd"/>
+				</default-field>
+			</field>
+			<field name="projectCode">
+				<default-field title="项目编号：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="versionNo">
+				<default-field title="版本号：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field-layout>
+				<field-row>
+					<field-ref name="productCode" />
+					<field-ref name="instId" />
+				</field-row>
+				<field-row>
+					<field-ref name="totalRoll" />
+					<field-ref name="totalMoney" />
+				</field-row>
+				<field-row>
+					<field-ref name="importDate" />
+				</field-row>
+				<field-row>
+					<field-ref name="projectCode" />
+					<field-ref name="versionNo" />
+				</field-row>
+			</field-layout>
+		</form-single>
+		<form-list name="TransactionTrialFile" list="transactionTrialFileList" skip-form="true" paginate-always-show="true" paginate="true">
+			<field name="kaitongOrderNumber">
+				<header-field title="订单号">
+				</header-field>
+				<default-field>
+					<link text="${kaitongOrderNumber}" url="transactionTrialFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="orgOrderNumber">
+				<header-field title="机构订单号">
+				</header-field>
+				<default-field>
+					<link text="${orgOrderNumber}" url="transactionTrialFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productCode">
+				<header-field title="产品代码">
+				</header-field>
+				<default-field>
+					<link text="${productCode}" url="transactionTrialFileDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="customerName">
+				<header-field title="客户">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="passportType">
+				<header-field title="证件类别">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="passportNo">
+				<header-field title="证件编号">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="institutionId">
+				<header-field title="机构客户ID">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="repaymentPrincipal">
+				<header-field title="本金">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="repaymentInterest">
+				<header-field title="利息">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="totalRepaymentAmount">
+				<header-field title="总金额">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="paymentDueDay">
+				<header-field title="到期还款日">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="isRedeem">
+				<header-field title="是否赎回">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<!-- <field name="delete"> <header-field title="查找"> <submit /> </header-field> <default-field> <link text="删除" url="deleteTransactionTrialFile" confirmation="确定要删除吗？"> 
+				<parameter name="ttfId" /> </link> <link text="发送" url="sendToSFTP" confirmation="确定要发送吗？"> <parameter name="ttfId" /> </link> </default-field> </field> -->
+		</form-list>
+	</widgets>
+</screen>

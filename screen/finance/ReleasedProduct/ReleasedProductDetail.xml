@@ -22,7 +22,7 @@
 		<entity-find-one entity-name="ReleasedProduct" value-field="releasedProduct" />
 	</actions>
 	<widgets>
-		<form-single name="ReleasedProductForm" map="releasedProduct" transition="updateReleasedProduct">
+		<form-single name="ReleasedProductForm" map="releasedProduct" transition="updateReleasedProduct" >
 			<field name="productId">
 				<default-field>
 					<hidden />
@@ -234,11 +234,11 @@
 					<text-line size="20" />
 				</default-field>
 			</field> -->
-			<field name="projectCode">
+<!-- 			<field name="projectCode">
 				<default-field title="项目编号：">
 					<text-line size="20" />
 				</default-field>
-			</field>
+			</field> -->
 			<field name="versionNo">
 				<default-field title="文件版本号：">
 					<text-line size="20" />
@@ -321,7 +321,7 @@
 					<!-- <field-ref name="productRangeNumber" /> -->
 				</field-row>
 				<field-row>
-					<field-ref name="projectCode" />
+					<!-- <field-ref name="projectCode" /> -->
 					<field-ref name="versionNo" />
 				</field-row>
 				<field-ref name="submitButton" />

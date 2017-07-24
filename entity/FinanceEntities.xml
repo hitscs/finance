@@ -48,9 +48,9 @@
          <field name="exchangeCode" type="text-medium" not-null="true"><description>交易所代码</description></field>
          <!-- <field name="productRangeNumber" type="text-medium" not-null="false"><description>产品系列编号</description></field> -->
         
-         <field name="projectCode" type="id" default="productId"><description>与互联网合作项目的编号</description></field>
+         <field name="projectCode" type="id" default="pseudoId"><description>与互联网合作项目的编号</description></field>
          <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
-        
+         <field name="isPublished" type="text-medium" default="N"><description>已发布</description></field>
         
         
         

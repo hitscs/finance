@@ -37,7 +37,7 @@
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
 			<!-- <parameter name="productRangeNumber" required="true" /> -->
-			<parameter name="projectCode" required="true" />
+			<parameter name="projectCode" required="disabled" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
 		<out-parameters>
@@ -92,7 +92,7 @@
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
 			<!-- <parameter name="productRangeNumber" required="true" /> -->
-			<parameter name="projectCode" required="true" />
+			<!-- <parameter name="projectCode" required="true" /> -->
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
 		<out-parameters>
@@ -139,6 +139,10 @@
 				<field-map field-name="geoId" from="product.city" />
 			</entity-find-one>
 			<script location="component://finance/service/finance/ExportReleasedProduct.groovy" />
+<!-- 			<script>product.put("isReleased", "1")</script>
+			<service-call name="update#ReleasedProduct" out-map="context" in-map="product" /> -->
+<!-- 			<set field="product.isPublished" value="Y"/>
+			<entity-update value-field="product"/> -->
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">发送失败</message>

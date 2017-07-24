@@ -247,11 +247,11 @@
 						<text-line size="20" />
 					</default-field>
 				</field> -->
-				<field name="projectCode">
+<!-- 				<field name="projectCode">
 					<default-field title="项目编号：">
 						<text-line size="20" />
 					</default-field>
-				</field>
+				</field> -->
 				<field name="versionNo">
 					<default-field title="文件版本号：">
 						<text-line size="20" />
@@ -334,7 +334,7 @@
 						<!-- <field-ref name="productRangeNumber" /> -->
 					</field-row>
 					<field-row>
-						<field-ref name="projectCode" />
+						<!-- <field-ref name="projectCode" /> -->
 						<field-ref name="versionNo" />
 					</field-row>
 					<field-ref name="submitButton" />
@@ -394,7 +394,7 @@
 					<submit />
 				</header-field>
 				<default-field>
-					<link text="删除" url="deleteReleasedProduct" confirmation="确定要删除吗？">
+					<link text="删除" url="deleteReleasedProduct" confirmation="确定要删除吗？" condition="isPublished != 'Y'">
 						<parameter name="productId" />
 					</link>
 					<link text="发送" url="sendToSFTP" confirmation="确定要发送吗？">

@@ -21,7 +21,7 @@ def instId="hezuo"
 String fileString="";
 for(EntityValue file:fileList){
 
-	fileString=fileString+"|"+file.get("transactionId")+"|"+file.get("productCode")+"\r\n"
+	fileString=fileString+file.get("transactionId")+"|"+file.get("productCode")+"\r\n"
 }
 header="交易编号|产品代码\n"
 

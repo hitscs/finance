@@ -122,7 +122,7 @@
 			</entity-find-one>
 		</actions>
 	</service>
-	<service verb="sendToSFTP" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false" type="inline">
+	<service verb="sendToSFTP" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="productId" required="true" />
 		</in-parameters>
@@ -141,8 +141,8 @@
 			<script location="component://finance/service/finance/ExportReleasedProduct.groovy" />
 <!-- 			<script>product.put("isReleased", "1")</script>
 			<service-call name="update#ReleasedProduct" out-map="context" in-map="product" /> -->
-<!-- 			<set field="product.isPublished" value="Y"/>
-			<entity-update value-field="product"/> -->
+			<set field="product.isPublished" value="Y"/>
+			<entity-update value-field="product"/>
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">发送失败</message>

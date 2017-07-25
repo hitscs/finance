@@ -2,7 +2,7 @@
 <entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
     <!-- 产品发行表 -->
-    <entity entity-name="ReleasedProduct" package="finance.product" short-alias="rproducts" cache="true" group="finance">
+    <entity entity-name="ReleasedProduct" package="finance.product" short-alias="rproducts" cache="false" group="finance">
         <field name="productId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="pseudoId" type="id" default="productId"><description>产品代码（起始）</description></field>
         <field name="productName" type="text-medium" not-null="true"><description>产品名称</description></field>

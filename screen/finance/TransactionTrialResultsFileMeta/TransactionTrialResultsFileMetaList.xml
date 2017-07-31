@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="交易试算结果文件列表"
+	default-menu-index="41">
+	<transition name="transactionTrialResultsFileMetaDetail">
+		<default-response url="../TransactionTrialResultsFileMetaDetail" />
+	</transition>
+	<transition name="findTransactionTrialResultsFileMeta">
+		<default-response url="." />
+	</transition>
+	<transition name="sendToSFTP">
+		<service-call name="FinanceServices.sendToSFTP#TransactionTrialResultsFile" />
+		<default-response url="." />
+	</transition>
+	<transition name="produce">
+		<service-call name="FinanceServices.produce#TransactionTrialResultsFile" />
+		<default-response url="." />
+	</transition>
+	<!-- <transition name="deleteTransactionTrialResultsFile"> <service-call name="delete#finance.product.TransactionTrialResultsFile" /> <default-response url="." /> </transition> -->
+	<actions>
+		<entity-find entity-name="TransactionTrialResultsFileMeta" list="transactionTrialResultsFileMetaList">
+			<search-form-inputs />
+		</entity-find>
+	</actions>
+	<widgets>
+		<container-dialog id="produceFileDialog" button-text="生成交易试算结果文件">
+			<form-single name="ProduceFileForm" transition="produce">
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<container-dialog id="SendToSFTPDialog" button-text="发送交易试算结果文件">
+			<form-single name="SendToSFTPForm" transition="sendToSFTP">
+				<field name="projectCode">
+					<default-field title="项目编号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="versionNo">
+					<default-field title="版本号：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="submitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="projectCode" />
+						<field-ref name="versionNo" />
+					</field-row>
+					<field-row>
+						<field-ref name="submitButton" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<form-list name="TransactionTrialResultsFileMeta" list="transactionTrialResultsFileMetaList" transition="findTransactionTrialResultsFileMeta">
+			<field name="productCode">
+				<header-field show-order-by="true" title="产品代码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productCode}" url="transactionTrialResultsFileMetaDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="totalRoll">
+				<header-field show-order-by="true" title="总笔数">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${totalRoll}" url="transactionTrialResultsFileMetaDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="totalMoney">
+				<header-field show-order-by="true" title="总金额">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${totalMoney}" url="transactionTrialResultsFileMetaDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="treatmentResult">
+				<header-field show-order-by="true" title="处理结果">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="instId">
+				<header-field show-order-by="true" title="互联网平台">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="versionNo">
+				<header-field show-order-by="true" title="版本号">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="delete">
+				<header-field title="查找">
+					<submit />
+				</header-field>
+				<default-field>
+					<link text="删除" url="deleteTransactionTrialResultsFile" confirmation="确定要删除吗？">
+						<parameter name="ttrfmId" />
+					</link>
+					<!-- <link text="发送" url="sendToSFTP" confirmation="确定要发送吗？"> <parameter name="ttfId" /> </link> -->
+				</default-field>
+			</field>
+		</form-list>
+	</widgets>
+</screen>

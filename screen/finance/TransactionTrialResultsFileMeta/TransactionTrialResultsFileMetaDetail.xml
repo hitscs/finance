@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="交易试算文件"
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="交易试算结果文件"
 	default-menu-index="41">
-	<parameter name="ttfmId" required="true" from="ttfmId" />
-	<!-- <transition name="updateTransactionTrialFile"> <service-call name="FinanceServices.update#TransactionTrialFile" /> <default-response url="." /> </transition> -->
-	<transition name="findTransactionTrialFile">
+	<parameter name="ttrfmId" required="true" from="ttrfmId" />
+	<transition name="findTransactionTrialResultsFile">
 		<default-response url="." />
 	</transition>
-	<transition name="deleteTransactionTrialFile">
-		<service-call name="delete#finance.product.TransactionTrialFile" />
+	<transition name="deleteTransactionTrialResultsFile">
+		<service-call name="delete#finance.product.TransactionTrialResultsFile" />
 		<default-response url="." />
 	</transition>
 	<actions>
-		<entity-find-one entity-name="TransactionTrialFileMeta" value-field="transactionTrialFileMeta" />
-		<entity-find entity-name="TransactionTrialFile" list="transactionTrialFileList">
+		<entity-find-one entity-name="TransactionTrialResultsFileMeta" value-field="transactionTrialResultsFileMeta" />
+		<entity-find entity-name="TransactionTrialResultsFile" list="transactionTrialResultsFileList">
 			<search-form-inputs />
-			<econdition field-name="projectCode" from="transactionTrialFileMeta.projectCode" />
-			<econdition field-name="versionNo" from="transactionTrialFileMeta.versionNo" />
+			<econdition field-name="projectCode" from="transactionTrialResultsFileMeta.projectCode" />
+			<econdition field-name="versionNo" from="transactionTrialResultsFileMeta.versionNo" />
 		</entity-find>
-		<!-- <set field="projectCode" from="transactionTrialFileMeta.projectCode"/> <set field="versionNo" from="transactionTrialFileMeta.versionNo"/> -->
+		<!-- <set field="projectCode" from="transactionTrialResultsFileMeta.projectCode"/> <set field="versionNo" from="transactionTrialResultsFileMeta.versionNo"/> -->
 	</actions>
 	<widgets>
-		<form-single name="TransactionTrialFileMetaForm" map="transactionTrialFileMeta" transition="updateTransactionTrialFileMeta">
+		<form-single name="TransactionTrialResultsFileMetaForm" map="transactionTrialResultsFileMeta" transition="updateTransactionTrialResultsFileMeta">
 			<field name="ttfmId">
 				<default-field>
 					<hidden />
@@ -46,10 +45,9 @@
 					<text-line size="20" />
 				</default-field>
 			</field>
-			<field name="importDate">
-				<default-field title="导入时间：">
-					<!-- <date-time type="date" format="yyyy-MM-dd" /> -->
-					<text-line size="20" format="yyyy-MM-dd" />
+			<field name="treatmentResult">
+				<default-field title="处理结果：">
+					<text-line size="20" />
 				</default-field>
 			</field>
 			<field name="versionNo">
@@ -67,31 +65,31 @@
 					<field-ref name="totalMoney" />
 				</field-row>
 				<field-row>
-					<field-ref name="importDate" />
+					<field-ref name="treatmentResult" />
 					<field-ref name="versionNo" />
 				</field-row>
 			</field-layout>
 		</form-single>
-		<form-list name="TransactionTrialFile" list="transactionTrialFileList" skip-form="true" paginate-always-show="true" paginate="true">
+		<form-list name="TransactionTrialResultsFile" list="transactionTrialResultsFileList">
 			<field name="kaitongOrderNumber">
 				<header-field title="订单号">
 				</header-field>
 				<default-field>
-					<link text="${kaitongOrderNumber}" url="transactionTrialFileDetail" link-type="anchor"></link>
+					<link text="${kaitongOrderNumber}" url="transactionTrialResultsFileDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
 			<field name="orgOrderNumber">
 				<header-field title="机构订单号">
 				</header-field>
 				<default-field>
-					<link text="${orgOrderNumber}" url="transactionTrialFileDetail" link-type="anchor"></link>
+					<link text="${orgOrderNumber}" url="transactionTrialResultsFileDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
 			<field name="productCode">
 				<header-field title="产品代码">
 				</header-field>
 				<default-field>
-					<link text="${productCode}" url="transactionTrialFileDetail" link-type="anchor"></link>
+					<link text="${productCode}" url="transactionTrialResultsFileDetail" link-type="anchor"></link>
 				</default-field>
 			</field>
 			<field name="customerName">
@@ -116,7 +114,7 @@
 				</default-field>
 			</field>
 			<field name="institutionId">
-				<header-field title="机构客户ID">
+				<header-field title="机构ID">
 				</header-field>
 				<default-field>
 					<display />
@@ -151,13 +149,20 @@
 				</default-field>
 			</field>
 			<field name="isRedeem">
-				<header-field title="是否赎回">
+				<header-field title="赎回?">
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<!-- <field name="delete"> <header-field title="查找"> <submit /> </header-field> <default-field> <link text="删除" url="deleteTransactionTrialFile" confirmation="确定要删除吗？"> 
+			<field name="treatmentResult">
+				<header-field title="处理结果">
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<!-- <field name="delete"> <header-field title="查找"> <submit /> </header-field> <default-field> <link text="删除" url="deleteTransactionTrialResultsFile" confirmation="确定要删除吗？"> 
 				<parameter name="ttfId" /> </link> <link text="发送" url="sendToSFTP" confirmation="确定要发送吗？"> <parameter name="ttfId" /> </link> </default-field> </field> -->
 		</form-list>
 	</widgets>

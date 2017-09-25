@@ -181,6 +181,21 @@
 			</if>
 		</actions>
 	</service>
+	<service verb="exportTransactionTrialFile" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="projectCode" required="true" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<actions>
+			<script location="component://finance/service/finance/ExportTransactionTrialFile.groovy" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">导出失败</message>
+				</then>
+
+			</if>
+		</actions>
+	</service>	
 	<service verb="create" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="kaitongOrderNumber" required="false" />

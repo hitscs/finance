@@ -8,6 +8,10 @@
 		<service-call name="FinanceServices.importFromSFTP#TransactionTrialFile" />
 		<default-response url="." />
 	</transition>
+	<transition name="exportTransactionTrialFile">
+		<service-call name="FinanceServices.exportTransactionTrialFile#TransactionTrialFile" />
+		<default-response url="." />
+	</transition>	
 	<actions>
 		<entity-find entity-name="TransactionTrialFileMeta" list="transactionTrialFileMetaList">
 			<search-form-inputs />
@@ -16,6 +20,34 @@
 	<widgets>
 		<container>
 			<link url="importFromSFTP" text="导入交易试算文件" />
+			<container-dialog id="ExportTransactionTrialFileDialog" button-text="导出交易试算文件">
+				<form-single name="ExportTransactionTrialFileForm" transition="exportTransactionTrialFile">
+					<field name="projectCode">
+						<default-field title="项目编号：">
+							<text-line size="20" />
+						</default-field>
+					</field>
+					<field name="versionNo">
+						<default-field title="版本号：">
+							<text-line size="20" />
+						</default-field>
+					</field>
+					<field name="submitButton">
+						<default-field title="提交">
+							<submit />
+						</default-field>
+					</field>
+					<field-layout>
+						<field-row>
+							<field-ref name="projectCode" />
+							<field-ref name="versionNo" />
+						</field-row>
+						<field-row>
+							<field-ref name="submitButton" />
+						</field-row>
+					</field-layout>
+				</form-single>
+			</container-dialog>
 		</container>
 		<form-list name="TransactionTrialFileMeta" list="transactionTrialFileMetaList" transition="findTransactionTrialFileMeta" multi="false">
 			<field name="projectCode">

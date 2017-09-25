@@ -11,7 +11,7 @@
 		<service-call name="FinanceServices.importFromSFTP#CustomersSold" />
 		<default-response url="." />
 	</transition>
-		<transition name="exportCustomersSold">
+	<transition name="exportCustomersSold">
 		<service-call name="FinanceServices.exportCustomersSold#CustomersSold" />
 		<default-response url="." />
 	</transition>

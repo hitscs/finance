@@ -38,12 +38,12 @@ if(resultsFileList.size() == 0){
 
 		Map map=list.get(0)
 		InputStream instream =map.get("fileContent");
-        BufferedReader br = new BufferedReader(new InputStreamReader(instream,"UTF-8"));
-        StringBuffer resBuffer = new StringBuffer();  
-        String resTemp = "";  
-        while((resTemp = br.readLine()) != null){  
-            resBuffer.append(resTemp+"\r\n");  
-        }  
+		BufferedReader br = new BufferedReader(new InputStreamReader(instream,"UTF-8"));
+		StringBuffer resBuffer = new StringBuffer();
+		String resTemp = "";
+		while((resTemp = br.readLine()) != null){
+			resBuffer.append(resTemp+"\r\n");
+		}
 		br.close()
 		instream.close()
 		def response = ec.web.response

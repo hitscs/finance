@@ -22,9 +22,38 @@
 	</actions>
 	<widgets>
 		<container>
-			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/> -->
+			<link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/>
 			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
 			<link url="importCustomersSold" text="导入客户销售列表" />
+			<container-dialog id="ExportCustomersSoldDialog" button-text="导入客户销售列表测试">
+				<form-single name="ExportCustomersSoldForm" transition="exportCustomersSold">
+					<field name="projectCode">
+						<default-field title="项目编号：">
+							<text-line size="20" />
+						</default-field>
+					</field>
+					<field name="versionNo">
+						<default-field title="版本号：">
+							<text-line size="20" />
+						</default-field>
+					</field>
+					<field name="submitButton">
+						<default-field title="提交">
+							<submit />
+						</default-field>
+					</field>
+					<field-layout>
+						<field-row>
+							<field-ref name="projectCode" />
+							<field-ref name="versionNo" />
+						</field-row>
+						<field-row>
+							<field-ref name="submitButton" />
+						</field-row>
+					</field-layout>
+				</form-single>
+			</container-dialog>			
+			
 			<container-dialog id="ExportCustomersSoldDialog" button-text="导出客户销售列表">
 				<form-single name="ExportCustomersSoldForm" transition="exportCustomersSold">
 					<field name="projectCode">

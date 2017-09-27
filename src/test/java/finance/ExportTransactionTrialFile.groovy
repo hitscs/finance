@@ -52,4 +52,11 @@ class ExportTransactionTrialFile {
 						fileName=projectCode+"_交易试算文件_"+versionNo+".txt"
 						SftpUtil.uploadFileInputStream(para, instream,fileName)
 	}
+	
+	@Test
+	public void test(){
+	double d = 3.1495926;
+	d =Math.floor(d*100)/100;
+	println d
+	}
 }

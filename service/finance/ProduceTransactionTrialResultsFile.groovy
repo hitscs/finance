@@ -31,7 +31,10 @@ for(EntityValue customersSold:customersSoldList){
 
 	EntityValue transactionTrialResultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
 
-
+    double repaymentInterest=Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
+	double totalRepaymentAmount=Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
+	repaymentInterest =Math.floor(repaymentInterest*100)/100;
+	totalRepaymentAmount =Math.floor(totalRepaymentAmount*100)/100;
 	transactionTrialResultsFile.put("kaitongOrderNumber", "")
 	transactionTrialResultsFile.put("orgOrderNumber", customersSold.get("transactionId"))
 	transactionTrialResultsFile.put("productCode", projectCode)
@@ -40,27 +43,27 @@ for(EntityValue customersSold:customersSoldList){
 	transactionTrialResultsFile.put("passportNo", customersSold.get("certificateNumber"))
 	transactionTrialResultsFile.put("institutionId", "")
 	transactionTrialResultsFile.put("repaymentPrincipal", customersSold.get("assetShare"))
-	transactionTrialResultsFile.put("repaymentInterest", Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/365*Double.parseDouble(customersSold.get("daysOfYear").toString()))
-	transactionTrialResultsFile.put("totalRepaymentAmount", Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/365*Double.parseDouble(customersSold.get("daysOfYear").toString()))
+	transactionTrialResultsFile.put("repaymentInterest", repaymentInterest)
+	transactionTrialResultsFile.put("totalRepaymentAmount", totalRepaymentAmount)
 	transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
 
 
 	sum=sum+transactionTrialResultsFile.totalRepaymentAmount
 	def treatmentResult="0"
-	for(EntityValue file:trialFileList){
-		if(file.get("orgOrderNumber").equals(customersSold.get("transactionId"))){
-			if(!transactionTrialResultsFile.get("repaymentPrincipal").equals(file.get("repaymentPrincipal"))||
-			   !transactionTrialResultsFile.get("repaymentInterest").equals(file.get("repaymentInterest"))||
-			   !transactionTrialResultsFile.get("totalRepaymentAmount").equals(file.get("totalRepaymentAmount"))||
-			   !transactionTrialResultsFile.get("paymentDueDay").equals(file.get("paymentDueDay"))||
-			   !transactionTrialResultsFile.get("passportNo").equals(file.get("passportNo"))||
-			   !transactionTrialResultsFile.get("passportType").equals(file.get("passportType"))||
-			   !transactionTrialResultsFile.get("customerName").equals(file.get("customerName"))){
-			   treatmentResult="1"
-			   treatmentResultAll="1"
-			}
-		}
-	}
+//	for(EntityValue file:trialFileList){
+//		if(file.get("orgOrderNumber").equals(customersSold.get("transactionId"))){
+//			if(!transactionTrialResultsFile.get("repaymentPrincipal").equals(file.get("repaymentPrincipal"))||
+//			   !transactionTrialResultsFile.get("repaymentInterest").equals(file.get("repaymentInterest"))||
+//			   !transactionTrialResultsFile.get("totalRepaymentAmount").equals(file.get("totalRepaymentAmount"))||
+//			   !transactionTrialResultsFile.get("paymentDueDay").equals(file.get("paymentDueDay"))||
+//			   !transactionTrialResultsFile.get("passportNo").equals(file.get("passportNo"))||
+//			   !transactionTrialResultsFile.get("passportType").equals(file.get("passportType"))||
+//			   !transactionTrialResultsFile.get("customerName").equals(file.get("customerName"))){
+//			   treatmentResult="1"
+//			   treatmentResultAll="1"
+//			}
+//		}
+//	}
 	transactionTrialResultsFile.put("treatmentResult", treatmentResult)
 	//transactionTrialResultsFile.put("isRedeem", 0)//不确定
 	transactionTrialResultsFile.put("projectCode", projectCode)
@@ -75,10 +78,10 @@ EntityValue transactionTrialResultsFileMeta =ec.entity.makeValue("finance.produc
 transactionTrialResultsFileMeta.put("productCode",projectCode)//产品代码
 transactionTrialResultsFileMeta.put("totalRoll",customersSoldList.size())//总笔数
 transactionTrialResultsFileMeta.put("totalMoney",sum)//总金额
-if(!transactionTrialResultsFileMeta.get("totalRoll").equals(fileMeta.get("totalRoll"))||
-   !transactionTrialResultsFileMeta.get("totalMoney").equals(fileMeta.get("totalMoney"))){
-	treatmentResultAll="1"
-}
+//if(!transactionTrialResultsFileMeta.get("totalRoll").equals(fileMeta.get("totalRoll"))||
+//   !transactionTrialResultsFileMeta.get("totalMoney").equals(fileMeta.get("totalMoney"))){
+//	treatmentResultAll="1"
+//}
 
 
 transactionTrialResultsFileMeta.put("treatmentResult",treatmentResultAll)//

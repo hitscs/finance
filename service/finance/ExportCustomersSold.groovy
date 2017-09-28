@@ -29,7 +29,7 @@ if(customersSoldList.size() == 0){
 	EntityValue customersSold =customersSoldList.get(0)
 	para.downloadPath = "/home/"+instId+"/upload/"+customersSold.get("importDate")+"/";
 
-	String filename = projectCode+"_客户明细销售表_"+versionNo;
+	String filename = projectCode.trim()+"_客户明细销售表_"+versionNo.trim();
 
 
 	List list=SftpUtil.downloadFilesAsInputStreamByName(para,filename)

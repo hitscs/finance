@@ -22,19 +22,14 @@
 	</actions>
 	<widgets>
 		<container>
-			<link url="ArtifactHitSummaryStats.csv" text="Get as CSV"/>
+			<link url="ArtifactHitSummaryStats.csv" text="Get as CSV" />
 			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
-			<link url="importCustomersSold" text="导入客户销售列表" />
-			<container-dialog id="ExportCustomersSoldDialog" button-text="导入客户销售列表测试">
-				<form-single name="ExportCustomersSoldForm" transition="exportCustomersSold">
-					<field name="projectCode">
-						<default-field title="项目编号：">
-							<text-line size="20" />
-						</default-field>
-					</field>
-					<field name="versionNo">
-						<default-field title="版本号：">
-							<text-line size="20" />
+			<!-- <link url="importCustomersSold" text="导入客户销售列表" /> -->
+			<container-dialog id="ImportCustomersSoldDialog" button-text="导入客户销售列表测试">
+				<form-single name="ImportCustomersSoldForm" transition="importCustomersSold">
+					<field name="importDate">
+						<default-field title="导入日期：">
+							<date-time type="date" format="yyyyMMdd" />
 						</default-field>
 					</field>
 					<field name="submitButton">
@@ -44,16 +39,14 @@
 					</field>
 					<field-layout>
 						<field-row>
-							<field-ref name="projectCode" />
-							<field-ref name="versionNo" />
+							<field-ref name="importDate" />
 						</field-row>
 						<field-row>
 							<field-ref name="submitButton" />
 						</field-row>
 					</field-layout>
 				</form-single>
-			</container-dialog>			
-			
+			</container-dialog>
 			<container-dialog id="ExportCustomersSoldDialog" button-text="导出客户销售列表">
 				<form-single name="ExportCustomersSoldForm" transition="exportCustomersSold">
 					<field name="projectCode">

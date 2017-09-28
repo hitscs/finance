@@ -15,8 +15,8 @@ para.port = 22;
 
 ExecutionContext ec = context.ec
 
-def importDate=DateUtils.getNowTime("yyyyMMdd")
-
+//def importDate=DateUtils.getNowTime("yyyyMMdd")
+importDate=importDate.replace("-", "")
 def instId="hezuo"
 
 para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
@@ -31,8 +31,12 @@ for(Map map:list){
 	String fileName=map.get("fileName");
 	if(fileName.contains(str)){
 		EntityList resultsFileList = ec.entity.find("finance.product.TransactionTrialFile").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
-		if(resultsFileList.size() >0)print "---------------------------已经成功导入过，不能再次导入"
-		if(resultsFileList.size() == 0){
+		if(resultsFileList.size() >0){
+			ec.entity.find("finance.product.TransactionTrialFileMeta").condition("instId", instId).condition("fileName", fileName).deleteAll()
+			ec.entity.find("finance.product.TransactionTrialFile").condition("instId", instId).condition("fileName", fileName).deleteAll()
+			println "---------------------------删除文件名为--$fileName--的记录------------------------------------"
+		}
+		//if(resultsFileList.size() == 0){
 			String[] fileNameSplit=fileName.split("_")
 			InputStream instream =map.get("fileContent");
 
@@ -96,6 +100,6 @@ for(Map map:list){
 				}
 			}
 			reader.close();
-		}
+		//}
 	}
 }

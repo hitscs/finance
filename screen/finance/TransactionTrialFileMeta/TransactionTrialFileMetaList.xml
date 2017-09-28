@@ -19,7 +19,29 @@
 	</actions>
 	<widgets>
 		<container>
-			<link url="importFromSFTP" text="导入交易试算文件" />
+			<!-- <link url="importFromSFTP" text="导入交易试算文件" /> -->
+			<container-dialog id="ImportTransactionTrialFileDialog" button-text="导入客户销售列表">
+				<form-single name="ImportTransactionTrialFileForm" transition="importFromSFTP">
+					<field name="importDate">
+						<default-field title="导入日期：">
+							<date-time type="date" format="yyyyMMdd" />
+						</default-field>
+					</field>
+					<field name="submitButton">
+						<default-field title="提交">
+							<submit />
+						</default-field>
+					</field>
+					<field-layout>
+						<field-row>
+							<field-ref name="importDate" />
+						</field-row>
+						<field-row>
+							<field-ref name="submitButton" />
+						</field-row>
+					</field-layout>
+				</form-single>
+			</container-dialog>			
 			<container-dialog id="ExportTransactionTrialFileDialog" button-text="导出交易试算文件">
 				<form-single name="ExportTransactionTrialFileForm" transition="exportTransactionTrialFile">
 					<field name="projectCode">

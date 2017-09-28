@@ -15,12 +15,11 @@ para.port = 22;
 
 ExecutionContext ec = context.ec
 
-def importDate=DateUtils.getNowTime("yyyyMMdd")
-
+//def importDate=DateUtils.getNowTime("yyyyMMdd")
+importDate=importDate.replace("-", "")
 def instId="hezuo"
 
 para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
-
 String str = "客户明细销售表";
 
 
@@ -31,8 +30,14 @@ for(Map map:list){
 	String fileName=map.get("fileName");
 	//if(fileName.contains(str)){
 		EntityList customersSoldList = ec.entity.find("finance.product.CustomersSold").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
-		if(customersSoldList.size() >0)println "---------------------------已经成功导入过，不能再次导入------------------------------------"
-		if(customersSoldList.size() == 0){
+		if(customersSoldList.size() >0){
+			EntityValue customers=customersSoldList.getAt(0)
+			//println "-----------------------------------"+customers.projectCode+"------------------------------------"
+			ec.entity.find("finance.product.CustomersSold").condition("instId", instId).condition("fileName", fileName).deleteAll()
+			ec.entity.find("finance.product.RegisterResultsFile").condition("projectCode", customers.projectCode).condition("versionNo", customers.versionNo).deleteAll()
+			println "---------------------------删除文件名为--$fileName--的记录------------------------------------"
+		}
+		//if(customersSoldList.size() == 0){
 			String[] fileNameSplit=fileName.split("_")
 			InputStream instream =map.get("fileContent");
 
@@ -78,7 +83,7 @@ for(Map map:list){
 					customersSold.put("importDate",importDate)//导入时间（文件夹名）
 					//customersSold.put("productCode",fileNameSplit[0])//产品代码
 					customersSold.put("projectCode",fileNameSplit[0])//与互联网合作项目的编号
-					println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
+					//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
 					customersSold.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 
 					customersSold.create()
@@ -116,6 +121,6 @@ for(Map map:list){
 				}
 			}
 			reader.close();
-		}
+		//}
 	//}
 }

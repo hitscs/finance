@@ -29,7 +29,7 @@ if(resultsFileList.size() == 0){
 	EntityValue resultsFile =resultsFileList.get(0)
 	para.downloadPath = "/home/"+instId+"/upload/"+resultsFile.get("importDate")+"/";
 
-	String filename = projectCode+"_交易试算文件_"+versionNo;
+	String filename = projectCode.trim()+"_交易试算文件_"+versionNo.trim();
 
 
 	List list=SftpUtil.downloadFilesAsInputStreamByName(para,filename)

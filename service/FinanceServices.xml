@@ -154,6 +154,9 @@
 		</actions>
 	</service>
 	<service verb="importFromSFTP" noun="CustomersSold" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="importDate" required="true" />
+		</in-parameters>
 		<actions>
 			<script location="component://finance/service/finance/ImportCustomersSold.groovy" />
 			<if condition="ec.message.hasError()">
@@ -287,6 +290,9 @@
 		</actions>
 	</service>
 	<service verb="importFromSFTP" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
+		<in-parameters>
+			<parameter name="importDate" required="true" />
+		</in-parameters>	
 		<actions>
 			<script location="component://finance/service/finance/ImportTransactionTrialFile.groovy" />
 			<if condition="ec.message.hasError()">

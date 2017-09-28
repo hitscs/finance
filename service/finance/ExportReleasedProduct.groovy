@@ -48,5 +48,5 @@ para.uploadPath =makeDir
 
 InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
 
-fileName=product.projectCode+"_产品发布文件_"+product.versionNo+".txt"
+fileName=product.projectCode.trim()+"_产品发布文件_"+product.versionNo.trim()+".txt"
 SftpUtil.uploadFileInputStream(para, instream,fileName)

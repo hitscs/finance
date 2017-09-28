@@ -31,8 +31,8 @@ for(EntityValue customersSold:customersSoldList){
 
 	EntityValue transactionTrialResultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
 
-    double repaymentInterest=Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
-	double totalRepaymentAmount=Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(customersSold.get("yieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
+    double repaymentInterest=Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(releasedProduct.get("fixedYieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
+	double totalRepaymentAmount=Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(releasedProduct.get("fixedYieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
 	repaymentInterest =Math.floor(repaymentInterest*100)/100;
 	totalRepaymentAmount =Math.floor(totalRepaymentAmount*100)/100;
 	transactionTrialResultsFile.put("kaitongOrderNumber", "")

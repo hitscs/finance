@@ -50,3 +50,4 @@ InputStream instream = new ByteArrayInputStream(content.getBytes("UTF-8"));
 
 fileName=product.projectCode.trim()+"_产品发布文件_"+product.versionNo.trim()+".txt"
 SftpUtil.uploadFileInputStream(para, instream,fileName)
+para.release()

@@ -5,12 +5,12 @@ import com.finance.utils.DateUtils
 import com.finance.utils.SFTPParameter
 
 
-SFTPParameter para = new SFTPParameter();
-
-para.hostName = "127.0.0.1";
-para.userName = "sunmingjun";
-para.passWord = "sunmingjun";
-para.port = 22;
+//SFTPParameter para = new SFTPParameter();
+//
+//para.hostName = "127.0.0.1";
+//para.userName = "sunmingjun";
+//para.passWord = "sunmingjun";
+//para.port = 22;
 
 ExecutionContext ec = context.ec
 def uploadDate=DateUtils.getNowTime("yyyyMMdd")

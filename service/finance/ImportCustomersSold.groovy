@@ -124,3 +124,4 @@ for(Map map:list){
 		//}
 	//}
 }
+para.release()

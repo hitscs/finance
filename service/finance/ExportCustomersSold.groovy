@@ -63,5 +63,5 @@ if(customersSoldList.size() == 0){
 }
 
 
-
+para.release()
 

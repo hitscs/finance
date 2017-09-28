@@ -65,3 +65,4 @@ if(resultsFileList.size() == 0){
 
 
 
+para.release()

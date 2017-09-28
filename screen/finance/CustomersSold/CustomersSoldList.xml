@@ -22,10 +22,10 @@
 	</actions>
 	<widgets>
 		<container>
-			<link url="ArtifactHitSummaryStats.csv" text="Get as CSV" />
+			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV" /> -->
 			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
 			<!-- <link url="importCustomersSold" text="导入客户销售列表" /> -->
-			<container-dialog id="ImportCustomersSoldDialog" button-text="导入客户销售列表测试">
+			<container-dialog id="ImportCustomersSoldDialog" button-text="导入客户销售列表">
 				<form-single name="ImportCustomersSoldForm" transition="importCustomersSold">
 					<field name="importDate">
 						<default-field title="导入日期：">

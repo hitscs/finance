@@ -32,7 +32,7 @@ if(customersSoldList.size() == 0){
 	response.setCharacterEncoding("UTF-8");
 	def array = [(byte)0xef, (byte)0xbb, (byte)0xbf] as byte[]
 	
-	int len = 0;
+	//int len = 0;
 	OutputStream out = response.getOutputStream();
 	out.write(array);
 	

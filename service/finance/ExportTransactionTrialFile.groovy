@@ -26,39 +26,43 @@ if(resultsFileList.size() == 0){
 	ec.message.addError("输入的项目编号或版本号不正确，找不到所需文件")
 }else{
 
-	EntityValue resultsFile =resultsFileList.get(0)
-	para.downloadPath = "/home/"+instId+"/upload/"+resultsFile.get("importDate")+"/";
 
-	String filename = projectCode.trim()+"_交易试算文件_"+versionNo.trim();
-
-
-	List list=SftpUtil.downloadFilesAsInputStreamByName(para,filename)
-	if(list.size()>0){
-		//LineNumberReader reader ;
-
-		Map map=list.get(0)
-		InputStream instream =map.get("fileContent");
-		BufferedReader br = new BufferedReader(new InputStreamReader(instream,"UTF-8"));
-		StringBuffer resBuffer = new StringBuffer();
-		String resTemp = "";
-		while((resTemp = br.readLine()) != null){
-			resBuffer.append(resTemp+"\r\n");
-		}
-		br.close()
-		instream.close()
-		def response = ec.web.response
-
-		response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
-
-		ec.web.sendTextResponse(resBuffer.toString(), "text/xml", "filename")
-
-
-	}else{
-		ec.message.addError("SFTP未启动或者文件已被删除，找不到所需文件")
+	String filename = projectCode.trim()+"_交易试算文件_"+versionNo.trim()+".csv";
+	def response = ec.web.response
+	response.setContentType("application/csv;charset=UTF-8");
+	response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
+	response.setCharacterEncoding("UTF-8");
+	def array = [(byte)0xef, (byte)0xbb, (byte)0xbf] as byte[]
+	
+	//int len = 0;
+	OutputStream out = response.getOutputStream();
+	out.write(array);
+	
+	
+	def header="外贸信托订单号,机构订单号,产品代码,客户姓名,客户证件类别,客户证件编号,机构客户ID,还款本金,还款利息,还款总金额,到期还款日,是否赎回\r\n"
+	
+	out.write(header.getBytes("UTF-8"))
+	for(EntityValue resultsFile:resultsFileList){
+		def isRedeem=resultsFile.get("isRedeem")?resultsFile.get("isRedeem"):""
+		def value=""
+		value=value+resultsFile.get("kaitongOrderNumber")+","
+		value=value+resultsFile.get("orgOrderNumber")+","
+		value=value+resultsFile.get("productCode")+","
+		value=value+resultsFile.get("customerName")+","
+		value=value+resultsFile.get("passportType")+","
+		value=value+resultsFile.get("passportNo")+","
+		value=value+resultsFile.get("institutionId")+","
+		value=value+resultsFile.get("repaymentPrincipal")+","
+		value=value+resultsFile.get("repaymentInterest")+","
+		value=value+resultsFile.get("totalRepaymentAmount")+","
+		value=value+resultsFile.get("paymentDueDay")+","
+		value=value+isRedeem+"\r\n"
+		
+		out.write(value.getBytes("UTF-8"))
 	}
-
-
-
+	
+	
+	out.flush()
 
 }
 

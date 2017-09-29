@@ -25,39 +25,45 @@ EntityList customersSoldList = ec.entity.find("finance.product.CustomersSold").c
 if(customersSoldList.size() == 0){
 	ec.message.addError("输入的项目编号或版本号不正确，找不到所需文件")
 }else{
-
-	EntityValue customersSold =customersSoldList.get(0)
-	para.downloadPath = "/home/"+instId+"/upload/"+customersSold.get("importDate")+"/";
-
-	String filename = projectCode.trim()+"_客户明细销售表_"+versionNo.trim();
-
-
-	List list=SftpUtil.downloadFilesAsInputStreamByName(para,filename)
-	if(list.size()>0){
-		//LineNumberReader reader ;
-
-		Map map=list.get(0)
-		InputStream instream =map.get("fileContent");
-        BufferedReader br = new BufferedReader(new InputStreamReader(instream,"UTF-8"));
-        StringBuffer resBuffer = new StringBuffer();  
-        String resTemp = "";  
-        while((resTemp = br.readLine()) != null){  
-            resBuffer.append(resTemp+"\r\n");  
-        }  
-		br.close()
-		instream.close()
-		def response = ec.web.response
-
-		response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
-
-		ec.web.sendTextResponse(resBuffer.toString(), "text/xml", "filename")
-
-
-	}else{
-		ec.message.addError("SFTP未启动或者文件已被删除，找不到所需文件")
+	def response = ec.web.response
+	String filename = projectCode.trim()+"_客户明细销售表_"+versionNo.trim()+".csv";
+	response.setContentType("application/csv;charset=UTF-8");
+	response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
+	response.setCharacterEncoding("UTF-8");
+	def array = [(byte)0xef, (byte)0xbb, (byte)0xbf] as byte[]
+	
+	int len = 0;
+	OutputStream out = response.getOutputStream();
+	out.write(array);
+	
+	def header="交易编号,交易时间戳,资产份额,机构标志,证件类别,客户姓名,客户全称,证件编号,手机,性别,证件地址,电话,邮政编码,联系地址,风险承受级别,订单标识,计息年化天数,年化收益率\r\n"
+	out.write(header.getBytes("UTF-8"))
+	for(EntityValue customersSold:customersSoldList){
+		def value=""
+		value=value+customersSold.get("transactionId")+","
+		value=value+customersSold.get("transactionTime")+","
+		value=value+customersSold.get("assetShare")+","
+		value=value+customersSold.get("customerType")+","
+		value=value+customersSold.get("certificateType")+","
+		value=value+customersSold.get("username")+","
+		value=value+customersSold.get("userFullName")+","
+		value=value+customersSold.get("certificateNumber")+","
+		value=value+customersSold.get("cellPhone")+","
+		value=value+customersSold.get("sex")+","
+		value=value+customersSold.get("certificateAddress")+","
+		value=value+customersSold.get("telephone")+","
+		value=value+customersSold.get("postalcode")+","
+		value=value+customersSold.get("contactAddress")+","
+		value=value+customersSold.get("riskRating")+","
+		value=value+customersSold.get("orderId")+","
+		value=value+customersSold.get("daysOfYear")+","
+		value=value+customersSold.get("yieldRate")+"\r\n"
+		
+		out.write(value.getBytes("UTF-8"))
 	}
-
-
+	
+	
+	out.flush()
 
 
 }

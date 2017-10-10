@@ -32,7 +32,7 @@ if(customersSoldList.size() == 0){
 	response.setCharacterEncoding("UTF-8");
 	def array = [(byte)0xef, (byte)0xbb, (byte)0xbf] as byte[]
 	
-	//int len = 0;
+	int len = 0;
 	OutputStream out = response.getOutputStream();
 	out.write(array);
 	
@@ -40,15 +40,15 @@ if(customersSoldList.size() == 0){
 	out.write(header.getBytes("UTF-8"))
 	for(EntityValue customersSold:customersSoldList){
 		def value=""
-		value=value+customersSold.get("transactionId")+","
-		value=value+customersSold.get("transactionTime")+","
+		value=value+customersSold.get("transactionId")+"\t"+","
+		value=value+customersSold.get("transactionTime")+"\t"+","
 		value=value+customersSold.get("assetShare")+","
 		value=value+customersSold.get("customerType")+","
 		value=value+customersSold.get("certificateType")+","
 		value=value+customersSold.get("username")+","
 		value=value+customersSold.get("userFullName")+","
-		value=value+customersSold.get("certificateNumber")+","
-		value=value+customersSold.get("cellPhone")+","
+		value=value+customersSold.get("certificateNumber")+"\t"+","
+		value=value+customersSold.get("cellPhone")+"\t"+","
 		value=value+customersSold.get("sex")+","
 		value=value+customersSold.get("certificateAddress")+","
 		value=value+customersSold.get("telephone")+","

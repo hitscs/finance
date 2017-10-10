@@ -45,17 +45,17 @@ if(resultsFileList.size() == 0){
 	for(EntityValue resultsFile:resultsFileList){
 		def isRedeem=resultsFile.get("isRedeem")?resultsFile.get("isRedeem"):""
 		def value=""
-		value=value+resultsFile.get("kaitongOrderNumber")+","
-		value=value+resultsFile.get("orgOrderNumber")+","
-		value=value+resultsFile.get("productCode")+","
+		value=value+resultsFile.get("kaitongOrderNumber")+"\t"+","
+		value=value+resultsFile.get("orgOrderNumber")+"\t"+","
+		value=value+resultsFile.get("productCode")+"\t"+","
 		value=value+resultsFile.get("customerName")+","
 		value=value+resultsFile.get("passportType")+","
-		value=value+resultsFile.get("passportNo")+","
-		value=value+resultsFile.get("institutionId")+","
+		value=value+resultsFile.get("passportNo")+"\t"+","
+		value=value+resultsFile.get("institutionId")+"\t"+","
 		value=value+resultsFile.get("repaymentPrincipal")+","
 		value=value+resultsFile.get("repaymentInterest")+","
 		value=value+resultsFile.get("totalRepaymentAmount")+","
-		value=value+resultsFile.get("paymentDueDay")+","
+		value=value+resultsFile.get("paymentDueDay")+"\t"+","
 		value=value+isRedeem+"\r\n"
 		
 		out.write(value.getBytes("UTF-8"))

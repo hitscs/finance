@@ -18,7 +18,7 @@ def uploadDate=DateUtils.getNowTime("yyyyMMdd")
 def instId="hezuo"
 
 def treatmentResultAll="0"//
-BigDecimal sum=0.00
+BigDecimal sum=0
 String fileString="";
 
 EntityValue fileMeta
@@ -50,8 +50,10 @@ for(EntityValue customersSold:customersSoldList){
 	transactionTrialResultsFile.put("totalRepaymentAmount", totalRepaymentAmount)
 	transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
 
-
-	sum=sum.add(new BigDecimal(totalRepaymentAmount))
+println("----------totalRepaymentAmount:"+totalRepaymentAmount+"--------------")
+	sum=sum.add(new BigDecimal(String.valueOf(totalRepaymentAmount)))
+	//sum=sum+totalRepaymentAmount
+	println("----------sum:"+sum+"--------------")
 	def treatmentResult="0"
 //	for(EntityValue file:trialFileList){
 //		if(file.get("orgOrderNumber").equals(customersSold.get("transactionId"))){
@@ -80,6 +82,7 @@ EntityValue transactionTrialResultsFileMeta =ec.entity.makeValue("finance.produc
 
 transactionTrialResultsFileMeta.put("productCode",projectCode)//产品代码
 transactionTrialResultsFileMeta.put("totalRoll",customersSoldList.size())//总笔数
+//println("--------------------------"+sum+"-----------------------------------------")
 sum=sum.setScale(2,BigDecimal.ROUND_DOWN);
 transactionTrialResultsFileMeta.put("totalMoney",sum)//总金额
 //if(!transactionTrialResultsFileMeta.get("totalRoll").equals(fileMeta.get("totalRoll"))||

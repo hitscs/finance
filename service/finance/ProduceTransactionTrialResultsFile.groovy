@@ -25,8 +25,8 @@ EntityValue fileMeta
 if(trialFileMeta.size()==1){
 	fileMeta=trialFileMeta.get(0)
 }
-ec.entity.find("finance.product.TransactionTrialResultsFileMeta").condition("projectCode", customers.projectCode).condition("versionNo", customers.versionNo).deleteAll()
-ec.entity.find("finance.product.TransactionTrialResultsFile").condition("projectCode", customers.projectCode).condition("versionNo", customers.versionNo).deleteAll()
+ec.entity.find("finance.product.TransactionTrialResultsFileMeta").condition("projectCode", projectCode).condition("versionNo", versionNo).deleteAll()
+ec.entity.find("finance.product.TransactionTrialResultsFile").condition("projectCode", projectCode).condition("versionNo", versionNo).deleteAll()
 
 EntityValue releasedProduct = ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", projectCode).one()
 println customersSoldList.size()
@@ -80,6 +80,7 @@ EntityValue transactionTrialResultsFileMeta =ec.entity.makeValue("finance.produc
 
 transactionTrialResultsFileMeta.put("productCode",projectCode)//产品代码
 transactionTrialResultsFileMeta.put("totalRoll",customersSoldList.size())//总笔数
+sum=sum.setScale(2,BigDecimal.ROUND_DOWN);
 transactionTrialResultsFileMeta.put("totalMoney",sum)//总金额
 //if(!transactionTrialResultsFileMeta.get("totalRoll").equals(fileMeta.get("totalRoll"))||
 //   !transactionTrialResultsFileMeta.get("totalMoney").equals(fileMeta.get("totalMoney"))){

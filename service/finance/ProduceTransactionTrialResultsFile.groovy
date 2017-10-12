@@ -18,7 +18,7 @@ def uploadDate=DateUtils.getNowTime("yyyyMMdd")
 def instId="hezuo"
 
 def treatmentResultAll="0"//
-Float sum=0.00
+BigDecimal sum=0.00
 String fileString="";
 
 EntityValue fileMeta
@@ -48,7 +48,7 @@ for(EntityValue customersSold:customersSoldList){
 	transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
 
 
-	sum=sum+transactionTrialResultsFile.totalRepaymentAmount
+	sum=sum.add(new BigDecimal(totalRepaymentAmount))
 	def treatmentResult="0"
 //	for(EntityValue file:trialFileList){
 //		if(file.get("orgOrderNumber").equals(customersSold.get("transactionId"))){

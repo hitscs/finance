@@ -161,10 +161,10 @@
 			<script location="component://finance/service/finance/ImportCustomersSold.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
-					<message error="true">获取失败</message>
+					<message error="true"/>
 				</then>
 				<else>
-					<message>${message}</message>
+					<message>导入成功</message>
 				</else>
 			</if>
 		</actions>
@@ -297,10 +297,10 @@
 			<script location="component://finance/service/finance/ImportTransactionTrialFile.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
-					<message error="true">获取失败</message>
+					<message error="true"/>
 				</then>
 				<else>
-					<message error="false">${message}</message>
+					<message >导入成功</message>
 				</else>
 			</if>
 		</actions>

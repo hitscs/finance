@@ -21,7 +21,7 @@ def instId="hezuo"
 
 para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
 String str = "客户明细销售表";
-
+String massage=""
 
 List list=SftpUtil.downloadFilesAsInputStreamByName(para,str)
 
@@ -121,7 +121,9 @@ for(Map map:list){
 				}
 			}
 			reader.close();
+			massage=massage+"-成功导入：$fileName-"
 		//}
 	//}
 }
+if(massage.equals(""))massage="文件不存在!"
 para.release()

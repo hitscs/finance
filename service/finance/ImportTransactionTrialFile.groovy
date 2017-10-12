@@ -23,13 +23,15 @@ para.downloadPath = "/home/"+instId+"/upload/"+importDate+"/";
 
 String str = "交易试算文件";
 
+String massage=""
 
 List list=SftpUtil.downloadFilesAsInputStreamByName(para,str)
 
 LineNumberReader reader ;
 for(Map map:list){
 	String fileName=map.get("fileName");
-	if(fileName.contains(str)){
+	//if(fileName.contains(str)){
+		
 		EntityList resultsFileList = ec.entity.find("finance.product.TransactionTrialFile").condition("instId", instId).condition("importDate", importDate).condition("fileName", fileName).list()
 		if(resultsFileList.size() >0){
 			ec.entity.find("finance.product.TransactionTrialFileMeta").condition("instId", instId).condition("fileName", fileName).deleteAll()
@@ -101,6 +103,9 @@ for(Map map:list){
 			}
 			reader.close();
 		//}
-	}
+			massage=massage+"-成功导入：$fileName-"
+	//}
 }
+if(massage.equals(""))massage="文件不存在!"
+
 para.release()

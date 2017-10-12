@@ -164,7 +164,7 @@
 					<message error="true">获取失败</message>
 				</then>
 				<else>
-					<message>获取成功</message>
+					<message>${message}</message>
 				</else>
 			</if>
 		</actions>
@@ -300,7 +300,7 @@
 					<message error="true">获取失败</message>
 				</then>
 				<else>
-					<message>获取成功</message>
+					<message error="false">${message}</message>
 				</else>
 			</if>
 		</actions>

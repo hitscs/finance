@@ -25,6 +25,9 @@ EntityValue fileMeta
 if(trialFileMeta.size()==1){
 	fileMeta=trialFileMeta.get(0)
 }
+ec.entity.find("finance.product.TransactionTrialResultsFileMeta").condition("projectCode", customers.projectCode).condition("versionNo", customers.versionNo).deleteAll()
+ec.entity.find("finance.product.TransactionTrialResultsFile").condition("projectCode", customers.projectCode).condition("versionNo", customers.versionNo).deleteAll()
+
 EntityValue releasedProduct = ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", projectCode).one()
 println customersSoldList.size()
 for(EntityValue customersSold:customersSoldList){

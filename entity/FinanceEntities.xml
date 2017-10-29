@@ -23,8 +23,8 @@
         <field name="riskEvaluation" type="number-integer" not-null="true"><description>是否需要风险评测（0：需要；1：不需要）</description></field>
         <field name="riskRating" type="text-medium"  not-null="false" default=""><description>产品风险等级（不需要风险评测时置空；L:安全；ML：保守；M：稳健；MH：积极；H：激进）</description></field>
         
-        <field name="numberOfDays" type="text-medium"  not-null="true"><description>产品期限（天）</description></field>
-        <field name="daysOfYear" type="text-medium"  not-null="true"><description>年化天数（365：按照一年365天计息；360：按照一年360天计息）</description></field>
+        <field name="numberOfDays" type="number-integer"  not-null="true"><description>产品期限（天）</description></field>
+        <field name="daysOfYear" type="number-integer"  not-null="true"><description>年化天数（365：按照一年365天计息；360：按照一年360天计息）</description></field>
         <field name="interestDate" type="date"  not-null="true"><description>起息日（20150421）</description></field>        
         <field name="maturityDate" type="date"  not-null="true"><description>到期日（20151211）</description></field>
         <field name="paymentDueDay" type="date"  not-null="true"><description>到期还款日（20151211）</description></field>
@@ -32,11 +32,11 @@
         <field name="fixedYieldRate" type="number-float"><description>固定年化收益率（固定收益类产品必填，如：0.071）</description></field>
         <field name="floatingYieldRate" type="number-float"><description>浮动年化收益率（浮动收益类产品必填，如：0.068-0.075）</description></field>
         
-        <field name="totalAmountToRaise" type="text-medium" not-null="true"><description>募集总金额</description></field>
+        <field name="totalAmountToRaise" type="number-decimal" not-null="true"><description>募集总金额</description></field>
         
-        <field name="minAmountToRaise" type="text-medium" not-null="true"><description>最低募集成功金额</description></field>
-        <field name="minimumMoney" type="text-medium" not-null="true"><description>起售金额</description></field>        
-        <field name="perMoney" type="text-medium" not-null="true"><description>单位加价金额</description></field>
+        <field name="minAmountToRaise" type="number-decimal" not-null="true"><description>最低募集成功金额</description></field>
+        <field name="minimumMoney" type="number-decimal" not-null="true"><description>起售金额</description></field>        
+        <field name="perMoney" type="number-decimal" not-null="true"><description>单位加价金额</description></field>
         
         
         <field name="startTime" type="date-time" not-null="true"><description>上架时间</description></field>

@@ -171,7 +171,7 @@
 			</field>
 			<field name="fixedYieldRate">
 				<default-field title="固定年化收益率：">
-					<text-line size="20" />
+					<text-line size="20"/>
 				</default-field>
 			</field>
 			<field name="floatingYieldRate">

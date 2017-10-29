@@ -3,10 +3,10 @@
 
 
 <!--     <moqui.screen.SubscreensItem screenLocation="component://root/screen/root.xml"
-            subscreenName="finance" userGroupId="ALL_USERS" menuTitle="外贸信托投资" menuIndex="40" menuInclude="Y"
+            subscreenName="finance" userGroupId="ALL_USERS" menuTitle="德鑫融和" menuIndex="40" menuInclude="Y"
             subscreenLocation="component://finance/screen/finance.xml"/> -->
 
-    <moqui.security.ArtifactGroup artifactGroupId="FINANCE_APP" description="外贸信托投资"/>
+    <moqui.security.ArtifactGroup artifactGroupId="FINANCE_APP" description="德鑫融和"/>
     <moqui.security.ArtifactGroupMember artifactGroupId="FINANCE_APP" artifactTypeEnumId="AT_XML_SCREEN"
             inheritAuthz="Y" artifactName="component://finance/screen/finance.xml"/>
 

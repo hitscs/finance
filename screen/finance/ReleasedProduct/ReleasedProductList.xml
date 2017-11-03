@@ -41,41 +41,41 @@
 						<hidden />
 					</default-field>
 				</field>
-				<field name="pseudoId">
-					<default-field title="产品编码：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="productName">
-					<default-field title="产品名称：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="provider">
-					<default-field title="产品提供方：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="productType">
-					<default-field title="产品类型：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="publisher">
-					<default-field title="发行方：">
-						<text-line size="50" />
-					</default-field>
-				</field>
-				<field name="publisherTradingCertificate">
-					<default-field title="发行方营业执照：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="publisherBank">
-					<default-field title="发行方开户银行：">
-						<text-line size="20" />
-					</default-field>
-				</field>
+			<field name="pseudoId">
+				<default-field title="产品编码：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="productName">
+				<default-field title="产品名称：">
+					<text-line size="20"  default-value="和鑫宝A005期"/>
+				</default-field>
+			</field>
+			<field name="provider">
+				<default-field title="产品提供方：">
+					<text-line size="20" default-value="德鑫融和"/>
+				</default-field>
+			</field>
+			<field name="productType">
+				<default-field title="产品类型：">
+					<text-line size="20" default-value="理财产品"/>
+				</default-field>
+			</field>
+			<field name="publisher">
+				<default-field title="发行方：">
+					<text-line size="50" default-value="中国对外经济贸易信托有限公司"/>
+				</default-field>
+			</field>
+			<field name="publisherTradingCertificate">
+				<default-field title="发行方营业执照：">
+					<text-line size="20" default-value="91110000100006653M"/>
+				</default-field>
+			</field>
+			<field name="publisherBank">
+				<default-field title="发行方开户银行：">
+					<text-line size="20" default-value="招商银行"/>
+				</default-field>
+			</field>
 				<field name="province">
 					<default-field title="所属省：">
 						<drop-down>
@@ -97,166 +97,166 @@
 						</drop-down>
 					</default-field>
 				</field>
-				<field name="publisherBranchBank">
-					<default-field title="发行方开户分支银行：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="publisherBankAccount">
-					<default-field title="发行方银行账户：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="riskInstruction">
-					<default-field title="产品风险说明：">
-						<text-area />
-					</default-field>
-				</field>
-				<field name="earningInstruction">
-					<default-field title="产品收益说明：">
-						<text-area />
-					</default-field>
-				</field>
-				<field name="description">
-					<default-field title="产品描述：">
-						<text-area />
-					</default-field>
-				</field>
-				<field name="riskEvaluation">
-					<default-field title="是否需要风险评测：">
-						<drop-down>
-							<option key="0" text="需要" />
-							<option key="1" text="不需要" />
-						</drop-down>
-					</default-field>
-				</field>
-				<field name="riskRating">
-					<default-field title="产品风险等级：">
-						<drop-down allow-empty="true">
-							<option key="L" text="安全" />
-							<option key="ML" text="保守" />
-							<option key="M" text="稳健" />
-							<option key="MH" text="积极" />
-							<option key="H" text="激进" />
-						</drop-down>
-					</default-field>
-				</field>
-				<field name="numberOfDays">
-					<default-field title="产品期限（天）：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="daysOfYear">
-					<default-field title="年化天数：">
-						<drop-down>
-							<option key="365" text="365" />
-							<option key="360" text="360" />
-						</drop-down>
-					</default-field>
-				</field>
-				<field name="interestDate">
-					<default-field title="起息日：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="maturityDate">
-					<default-field title="到期日：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="revenueType">
-					<default-field title="收益类型：">
-						<drop-down>
-							<option key="1" text="保本保息" />
-							<option key="2" text="保低预期" />
-							<option key="3" text="保本预期" />
-							<option key="4" text="非保本预期" />
-							<option key="5" text="非保本浮动" />
-							<option key="6" text="保本浮动收益" />
-							<option key="7" text="保底" />
-						</drop-down>
-					</default-field>
-				</field>
-				<field name="fixedYieldRate">
-					<default-field title="固定年化收益率：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="floatingYieldRate">
-					<default-field title="浮动年化收益率：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="totalAmountToRaise">
-					<default-field title="募集总金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="minAmountToRaise">
-					<default-field title="最低募集成功金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="minimumMoney">
-					<default-field title="起售金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="perMoney">
-					<default-field title="单位加价金额：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="startTime">
-					<default-field title="上架时间：">
-						<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
-					</default-field>
-				</field>
-				<field name="endTime">
-					<default-field title="下架时间：">
-						<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
-					</default-field>
-				</field>
-				<field name="paymentDueDay">
-					<default-field title="到期还款日：">
-						<date-time type="date" format="yyyy-MM-dd" />
-					</default-field>
-				</field>
-				<field name="remark">
-					<default-field title="备注：">
-						<text-area />
-					</default-field>
-				</field>
-				<field name="payBankAccount">
-					<default-field title="打款银行账户名称：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="productCategoryName">
-					<default-field title="大包产品名称：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field name="exchangeCode">
-					<default-field title="交易所代码：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-<!-- 				<field name="productRangeNumber">
-					<default-field title="产品系列编号：">
-						<text-line size="20" />
-					</default-field>
-				</field> -->
-<!-- 				<field name="projectCode">
-					<default-field title="项目编号：">
-						<text-line size="20" />
-					</default-field>
-				</field> -->
-				<field name="versionNo">
-					<default-field title="文件版本号：">
-						<text-line size="20" />
-					</default-field>
-				</field>
+			<field name="publisherBranchBank">
+				<default-field title="发行方开户分支银行：">
+					<text-line size="20" default-value="招商银行北京分行营业部"/>
+				</default-field>
+			</field>
+			<field name="publisherBankAccount">
+				<default-field title="发行方银行账户：">
+					<text-line size="20" default-value="955107000000014"/>
+				</default-field>
+			</field>
+			<field name="riskInstruction">
+				<default-field title="产品风险说明：">
+					<text-area default-value="投资有风险，详情请参考《产品说明》"/>
+				</default-field>
+			</field>
+			<field name="earningInstruction">
+				<default-field title="产品收益说明：">
+					<text-area default-value="实际收益率以产品到期结算收益为准"/>
+				</default-field>
+			</field>
+			<field name="description">
+				<default-field title="产品描述：">
+					<text-area default-value="0"/>
+				</default-field>
+			</field>
+			<field name="riskEvaluation">
+				<default-field title="是否需要风险评测：">
+					<drop-down>
+						<option key="0" text="需要" />
+						<option key="1" text="不需要" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="riskRating">
+				<default-field title="产品风险等级：">
+					<drop-down allow-empty="true">
+						<option key="L" text="安全" />
+						<option key="ML" text="保守" />
+						<option key="M" text="稳健" />
+						<option key="MH" text="积极" />
+						<option key="H" text="激进" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="numberOfDays">
+				<default-field title="产品期限（天）：">
+					<text-line size="20" default-value="35"/>
+				</default-field>
+			</field>
+			<field name="daysOfYear">
+				<default-field title="年化天数：">
+					<drop-down>
+						<option key="365" text="365" />
+						<option key="360" text="360" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="interestDate">
+				<default-field title="起息日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="maturityDate">
+				<default-field title="到期日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="paymentDueDay">
+				<default-field title="到期还款日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="revenueType">
+				<default-field title="收益类型：">
+					<drop-down>
+						<option key="1" text="保本保息" />
+						<option key="2" text="保低预期" />
+						<option key="3" text="保本预期" />
+						<option key="4" text="非保本预期" />
+						<option key="5" text="非保本浮动" />
+						<option key="6" text="保本浮动收益" />
+						<option key="7" text="保底" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="fixedYieldRate">
+				<default-field title="固定年化收益率：">
+					<text-line size="20" default-value="4.32"/>
+				</default-field>
+			</field>
+			<field name="floatingYieldRate">
+				<default-field title="浮动年化收益率：">
+					<text-line size="20" default-value="0"/>
+				</default-field>
+			</field>
+			<field name="totalAmountToRaise">
+				<default-field title="募集总金额：">
+					<text-line size="20" default-value="20000000"/>
+				</default-field>
+			</field>
+			<field name="minAmountToRaise">
+				<default-field title="最低募集成功金额：">
+					<text-line size="20" default-value="1000"/>
+				</default-field>
+			</field>
+			<field name="minimumMoney">
+				<default-field title="起售金额：">
+					<text-line size="20" default-value="1000"/>
+				</default-field>
+			</field>
+			<field name="perMoney">
+				<default-field title="单位加价金额：">
+					<text-line size="20" default-value="1000"/>
+				</default-field>
+			</field>
+			<field name="startTime">
+				<default-field title="上架时间：">
+					<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
+				</default-field>
+			</field>
+			<field name="endTime">
+				<default-field title="下架时间：">
+					<date-time type="timestamp" format="yyyy-MM-dd HH:mm:ss" />
+				</default-field>
+			</field>
+			<field name="remark">
+				<default-field title="备注：">
+					<text-area default-value=""/>
+				</default-field>
+			</field>
+			<field name="payBankAccount">
+				<default-field title="打款银行账户名称：">
+					<text-line size="20" default-value="招商银行北京分行营业部"/>
+				</default-field>
+			</field>
+			<field name="productCategoryName">
+				<default-field title="大包产品名称：">
+					<text-line size="20" default-value="0"/>
+				</default-field>
+			</field>
+			<field name="exchangeCode">
+				<default-field title="交易所代码：">
+					<text-line size="20" default-value="0"/>
+				</default-field>
+			</field>
+<!-- 			<field name="productRangeNumber">
+				<default-field title="产品系列编号：">
+					<text-line size="20" />
+				</default-field>
+			</field> -->
+<!-- 			<field name="projectCode">
+				<default-field title="项目编号：">
+					<text-line size="20" />
+				</default-field>
+			</field> -->
+			<field name="versionNo">
+				<default-field title="文件版本号：">
+					<text-line size="20" default-value="001"/>
+				</default-field>
+			</field>
 				<!-- <field name="requirePasswordChange"><default-field> <drop-down><option key="Y"/><option key="N"/></drop-down></default-field></field> -->
 				<field name="submitButton">
 					<default-field title="提交">

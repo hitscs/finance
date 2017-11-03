@@ -1,6 +1,9 @@
 package finance
 
 import static org.junit.Assert.*
+
+import javax.swing.text.html.CSS.StringValue
+
 import org.junit.Test
 import org.moqui.entity.EntityValue
 
@@ -57,6 +60,11 @@ class ExportTransactionTrialFile {
 	public void test(){
 	double d = 3.1495926;
 	d =Math.floor(d*100)/100;
+	BigDecimal sum=0
+	sum=sum.add(new BigDecimal(String.valueOf(d)))
+	sum=sum.setScale(2,BigDecimal.ROUND_DOWN);
 	println d
+	println sum
+	
 	}
 }

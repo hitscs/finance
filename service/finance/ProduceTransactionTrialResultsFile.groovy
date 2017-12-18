@@ -34,10 +34,24 @@ for(EntityValue customersSold:customersSoldList){
 
 	EntityValue transactionTrialResultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
 
-    double repaymentInterest=Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(releasedProduct.get("fixedYieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
-	double totalRepaymentAmount=Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(releasedProduct.get("fixedYieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
-	repaymentInterest =Math.floor(repaymentInterest*100)/100;
-	totalRepaymentAmount =Math.floor(totalRepaymentAmount*100)/100;
+    //double repaymentInterest=Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(releasedProduct.get("fixedYieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
+	//double totalRepaymentAmount=Double.parseDouble(customersSold.get("assetShare").toString())+Double.parseDouble(customersSold.get("assetShare").toString())*Double.parseDouble(releasedProduct.get("fixedYieldRate").toString())/100/Double.parseDouble(customersSold.get("daysOfYear").toString())*Double.parseDouble(releasedProduct.get("numberOfDays").toString())
+	BigDecimal assetShare=new BigDecimal(customersSold.get("assetShare").toString())
+	BigDecimal fixedYieldRate=new BigDecimal(releasedProduct.get("fixedYieldRate").toString())
+	BigDecimal daysOfYear=new BigDecimal(customersSold.get("daysOfYear").toString())
+	BigDecimal numberOfDays=new BigDecimal(releasedProduct.get("numberOfDays").toString())
+	
+	BigDecimal repaymentInterest=assetShare.multiply(fixedYieldRate).multiply(numberOfDays).divide(new BigDecimal("100")).divide(daysOfYear,2,BigDecimal.ROUND_DOWN)
+	
+	BigDecimal totalRepaymentAmount=assetShare.add(repaymentInterest)
+
+		//repaymentInterest =Math.floor(repaymentInterest*100)/100;
+	//totalRepaymentAmount =Math.floor(totalRepaymentAmount*100)/100;
+	
+	
+	
+	//repaymentInterest.setScale(2,BigDecimal.ROUND_DOWN)
+	//totalRepaymentAmount.setScale(2,BigDecimal.ROUND_DOWN)
 	transactionTrialResultsFile.put("kaitongOrderNumber", "")
 	transactionTrialResultsFile.put("orgOrderNumber", customersSold.get("transactionId"))
 	transactionTrialResultsFile.put("productCode", projectCode)
@@ -46,12 +60,12 @@ for(EntityValue customersSold:customersSoldList){
 	transactionTrialResultsFile.put("passportNo", customersSold.get("certificateNumber"))
 	transactionTrialResultsFile.put("institutionId", "")
 	transactionTrialResultsFile.put("repaymentPrincipal", customersSold.get("assetShare"))
-	transactionTrialResultsFile.put("repaymentInterest", repaymentInterest)
-	transactionTrialResultsFile.put("totalRepaymentAmount", totalRepaymentAmount)
+	transactionTrialResultsFile.put("repaymentInterest", repaymentInterest.setScale(2,BigDecimal.ROUND_DOWN))
+	transactionTrialResultsFile.put("totalRepaymentAmount", totalRepaymentAmount.setScale(2,BigDecimal.ROUND_DOWN))
 	transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
 
-println("----------totalRepaymentAmount:"+totalRepaymentAmount+"--------------")
-	sum=sum.add(new BigDecimal(String.valueOf(totalRepaymentAmount)))
+println("----------totalRepaymentAmount:"+totalRepaymentAmount.setScale(2,BigDecimal.ROUND_DOWN)+"--------------")
+	sum=sum.add(totalRepaymentAmount.setScale(2,BigDecimal.ROUND_DOWN))
 	//sum=sum+totalRepaymentAmount
 	println("----------sum:"+sum+"--------------")
 	def treatmentResult="0"

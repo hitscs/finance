@@ -63,7 +63,7 @@
         long time1 = cal.getTimeInMillis();                 
         cal.setTime(eDate);    
         long time2 = cal.getTimeInMillis();         
-        Long between_days=(time2-time1)/(1000*3600*24);  
+        Long between_days=(time2-time1)/(1000*3600*24)+1;  
        if(!between_days.toString().equals(numberOfDays)){
            ec.message.addError("产品天数与日期不符")   
            return

@@ -43,6 +43,33 @@
 		<out-parameters>
 		</out-parameters>
 		<actions>
+			<script><![CDATA[
+		import java.text.SimpleDateFormat;
+        import java.util.Calendar;
+        import java.util.Date;
+        
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");  
+        Date sDate = null;
+        Date eDate = null;
+		try {
+			sDate = sdf.parse(interestDate);
+			eDate = sdf.parse(maturityDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(sDate);    
+        long time1 = cal.getTimeInMillis();                 
+        cal.setTime(eDate);    
+        long time2 = cal.getTimeInMillis();         
+        Long between_days=(time2-time1)/(1000*3600*24);  
+       if(!between_days.toString().equals(numberOfDays)){
+           ec.message.addError("产品天数与日期不符")   
+           return
+       }
+        
+		 ]]></script>
 			<service-call name="create#ReleasedProduct" out-map="context" in-map="context" />
 			<if condition="ec.message.hasError()">
 				<then>
@@ -139,10 +166,9 @@
 				<field-map field-name="geoId" from="product.city" />
 			</entity-find-one>
 			<script location="component://finance/service/finance/ExportReleasedProduct.groovy" />
-<!-- 			<script>product.put("isReleased", "1")</script>
-			<service-call name="update#ReleasedProduct" out-map="context" in-map="product" /> -->
-			<set field="product.isPublished" value="Y"/>
-			<entity-update value-field="product"/>
+			<!-- <script>product.put("isReleased", "1")</script> <service-call name="update#ReleasedProduct" out-map="context" in-map="product" /> -->
+			<set field="product.isPublished" value="Y" />
+			<entity-update value-field="product" />
 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">发送失败</message>
@@ -161,7 +187,7 @@
 			<script location="component://finance/service/finance/ImportCustomersSold.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
-					<message error="true"/>
+					<message error="true" />
 				</then>
 				<else>
 					<message>导入成功</message>
@@ -198,7 +224,7 @@
 
 			</if>
 		</actions>
-	</service>	
+	</service>
 	<service verb="create" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="kaitongOrderNumber" required="false" />
@@ -292,15 +318,15 @@
 	<service verb="importFromSFTP" noun="TransactionTrialFile" authenticate="anonymous-all" allow-remote="false">
 		<in-parameters>
 			<parameter name="importDate" required="true" />
-		</in-parameters>	
+		</in-parameters>
 		<actions>
 			<script location="component://finance/service/finance/ImportTransactionTrialFile.groovy" />
 			<if condition="ec.message.hasError()">
 				<then>
-					<message error="true"/>
+					<message error="true" />
 				</then>
 				<else>
-					<message >导入成功</message>
+					<message>导入成功</message>
 				</else>
 			</if>
 		</actions>

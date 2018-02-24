@@ -52,8 +52,8 @@
          <field name="versionNo" type="text-medium" not-null="true"><description>文件版本号</description></field>
          <field name="isPublished" type="text-medium" default="N"><description>已发布</description></field>
         
-        
-        
+        <!-- 2018.2.24新需求添加字段 -->
+        <field name="trialDate" type="date"  not-null="true"><description>试算日（20151211）</description></field>
         <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
     </entity>
     

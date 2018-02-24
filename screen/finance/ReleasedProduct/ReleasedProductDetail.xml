@@ -156,6 +156,11 @@
 					<date-time type="date" format="yyyy-MM-dd" />
 				</default-field>
 			</field>
+				<field name="trialDate">
+					<default-field title="试算日：">
+						<date-time type="date" format="yyyy-MM-dd" />
+					</default-field>
+				</field>			
 			<field name="revenueType">
 				<default-field title="收益类型：">
 					<drop-down>
@@ -229,16 +234,6 @@
 					<text-line size="20" />
 				</default-field>
 			</field>
-<!-- 			<field name="productRangeNumber">
-				<default-field title="产品系列编号：">
-					<text-line size="20" />
-				</default-field>
-			</field> -->
-<!-- 			<field name="projectCode">
-				<default-field title="项目编号：">
-					<text-line size="20" />
-				</default-field>
-			</field> -->
 			<field name="versionNo">
 				<default-field title="文件版本号：">
 					<text-line size="20" />
@@ -278,6 +273,7 @@
 				</field-row>
 				<field-row>
 					<field-ref name="description" />
+					<field-ref name="revenueType" />
 				</field-row>
 				<field-row>
 					<field-ref name="riskEvaluation" />
@@ -293,7 +289,7 @@
 				</field-row>
 				<field-row>
 					<field-ref name="paymentDueDay" />
-					<field-ref name="revenueType" />
+					<field-ref name="trialDate" />
 				</field-row>
 				<field-row>
 					<field-ref name="fixedYieldRate" />
@@ -318,10 +314,8 @@
 				</field-row>
 				<field-row>
 					<field-ref name="exchangeCode" />
-					<!-- <field-ref name="productRangeNumber" /> -->
 				</field-row>
 				<field-row>
-					<!-- <field-ref name="projectCode" /> -->
 					<field-ref name="versionNo" />
 				</field-row>
 				<field-ref name="submitButton" />

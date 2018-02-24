@@ -36,7 +36,7 @@
 			<parameter name="payBankAccount" required="true" />
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
-			<!-- <parameter name="productRangeNumber" required="true" /> -->
+			<parameter name="trialDate" required="true" />
 			<parameter name="projectCode" required="disabled" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
@@ -51,13 +51,10 @@
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");  
         Date sDate = null;
         Date eDate = null;
-		try {
+		
 			sDate = sdf.parse(interestDate);
 			eDate = sdf.parse(maturityDate);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
+
         Calendar cal = Calendar.getInstance();    
         cal.setTime(sDate);    
         long time1 = cal.getTimeInMillis();                 
@@ -118,8 +115,7 @@
 			<parameter name="payBankAccount" required="true" />
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
-			<!-- <parameter name="productRangeNumber" required="true" /> -->
-			<!-- <parameter name="projectCode" required="true" /> -->
+            <parameter name="trialDate" required="true" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
 		<out-parameters>

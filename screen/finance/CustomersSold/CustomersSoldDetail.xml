@@ -116,6 +116,12 @@
 				<default-field title="文件版本号：">
 					<text-line size="20" />
 				</default-field>
+			</field>			
+			<field name="score">
+				<default-field title="本单积分：">
+				<!-- <label text="${assetShare*20}"/> -->
+				<text-line size="20" default-value="${assetShare*20}" disabled="true"/>
+				</default-field>
 			</field>
 			<field-layout>
 				<field-row>
@@ -156,6 +162,7 @@
 				</field-row>
 				<field-row>
 					<field-ref name="yieldRate" />
+					<field-ref name="score" />
 				</field-row>
 				<field-row>
 					<field-ref name="projectCode" />

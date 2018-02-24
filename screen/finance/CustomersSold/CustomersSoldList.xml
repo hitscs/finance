@@ -22,9 +22,6 @@
 	</actions>
 	<widgets>
 		<container>
-			<!-- <link url="ArtifactHitSummaryStats.csv" text="Get as CSV" /> -->
-			<!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
-			<!-- <link url="importCustomersSold" text="导入客户销售列表" /> -->
 			<container-dialog id="ImportCustomersSoldDialog" button-text="导入客户销售列表">
 				<form-single name="ImportCustomersSoldForm" transition="importCustomersSold">
 					<field name="importDate">
@@ -97,7 +94,7 @@
 			</field>
 			<field name="orderId">
 				<header-field show-order-by="true" title="订单标识">
-					<text-find size="10" hide-options="true" />
+					<text-find size="2" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
@@ -119,6 +116,13 @@
 					<display />
 				</default-field>
 			</field>
+			<field name="score">
+				<header-field show-order-by="false" title="本单积分">
+				</header-field>
+				<default-field>
+					<link text="${assetShare*20}" url="customersSoldDetail" link-type="anchor"></link>
+				</default-field>
+			</field>			
 			<field name="versionNo">
 				<header-field show-order-by="true" title="版本号">
 					<text-find size="10" hide-options="true" />

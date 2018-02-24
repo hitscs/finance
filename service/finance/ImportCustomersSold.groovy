@@ -35,6 +35,7 @@ for(Map map:list){
 			ec.entity.find("finance.product.CustomersSold").condition("instId", instId).condition("fileName", fileName).deleteAll()
 			ec.entity.find("finance.product.RegisterResultsFile").condition("projectCode", customers.projectCode).condition("versionNo", customers.versionNo).deleteAll()
 			println "---------------------------删除文件名为--$fileName--的记录------------------------------------"
+
 		}
 		//if(customersSoldList.size() == 0){
 			String[] fileNameSplit=fileName.split("_")
@@ -97,31 +98,14 @@ for(Map map:list){
 					//println "--------------------------------------------------------------------产品代码:"+fileNameSplit[0]
 					registerResultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))//版本号
 					registerResultsFile.create()
-					//同时生成交易试算结果文件
-//					EntityValue transactionTrialResultsFile =ec.entity.makeValue("finance.product.TransactionTrialResultsFile").setSequencedIdPrimary()
-//					
-//					EntityValue releasedProduct = ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", fileNameSplit[0]).one()
-//					
-//					transactionTrialResultsFile.put("kaitongOrderNumber", "")
-//					transactionTrialResultsFile.put("orgOrderNumber", "")
-//					transactionTrialResultsFile.put("productCode", fileNameSplit[0])
-//					transactionTrialResultsFile.put("customerName", ss[5])
-//					transactionTrialResultsFile.put("passportType", ss[4])
-//					transactionTrialResultsFile.put("passportNo", ss[7])
-//					transactionTrialResultsFile.put("institutionId", "")
-//					transactionTrialResultsFile.put("repaymentPrincipal", ss[2])
-//					transactionTrialResultsFile.put("repaymentInterest", Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
-//					transactionTrialResultsFile.put("totalRepaymentAmount", Double.parseDouble(ss[2])+Double.parseDouble(ss[2])*Double.parseDouble(ss[17])/365*Double.parseDouble(ss[16]))
-//					transactionTrialResultsFile.put("paymentDueDay", releasedProduct.get("paymentDueDay"))
-//					//transactionTrialResultsFile.put("isRedeem", 0)//不确定
-//					transactionTrialResultsFile.put("projectCode", fileNameSplit[0])
-//					transactionTrialResultsFile.put("versionNo",fileNameSplit[2].replace(".txt", ""))
-//					transactionTrialResultsFile.create()
+
 				}
 			}
 			reader.close();
-		//}
-	//}
+//导入销售文件后，产品状态变更为已完成交易			
+			EntityValue releasedProduct=ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", fileNameSplit[0]).condition("versionNo", fileNameSplit[2]).one()
+			releasedProduct.status="1"
+			releasedProduct.update()
 }
 if(list.size()==0)
 	ec.message.addError("导入失败,找不到所需文件")

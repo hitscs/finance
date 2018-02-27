@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品"
+	default-menu-index="40">
+    <subscreens default-item="CompletedProductList"/>
+    <widgets>
+        <subscreens-active/>
+    </widgets>
+</screen>

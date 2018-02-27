@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-include="false">
+	<parameter name="productId" required="true" from="productId" />
+	<transition name="findReleasedProduct">
+		<default-response url="." />
+	</transition>
+	<transition name="updateReleasedProduct">
+		<service-call name="FinanceServices.update#ReleasedProduct" />
+		<default-response url="." />
+	</transition>
+	<transition name="getCityList">
+		<actions>
+			<entity-find entity-name="moqui.basic.GeoAssocAndToDetail" list="geoList">
+				<econdition field-name="geoId" from="province" />
+			</entity-find>
+			<script>ec.web.sendJsonResponse(geoList)</script>
+		</actions>
+		<default-response type="none" />
+	</transition>
+	<actions>
+		<entity-find-one entity-name="ReleasedProduct" value-field="releasedProduct" />
+	</actions>
+	<widgets>
+		<container-dialog button-text="新建投资信息" id="InvestmentInformationDialog">
+			<form-single name="InvestmentInformationForm">
+				<field name="productCode" from="pseudoId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="managementChannelId">
+					<default-field title="资管通道：">
+						<drop-down>
+							<entity-options key="${managementChannelId}" text="${managementChannelName}">
+								<entity-find entity-name="finance.product.ManagementChannel" list="managementChannelList">
+									<econdition field-name="active" value="Y" />
+								</entity-find>
+							</entity-options>
+							<list-options list="managementChannelList" key="${managementChannelId}" text="${managementChannelName}" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field name="assetSideId">
+					<default-field title="投向资产方：">
+						<drop-down>
+							<entity-options key="${assetSideId}" text="${assetSideName}">
+								<entity-find entity-name="finance.product.ToAssetSide" list="assetSideList">
+									<econdition field-name="active" value="Y" />
+								</entity-find>
+							</entity-options>
+							<list-options list="assetSideChannelList" key="${assetSideId}" text="${assetSideName}" />
+						</drop-down>
+					</default-field>
+				</field>
+				<field-layout>
+					<field-row>
+						<field-ref name="managementChannelId" />
+						<field-ref name="assetSideId" />
+					</field-row>
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<container-dialog button-text="新建资管通道" id="ManagementChannelDialog">
+			<form-single name="ManagementChannelForm">
+				<field name="managementChannelId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="managementChannelName">
+					<default-field title="名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-ref name="managementChannelName" />
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<container-dialog button-text="新建投向资产方" id="ToAssetSideDialog">
+			<form-single name="ToAssetSideForm">
+				<field name="assetSideId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="assetSideName">
+					<default-field title="名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-ref name="assetSideName" />
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<form-single name="ReleasedProductForm" map="releasedProduct" transition="updateReleasedProduct">
+			<field name="productId">
+				<default-field>
+					<hidden />
+				</default-field>
+			</field>
+			<field name="pseudoId">
+				<default-field title="产品编码：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="productName">
+				<default-field title="产品名称：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="productType">
+				<default-field title="产品类型：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="publisher">
+				<default-field title="发行方：">
+					<text-line size="50" />
+				</default-field>
+			</field>
+			<field name="riskRating">
+				<default-field title="产品风险等级：">
+					<drop-down allow-empty="true">
+						<option key="L" text="安全" />
+						<option key="ML" text="保守" />
+						<option key="M" text="稳健" />
+						<option key="MH" text="积极" />
+						<option key="H" text="激进" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="daysOfYear">
+				<default-field title="年化天数：">
+					<drop-down>
+						<option key="365" text="365" />
+						<option key="360" text="360" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="interestDate">
+				<default-field title="起息日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="maturityDate">
+				<default-field title="到期日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="trialDate">
+				<default-field title="试算日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="totalAmountToRaise">
+				<default-field title="募集总金额：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field-layout>
+				<field-row>
+					<field-ref name="pseudoId" />
+					<field-ref name="productName" />
+				</field-row>
+				<field-row>
+					<field-ref name="productType" />
+					<field-ref name="publisher" />
+				</field-row>
+				<field-row>
+					<field-ref name="riskRating" />
+					<field-ref name="daysOfYear" />
+				</field-row>
+				<field-row>
+					<field-ref name="interestDate" />
+					<field-ref name="maturityDate" />
+				</field-row>
+				<field-row>
+					<field-ref name="totalAmountToRaise" />
+					<field-ref name="trialDate" />
+				</field-row>
+			</field-layout>
+		</form-single>
+	</widgets>
+</screen>

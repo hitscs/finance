@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-index="40">
+	<transition name="completedProductDetail">
+		<default-response url="../CompletedProductDetail" />
+	</transition>
+	<transition name="findCompletedProducts">
+		<default-response url="." />
+	</transition>
+	<transition name="exportReleasedProduct">
+		<!-- <service-call name="FinanceServices.create#ReleasedProduct" /> -->
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find entity-name="ReleasedProduct" list="completedProductList">
+			<search-form-inputs />
+			<econdition field-name="status" operator="equals" value="1" />
+		</entity-find>
+	</actions>
+	<widgets>
+		<container>
+			<link url="exportReleasedProduct" text="导出Excel" />
+		</container>
+		<form-list name="ReleasedProduct" list="completedProductList" transition="findCompletedProducts">
+		<!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" select-columns="true" -->
+			<field name="pseudoId">
+				<header-field show-order-by="true" title="产品编码">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${pseudoId}" url="completedProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productName">
+				<header-field show-order-by="true" title="产品名称">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<link text="${productName}" url="completedProductDetail" link-type="anchor"></link>
+				</default-field>
+			</field>
+			<field name="productType">
+				<header-field show-order-by="true" title="产品类型">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="publisher">
+				<header-field show-order-by="true" title="发行方">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="riskRating">
+				<header-field show-order-by="true" title="风险等级">
+					<!-- <text-find size="10" hide-options="true" /> -->
+					<drop-down allow-empty="true" style="readOnly">
+						<option key="L" text="安全" />
+						<option key="ML" text="保守" />
+						<option key="M" text="稳健" />
+						<option key="MH" text="积极" />
+						<option key="H" text="激进" />
+					</drop-down>
+				</header-field>
+				<default-field>
+					<drop-down allow-empty="true" style="readOnly">
+						<option key="L" text="安全" />
+						<option key="ML" text="保守" />
+						<option key="M" text="稳健" />
+						<option key="MH" text="积极" />
+						<option key="H" text="激进" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="delete">
+				<header-field title="查找">
+					<submit />
+				</header-field>
+				<default-field>
+				</default-field>
+			</field>
+			<!-- <field name="searchButton"> <header-field title="查找"> <submit /> </header-field> <default-field> <display text="" /> </default-field> </field> -->
+		</form-list>
+	</widgets>
+</screen>

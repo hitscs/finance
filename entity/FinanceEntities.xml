@@ -54,7 +54,7 @@
         
         <!-- 2018.2.24新需求添加字段 -->
         <field name="trialDate" type="date"  not-null="true"><description>试算日（20151211）</description></field>
-        <field name="status" type="text-medium" default="0"><description>完成状态</description></field>
+        <field name="status" type="number-integer" default="0"><description>完成状态</description></field>
         <!-- <index name="PRODUCT_ID_PSEUDO" unique="true"><index-field name="pseudoId"/></index> -->
     </entity>
     

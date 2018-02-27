@@ -30,6 +30,7 @@
 	<actions>
 		<entity-find entity-name="ReleasedProduct" list="releasedProductList">
 			<search-form-inputs />
+			<econdition field-name="status" operator="not-equals" value="1" or-null="true"/>
 		</entity-find>
 	</actions>
 	<widgets>
@@ -172,7 +173,7 @@
 					<default-field title="试算日：">
 						<date-time type="date" format="yyyy-MM-dd" />
 					</default-field>
-				</field>				
+				</field>
 				<field name="revenueType">
 					<default-field title="收益类型：">
 						<drop-down>
@@ -375,7 +376,7 @@
 						<option key="M" text="稳健" />
 						<option key="MH" text="积极" />
 						<option key="H" text="激进" />
-					</drop-down>					
+					</drop-down>
 				</header-field>
 				<default-field>
 					<drop-down allow-empty="true" style="readOnly">

@@ -4,19 +4,6 @@
 	<transition name="findReleasedProduct">
 		<default-response url="." />
 	</transition>
-	<transition name="updateReleasedProduct">
-		<service-call name="FinanceServices.update#ReleasedProduct" />
-		<default-response url="." />
-	</transition>
-	<transition name="getCityList">
-		<actions>
-			<entity-find entity-name="moqui.basic.GeoAssocAndToDetail" list="geoList">
-				<econdition field-name="geoId" from="province" />
-			</entity-find>
-			<script>ec.web.sendJsonResponse(geoList)</script>
-		</actions>
-		<default-response type="none" />
-	</transition>
 	<actions>
 		<entity-find-one entity-name="ReleasedProduct" value-field="releasedProduct" />
 	</actions>

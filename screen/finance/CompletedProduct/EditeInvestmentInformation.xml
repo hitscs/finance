@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-include="false">
+	<parameter name="productId" required="true" from="productId" />
+	<transition name="updateInvestmentInformation">
+		<service-call name="update#finance.product.InvestmentInformation"></service-call>
+		<default-response url="../CompletedProductDetail" />
+	</transition>
+	<transition name="createManagementChannel">
+		<service-call name="create#finance.product.ManagementChannel"></service-call>
+		<default-response url="." />
+	</transition>
+	<transition name="createToAssetSide">
+		<service-call name="create#finance.product.ToAssetSide"></service-call>
+		<default-response url="." />
+	</transition>
+	<actions>
+		<entity-find-one entity-name="InvestmentInformation" value-field="investmentInformation" />
+	</actions>
+	<widgets>
+		<container-dialog button-text="新建资管通道" id="ManagementChannelDialog">
+			<form-single name="ManagementChannelForm" transition="createManagementChannel">
+				<field name="productId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="active">
+					<default-field>
+						<hidden default-value="Y" />
+					</default-field>
+				</field>
+				<field name="managementChannelName">
+					<default-field title="名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="managementChannelSubmitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-ref name="managementChannelName" />
+					<field-ref name="managementChannelSubmitButton" />
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<container-dialog button-text="新建投向资产方" id="ToAssetSideDialog">
+			<form-single name="ToAssetSideForm" transition="createToAssetSide">
+				<field name="productId">
+					<default-field>
+						<hidden />
+					</default-field>
+				</field>
+				<field name="active">
+					<default-field>
+						<hidden default-value="Y" />
+					</default-field>
+				</field>
+				<field name="assetSideName">
+					<default-field title="名称：">
+						<text-line size="20" />
+					</default-field>
+				</field>
+				<field name="toAssetSideSubmitButton">
+					<default-field title="提交">
+						<submit />
+					</default-field>
+				</field>
+				<field-layout>
+					<field-ref name="assetSideName" />
+					<field-ref name="toAssetSideSubmitButton" />
+				</field-layout>
+			</form-single>
+		</container-dialog>
+		<form-single name="InvestmentInformationForm" map="investmentInformation" transition="updateInvestmentInformation">
+			<field name="productId">
+				<default-field>
+					<hidden />
+				</default-field>
+			</field>
+			<field name="informationId">
+				<default-field>
+					<hidden />
+				</default-field>
+			</field>
+			<field name="productCode" from="pseudoId">
+				<default-field>
+					<hidden />
+				</default-field>
+			</field>
+			<field name="managementChannelId">
+				<default-field title="资管通道：">
+					<drop-down>
+						<entity-options key="${managementChannelId}" text="${managementChannelName}">
+							<entity-find entity-name="finance.product.ManagementChannel" list="managementChannelList">
+								<econdition field-name="active" value="Y" />
+							</entity-find>
+						</entity-options>
+						<list-options list="managementChannelList" key="${managementChannelId}" text="${managementChannelName}" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="assetSideId">
+				<default-field title="投向资产方：">
+					<drop-down>
+						<entity-options key="${assetSideId}" text="${assetSideName}">
+							<entity-find entity-name="finance.product.ToAssetSide" list="assetSideList">
+								<econdition field-name="active" value="Y" />
+							</entity-find>
+						</entity-options>
+						<list-options list="assetSideChannelList" key="${assetSideId}" text="${assetSideName}" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="amountInvestment">
+				<default-field title="投资金额：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="expectedRate">
+				<default-field title="预期收益率：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="interestDate">
+				<default-field title="起息日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="dueDate">
+				<default-field title="到期日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="paymentDueDate">
+				<default-field title="到期还款日：">
+					<date-time type="date" format="yyyy-MM-dd" />
+				</default-field>
+			</field>
+			<field name="interestPeriod">
+				<default-field title="计息周期：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="isReturnMoney">
+				<default-field title="是否回款：">
+					<drop-down>
+						<option key="Y" text="是" />
+						<option key="N" text="否" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="remarks">
+				<default-field title="备注：">
+					<text-line size="20" />
+				</default-field>
+			</field>
+			<field name="submitButton">
+				<default-field title="提交">
+					<submit />
+				</default-field>
+			</field>
+			<field-layout>
+				<field-row>
+					<field-ref name="managementChannelId" />
+					<field-ref name="assetSideId" />
+				</field-row>
+				<field-row>
+					<field-ref name="amountInvestment" />
+					<field-ref name="expectedRate" />
+				</field-row>
+				<field-row>
+					<field-ref name="interestDate" />
+					<field-ref name="dueDate" />
+				</field-row>
+				<field-row>
+					<field-ref name="paymentDueDate" />
+					<field-ref name="interestPeriod" />
+				</field-row>
+				<field-row>
+					<field-ref name="isReturnMoney" />
+					<field-ref name="remarks" />
+				</field-row>
+				<field-ref name="submitButton" />
+			</field-layout>
+		</form-single>
+	</widgets>
+</screen>

@@ -226,27 +226,28 @@
     <entity entity-name="ManagementChannel" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="managementChannelId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="managementChannelName" type="text-medium"><description>名称</description></field>
-        <field name="active" type="text-medium" not-null="true" default="Y"><description></description></field>
+        <field name="active" type="text-medium" not-null="false" default="Y"><description></description></field>
         
     </entity>
         <!-- 投向资产方 -->
     <entity entity-name="ToAssetSide" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="assetSideId" type="id" is-pk="true"><description>主键ID</description></field>
         <field name="assetSideName" type="text-medium"><description>名称</description></field>
-        <field name="active" type="text-medium" not-null="true" default="Y"><description></description></field>
+        <field name="active" type="text-medium" not-null="false" default="Y"><description></description></field>
     </entity> 
          <!-- 投资信息 -->
     <entity entity-name="InvestmentInformation" package="finance.product" short-alias="" cache="true" group="finance">
         <field name="informationId" type="id" is-pk="true"><description>主键ID</description></field>
+        <field name="productId" type="id"><description>主键ID</description></field>
         <field name="productCode" type="text-medium"><description>产品代码</description></field>
-        <field name="managementChannelId" type="id" is-pk="true"><description>资管通道</description></field>
-        <field name="assetSideId" type="id" is-pk="true"><description>投向资产方</description></field>
+        <field name="managementChannelId" type="id"><description>资管通道</description></field>
+        <field name="assetSideId" type="id" ><description>投向资产方</description></field>
         <field name="amountInvestment" type="text-medium"><description>投资金额</description></field>
-        <field name="expectedRate" type="text-medium"><description>预期收益率</description></field>
-        <field name="interestDate" type="text-medium"><description>起息日</description></field>
-        <field name="dueDate" type="text-medium"><description>到期日</description></field>
-        <field name="paymentDueDate" type="text-medium"><description>到期还款日</description></field>
-        <field name="interestPeriod" type="text-medium"><description>计息周期</description></field>
+        <field name="expectedRate" type="number-float"><description>预期收益率</description></field>
+        <field name="interestDate" type="date"><description>起息日</description></field>
+        <field name="dueDate" type="date"><description>到期日</description></field>
+        <field name="paymentDueDate" type="date"><description>到期还款日</description></field>
+        <field name="interestPeriod" type="number-integer"><description>计息周期</description></field>
         <field name="isReturnMoney" type="text-medium"><description>是否回款</description></field>
         <field name="remarks" type="text-medium"><description>备注</description></field>
         

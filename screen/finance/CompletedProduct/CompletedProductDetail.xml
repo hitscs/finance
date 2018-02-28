@@ -1,87 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-include="false">
 	<parameter name="productId" required="true" from="productId" />
-	<transition name="findReleasedProduct">
+	<transition name="findCompletedProduct">
+		<default-response url="." />
+	</transition>
+	<transition name="toCreateInvestmentInformation">
+		<parameter name="productId" required="true" from="productId" />
+		<default-response url="../CreateInvestmentInformation" />
+	</transition>
+	<transition name="toUpdateInvestmentInformation">
+		<parameter name="productId" required="true" from="productId" />
+		<default-response url="../EditeInvestmentInformation" />
+	</transition>	
+	<transition name="deleteInvestmentInformation">
+		<service-call name="delete#finance.product.InvestmentInformation"></service-call>
+		<default-response url="." />
+	</transition>
+	<transition name="createManagementChannel">
+		<service-call name="create#finance.product.ManagementChannel"></service-call>
+		<default-response url="." />
+	</transition>
+	<transition name="createToAssetSide">
+		<service-call name="create#finance.product.ToAssetSide"></service-call>
 		<default-response url="." />
 	</transition>
 	<actions>
 		<entity-find-one entity-name="ReleasedProduct" value-field="releasedProduct" />
+		<entity-find entity-name="InvestmentInformation" list="investmentInformationList">
+			<search-form-inputs></search-form-inputs>
+		</entity-find>
 	</actions>
 	<widgets>
-		<container-dialog button-text="新建投资信息" id="InvestmentInformationDialog">
-			<form-single name="InvestmentInformationForm">
-				<field name="productCode" from="pseudoId">
-					<default-field>
-						<hidden />
-					</default-field>
-				</field>
-				<field name="managementChannelId">
-					<default-field title="资管通道：">
-						<drop-down>
-							<entity-options key="${managementChannelId}" text="${managementChannelName}">
-								<entity-find entity-name="finance.product.ManagementChannel" list="managementChannelList">
-									<econdition field-name="active" value="Y" />
-								</entity-find>
-							</entity-options>
-							<list-options list="managementChannelList" key="${managementChannelId}" text="${managementChannelName}" />
-						</drop-down>
-					</default-field>
-				</field>
-				<field name="assetSideId">
-					<default-field title="投向资产方：">
-						<drop-down>
-							<entity-options key="${assetSideId}" text="${assetSideName}">
-								<entity-find entity-name="finance.product.ToAssetSide" list="assetSideList">
-									<econdition field-name="active" value="Y" />
-								</entity-find>
-							</entity-options>
-							<list-options list="assetSideChannelList" key="${assetSideId}" text="${assetSideName}" />
-						</drop-down>
-					</default-field>
-				</field>
-				<field-layout>
-					<field-row>
-						<field-ref name="managementChannelId" />
-						<field-ref name="assetSideId" />
-					</field-row>
-				</field-layout>
-			</form-single>
-		</container-dialog>
-		<container-dialog button-text="新建资管通道" id="ManagementChannelDialog">
-			<form-single name="ManagementChannelForm">
-				<field name="managementChannelId">
-					<default-field>
-						<hidden />
-					</default-field>
-				</field>
-				<field name="managementChannelName">
-					<default-field title="名称：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field-layout>
-					<field-ref name="managementChannelName" />
-				</field-layout>
-			</form-single>
-		</container-dialog>
-		<container-dialog button-text="新建投向资产方" id="ToAssetSideDialog">
-			<form-single name="ToAssetSideForm">
-				<field name="assetSideId">
-					<default-field>
-						<hidden />
-					</default-field>
-				</field>
-				<field name="assetSideName">
-					<default-field title="名称：">
-						<text-line size="20" />
-					</default-field>
-				</field>
-				<field-layout>
-					<field-ref name="assetSideName" />
-				</field-layout>
-			</form-single>
-		</container-dialog>
-		<form-single name="ReleasedProductForm" map="releasedProduct" transition="updateReleasedProduct">
+		<container>
+			<link url="toCreateInvestmentInformation" text="新建投资信息" />
+		</container>
+		<form-single name="ReleasedProductForm" map="releasedProduct">
 			<field name="productId">
 				<default-field>
 					<hidden />
@@ -169,5 +122,117 @@
 				</field-row>
 			</field-layout>
 		</form-single>
+		<form-list name="InvestmentInformation" list="investmentInformationList" skip-form="true" paginate-always-show="false">
+			<!-- <field name="productId"> <default-field> <hidden /> </default-field> </field> -->
+			<field name="managementChannelId">
+				<header-field show-order-by="true" title="资管通道">
+					<!-- <drop-down> <entity-options key="${managementChannelId}" text="${managementChannelName}"> <entity-find entity-name="finance.product.ManagementChannel" list="managementChannelList"> <econdition 
+						field-name="active" value="Y" /> </entity-find> </entity-options> <list-options list="managementChannelList" key="${managementChannelId}" text="${managementChannelName}" /> </drop-down> -->
+				</header-field>
+				<default-field>
+					<drop-down>
+						<entity-options key="${managementChannelId}" text="${managementChannelName}">
+							<entity-find entity-name="finance.product.ManagementChannel" list="managementChannelList">
+								<econdition field-name="managementChannelId" from="managementChannelId" />
+							</entity-find>
+						</entity-options>
+						<list-options list="managementChannelList" key="${managementChannelId}" text="${managementChannelName}" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="assetSideId">
+				<header-field show-order-by="true" title="投向资产方">
+					<!-- <drop-down> <entity-options key="${assetSideId}" text="${assetSideName}"> <entity-find entity-name="finance.product.ToAssetSide" list="assetSideList"> <econdition field-name="active" value="Y" 
+						/> </entity-find> </entity-options> <list-options list="assetSideChannelList" key="${assetSideId}" text="${assetSideName}" /> </drop-down> -->
+				</header-field>
+				<default-field>
+					<drop-down>
+						<entity-options key="${assetSideId}" text="${assetSideName}">
+							<entity-find entity-name="finance.product.ToAssetSide" list="assetSideList">
+								<econdition field-name="assetSideId" from="assetSideId" />
+							</entity-find>
+						</entity-options>
+						<list-options list="assetSideChannelList" key="${assetSideId}" text="${assetSideName}" />
+					</drop-down>
+				</default-field>
+			</field>
+			<field name="amountInvestment">
+				<header-field show-order-by="true" title="投资金额">
+					<!-- <text-find size="5" hide-options="true" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="expectedRate">
+				<header-field show-order-by="true" title="预期收益率">
+					<!-- <text-find size="5" hide-options="true" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="interestDate">
+				<header-field show-order-by="true" title="起息日">
+					<!-- <date-time type="date" format="yyyy-MM-dd" size="6" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="dueDate">
+				<header-field show-order-by="true" title="到期日">
+					<!-- <date-time type="date" format="yyyy-MM-dd" size="6" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="paymentDueDate">
+				<header-field show-order-by="true" title="到期还款日">
+					<!-- <date-time type="date" format="yyyy-MM-dd" size="6" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="interestPeriod">
+				<header-field show-order-by="true" title="计息周期">
+					<!-- <text-find size="5" hide-options="true" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="isReturnMoney">
+				<header-field show-order-by="true" title="已回款">
+					<!-- <drop-down> <option key="Y" text="Y" /> <option key="N" text="N" /> </drop-down> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="remarks">
+				<header-field show-order-by="true" title="备注">
+					<!-- <text-find size="10" hide-options="true" /> -->
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="edite">
+				<header-field title="操作">
+					<!-- <submit /> -->
+				</header-field>
+				<default-field>
+					<link text="删除" url="deleteInvestmentInformation" confirmation="确定要删除吗？">
+						<parameter name="informationId" />
+					</link>
+					<link text="编辑" url="toUpdateInvestmentInformation">
+						<parameter name="informationId" />
+					</link>
+				</default-field>
+			</field>
+		</form-list>
 	</widgets>
 </screen>

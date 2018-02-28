@@ -381,4 +381,21 @@
 			</if>
 		</actions>
 	</service>
+	
+	<service verb="remind" noun="TheDayBeforeTrialDate" authenticate="anonymous-all" allow-remote="false" type="inline">
+		<actions>
+			<script location="component://finance/service/finance/RemindTheDayBeforeTrialDate.groovy" />
+		</actions>
+	</service>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </services>

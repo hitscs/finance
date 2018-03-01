@@ -6,22 +6,27 @@ import org.apache.commons.mail.HtmlEmail
 
 
 ExecutionContext ec = context.ec
+def emailMessageId="REMIND"
 def nowDate=DateUtils.getNowTime("yyyyMMdd")
 Date date=new Date()
 def trialDate=DateUtils.addDay(date, "yyyyMMdd", 1)
-EntityList releasedProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", trialDate).list()
+EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", trialDate).list()
+EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", nowDate).list()
 
+String bodyText ="今日试算产品：\r\n"
+for(EntityValue todayTrialProduct:todayTrialProductList) {
+	bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("pseudoId")
+	}
 
-
-
+	bodyText=bodyText+"明日试算产品：\r\n"
+	for(EntityValue tomorrowTrialProduct:tomorrowTrialProductList) {
+	
+		}
 	EntityValue emailMessage = ec.entity.find("moqui.basic.email.EmailMessage").condition("emailMessageId", emailMessageId).one()
 	if (emailMessage == null) { ec.message.addError(ec.resource.expand('No EmailMessage record found for ID ${emailMessageId}','')); return }
-	String statusId = emailMessage.statusId
-	if (statusId == 'ES_DRAFT') ec.message.addError(ec.resource.expand('Email Message ${emailMessageId} is in Draft status',''))
-	if (statusId == 'ES_CANCELLED') ec.message.addError(ec.resource.expand('Email Message ${emailMessageId} is Cancelled',''))
-
+	String subject=""
 	String bodyHtml = emailMessage.body
-	String bodyText = emailMessage.bodyText
+	//String bodyText = emailMessage.bodyText
 	String fromAddress = emailMessage.fromAddress
 	String toAddresses = emailMessage.toAddresses
 	String ccAddresses = emailMessage.ccAddresses
@@ -36,11 +41,7 @@ EntityList releasedProductList = ec.entity.find("finance.product.ReleasedProduct
 
 	EntityValue emailServer = (EntityValue) emailMessage.server
 	if (emailServer == null) { ec.message.addError(ec.resource.expand('No Email Server record found for Email Message ${emailMessageId}','')); return }
-	if (!emailServer.smtpHost) {
-		logger.warn("SMTP Host is empty for EmailServer ${emailServer.emailServerId}, not sending email message ${emailMessageId}")
-		// logger.warn("SMTP Host is empty for EmailServer ${emailServer.emailServerId}, not sending email:\nbodyHtml:\n${bodyHtml}\nbodyText:\n${bodyText}")
-		return
-	}
+
 
 	String host = emailServer.smtpHost
 	int port = (emailServer.smtpPort ?: "25") as int
@@ -51,7 +52,6 @@ EntityList releasedProductList = ec.entity.find("finance.product.ReleasedProduct
 	email.setSmtpPort(port)
 	if (emailServer.mailUsername) {
 		email.setAuthenticator(new DefaultAuthenticator((String) emailServer.mailUsername, (String) emailServer.mailPassword))
-		// logger.info("Set user=${emailServer.mailUsername}, password=${emailServer.mailPassword}")
 	}
 	if (emailServer.smtpStartTls == "Y") {
 		email.setStartTLSEnabled(true)
@@ -64,7 +64,7 @@ EntityList releasedProductList = ec.entity.find("finance.product.ReleasedProduct
 	}
 
 	// set the subject
-	if (emailMessage.subject) email.setSubject((String) emailMessage.subject)
+	email.setSubject(subject)
 
 	// set from, reply to, bounce addresses
 	email.setFrom(fromAddress, (String) emailMessage.fromName)

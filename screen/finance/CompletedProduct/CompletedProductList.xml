@@ -6,7 +6,7 @@
 	<transition name="findCompletedProducts">
 		<default-response url="." />
 	</transition>
-	<transition name="exportReleasedProduct">
+	<transition name="exportCompletedProducts">
 		<!-- <service-call name="FinanceServices.create#ReleasedProduct" /> -->
 		<default-response url="." />
 	</transition>
@@ -18,10 +18,18 @@
 	</actions>
 	<widgets>
 		<container>
-			<link url="exportReleasedProduct" text="导出Excel" />
+			<link url="exportCompletedProducts" text="导出Excel" />
 		</container>
-		<form-list name="ReleasedProduct" list="completedProductList" transition="findCompletedProducts">
-		<!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" select-columns="true" -->
+		<container-box>
+			<box-header></box-header>
+			<box-body>
+				<form-single name="A">
+					<auto-fields-entity entity-name="ReleasedProduct"></auto-fields-entity>
+				</form-single>
+			</box-body>
+		</container-box>
+		<form-list name="CompletedProducts" list="completedProductList" transition="findCompletedProducts">
+			<!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" select-columns="true" -->
 			<field name="pseudoId">
 				<header-field show-order-by="true" title="产品编码">
 					<text-find size="10" hide-options="true" />

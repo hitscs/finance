@@ -382,20 +382,16 @@
 		</actions>
 	</service>
 	
-	<service verb="remind" noun="TheDayBeforeTrialDate" authenticate="anonymous-all" allow-remote="false" type="inline">
+	<service verb="remind" noun="TrialDate" authenticate="anonymous-all" allow-remote="false" type="inline">
 		<actions>
-			<script location="component://finance/service/finance/RemindTheDayBeforeTrialDate.groovy" />
+			<script location="component://finance/service/finance/RemindTrialDate.groovy" />
 		</actions>
 	</service>	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<service verb="remind" noun="MaturityDate" authenticate="anonymous-all" allow-remote="false" type="inline">
+		<actions>
+			<script location="component://finance/service/finance/RemindMaturityDate.groovy" />
+		</actions>
+	</service>	
 	
 </services>

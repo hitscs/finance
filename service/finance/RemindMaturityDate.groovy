@@ -15,16 +15,17 @@ EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProdu
 
 String bodyText ="今日试算产品：\r\n"
 for(EntityValue todayTrialProduct:todayTrialProductList) {
-	bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("pseudoId")
+	bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("productName")+"    "+todayTrialProduct.get("trialDate")+"，请及时处理 \r\n"
 	}
 
 	bodyText=bodyText+"明日试算产品：\r\n"
 	for(EntityValue tomorrowTrialProduct:tomorrowTrialProductList) {
-	
+		bodyText=bodyText+tomorrowTrialProduct.get("pseudoId")+"    "+tomorrowTrialProduct.get("productName")+"    "+tomorrowTrialProduct.get("trialDate")+"，请及时处理 \r\n"
+		
 		}
 	EntityValue emailMessage = ec.entity.find("moqui.basic.email.EmailMessage").condition("emailMessageId", emailMessageId).one()
 	if (emailMessage == null) { ec.message.addError(ec.resource.expand('No EmailMessage record found for ID ${emailMessageId}','')); return }
-	String subject=""
+	String subject=nowDate+"试算产品"
 	String bodyHtml = emailMessage.body
 	//String bodyText = emailMessage.bodyText
 	String fromAddress = emailMessage.fromAddress

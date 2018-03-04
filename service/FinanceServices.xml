@@ -393,5 +393,46 @@
 			<script location="component://finance/service/finance/RemindMaturityDate.groovy" />
 		</actions>
 	</service>	
-	
+	<service verb="exportCompletedProducts" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false" type="inline">
+		<in-parameters>
+			<parameter name="productName" required="true" />
+			<parameter name="provider" required="true" default-value="外贸信托信息服务有限公司" />
+			<parameter name="productType" required="true" />
+			<parameter name="publisher" required="true" />
+			<parameter name="publisherTradingCertificate" required="true" />
+			<parameter name="publisherBank" required="true" />
+			<parameter name="publisherBranchBank" required="true" />
+			<parameter name="publisherBankAccount" required="true" />
+			<parameter name="riskInstruction" required="true" />
+			<parameter name="earningInstruction" required="true" />
+			<parameter name="riskEvaluation" required="true" />
+			<parameter name="riskRating" required="false" />
+			<parameter name="numberOfDays" required="true" />
+			<parameter name="daysOfYear" required="true" />
+			<parameter name="interestDate" required="true" />
+			<parameter name="maturityDate" required="true" />
+			<parameter name="paymentDueDay" required="true" />
+			<parameter name="revenueType" required="true" />
+			<parameter name="fixedYieldRate" />
+			<parameter name="floatingYieldRate" />
+			<parameter name="totalAmountToRaise" required="true" />
+			<parameter name="minAmountToRaise" required="true" />
+			<parameter name="minimumMoney" required="true" />
+			<parameter name="perMoney" required="true" />
+			<parameter name="startTime" required="true" />
+			<parameter name="endTime" required="true" />
+			<parameter name="remark" />
+			<parameter name="payBankAccount" required="true" />
+			<parameter name="productCategoryName" required="true" />
+			<parameter name="exchangeCode" required="true" />
+			<parameter name="trialDate" required="true" />
+			<parameter name="projectCode" required="disabled" />
+			<parameter name="versionNo" required="true" />
+		</in-parameters>
+		<out-parameters>
+		</out-parameters>
+		<actions>
+			<script location="component://finance/service/finance/exportCompletedProducts.groovy" />
+		</actions>
+	</service>	
 </services>

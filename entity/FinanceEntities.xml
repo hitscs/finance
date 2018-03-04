@@ -251,5 +251,22 @@
         <field name="isReturnMoney" type="text-medium"><description>是否回款</description></field>
         <field name="remarks" type="text-medium"><description>备注</description></field>
         
-    </entity>                 
+    </entity>  
+<!--     <view-entity package="finance.product" entity-name="CompletedProduct">
+        <member-entity entity-alias="ATP" entity-name="moqui.security.ArtifactTarpit"/>
+        <member-entity entity-alias="AGM" entity-name="moqui.security.ArtifactGroupMember" join-from-alias="ATP">
+            <key-map field-name="artifactGroupId"/></member-entity>
+        <alias entity-alias="ATP" name="userGroupId"/>
+        <alias entity-alias="ATP" name="artifactGroupId"/>
+        <alias entity-alias="ATP" name="maxHitsCount"/>
+        <alias entity-alias="ATP" name="maxHitsDuration"/>
+        <alias entity-alias="ATP" name="tarpitDuration"/>
+        <alias entity-alias="AGM" name="artifactName"/>
+        <alias entity-alias="AGM" name="artifactTypeEnumId"/>
+        <alias entity-alias="AGM" name="nameIsPattern"/>
+    </view-entity> -->
+    
+    
+    
+                
 </entities>

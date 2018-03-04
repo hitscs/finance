@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-index="40">
+	<parameter name="productName" from="productName"/>
 	<transition name="completedProductDetail">
 		<default-response url="../CompletedProductDetail" />
 	</transition>
@@ -7,8 +8,15 @@
 		<default-response url="." />
 	</transition>
 	<transition name="exportCompletedProducts">
-		<!-- <service-call name="FinanceServices.create#ReleasedProduct" /> -->
+		
+		<actions>
+		<service-call name="FinanceServices.exportCompletedProducts#ReleasedProduct" />
+		<log level="info" message="+++++++++++++++++++++++++++++${productName}"/>
+		
+		</actions>
+		
 		<default-response url="." />
+		
 	</transition>
 	<actions>
 		<entity-find entity-name="ReleasedProduct" list="completedProductList">
@@ -20,14 +28,14 @@
 		<container>
 			<link url="exportCompletedProducts" text="导出Excel" />
 		</container>
-		<container-box>
+<!-- 		<container-box>
 			<box-header></box-header>
 			<box-body>
 				<form-single name="A">
 					<auto-fields-entity entity-name="ReleasedProduct"></auto-fields-entity>
 				</form-single>
 			</box-body>
-		</container-box>
+		</container-box> -->
 		<form-list name="CompletedProducts" list="completedProductList" transition="findCompletedProducts">
 			<!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" select-columns="true" -->
 			<field name="pseudoId">

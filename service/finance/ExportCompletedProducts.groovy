@@ -1,19 +1,36 @@
 
-import java.io.BufferedReader
-import java.io.InputStreamReader
-
 import org.moqui.context.ExecutionContext
-import org.moqui.entity.EntityValue
 import org.moqui.entity.EntityCondition
-import org.moqui.entity.EntityList
+import org.moqui.entity.EntityFind
+import org.moqui.entity.EntityValue
 
 
 ExecutionContext ec = context.ec
-//EntityList completedProductList = ec.entity.find("finance.product.CompletedProduct").condition("productName", EntityCondition.LIKE, productName).list()
-EntityList completedProductList = ec.entity.find("finance.product.CompletedProduct").list()
-if(completedProductList.size() == 0){
+
+
+
+
+
+println "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${productName}-----------------------------------"
+//EntityList completedProductList = ec.entity.find("finance.product.CompletedProduct").condition("productName", EntityCondition.LIKE, "%${productName}%").list()
+EntityFind ef = ec.entity.find("finance.product.CompletedProduct")
+if(productName)ef.condition("productName", EntityCondition.LIKE, "%${productType}%")
+	if(productType)ef.condition("productType", EntityCondition.LIKE, "%${productName}%")
+		if(pseudoId)ef.condition("pseudoId", EntityCondition.LIKE, "%${pseudoId}%")
+			if(managementChannelName)ef.condition("managementChannelName", EntityCondition.LIKE, "%${managementChannelName}%")
+				if(assetSideName)ef.condition("assetSideName", EntityCondition.LIKE, "%${assetSideName}%")
+					if(paymentDueDate)ef.condition("paymentDueDate", EntityCondition.LIKE, "%${paymentDueDate}%")
+	
+if(interestPeriod)ef.condition("interestPeriod", EntityCondition.LIKE, "%${interestPeriod}%")
+	if(isReturnMoney)ef.condition("isReturnMoney", EntityCondition.LIKE, "%${isReturnMoney}%")
+		
+						
+						
+def completedProductList=ef.list()
+
+/*if(completedProductList.size() == 0){
 	ec.message.addError("没有找到结果。")
-}else{
+}else{*/
 	def response = ec.web.response
 	String filename = "产品投资信息明细表.csv";
 	response.setContentType("application/csv;charset=UTF-8");
@@ -58,4 +75,4 @@ if(completedProductList.size() == 0){
 	
 	out.flush()
 
-}
+//}

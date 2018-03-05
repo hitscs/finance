@@ -404,20 +404,16 @@
 		<out-parameters>
 		</out-parameters>
 		<actions>
-<!-- 			<entity-find entity-name="CompletedProduct" list="completedProductList">
-				<search-form-inputs />
-			</entity-find>
-			<log level="info" message="${completedProductList}"/>
-			<set field="completedProductList" from="completedProductList"/> -->
+			
 			<script location="component://finance/service/finance/ExportCompletedProducts.groovy" />
-			<if condition="ec.message.hasError()">
+<!-- 			<if condition="ec.message.hasError()">
 				<then>
 					<message error="true">导出失败</message>
 				</then>
 				<else>
 					<message>导出成功</message>
 				</else>
-			</if>
+			</if> -->
 		</actions>
 	</service>
 </services>

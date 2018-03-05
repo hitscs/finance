@@ -23,7 +23,6 @@
 		<container>
 			<link url="exportCompletedProducts" text="导出Excel" />
 		</container>
-		<!-- <container-box> <box-header></box-header> <box-body> <form-single name="A"> <auto-fields-entity entity-name="ReleasedProduct"></auto-fields-entity> </form-single> </box-body> </container-box> -->
 		<form-list name="CompletedProducts" list="completedProductList" transition="findCompletedProducts">
 			<!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" select-columns="true" -->
 			<field name="pseudoId">
@@ -68,7 +67,7 @@
 			</field>
 			<field name="amountInvestment">
 				<header-field show-order-by="true" title="投资金额">
-					<text-find size="3" hide-options="true" />
+					<!-- <text-find size="3" hide-options="true" /> -->
 				</header-field>
 				<default-field>
 					<display />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-index="40">
-	<parameter name="productName" from="productName"/>
+	<parameter name="productName" from="productName" />
 	<transition name="completedProductDetail">
 		<default-response url="../CompletedProductDetail" />
 	</transition>
@@ -8,34 +8,22 @@
 		<default-response url="." />
 	</transition>
 	<transition name="exportCompletedProducts">
-		
 		<actions>
-		<service-call name="FinanceServices.exportCompletedProducts#ReleasedProduct" />
-		<log level="info" message="+++++++++++++++++++++++++++++${productName}"/>
-		
+			<service-call name="FinanceServices.exportCompletedProducts#CompletedProduct" out-map="context" in-map="context"/>
 		</actions>
-		
 		<default-response url="." />
-		
 	</transition>
 	<actions>
-		<entity-find entity-name="ReleasedProduct" list="completedProductList">
+		<entity-find entity-name="CompletedProduct" list="completedProductList">
 			<search-form-inputs />
-			<econdition field-name="status" operator="equals" value="1" />
+			<!-- <econdition field-name="status" operator="equals" value="1" /> -->
 		</entity-find>
 	</actions>
 	<widgets>
 		<container>
 			<link url="exportCompletedProducts" text="导出Excel" />
 		</container>
-<!-- 		<container-box>
-			<box-header></box-header>
-			<box-body>
-				<form-single name="A">
-					<auto-fields-entity entity-name="ReleasedProduct"></auto-fields-entity>
-				</form-single>
-			</box-body>
-		</container-box> -->
+		<!-- <container-box> <box-header></box-header> <box-body> <form-single name="A"> <auto-fields-entity entity-name="ReleasedProduct"></auto-fields-entity> </form-single> </box-body> </container-box> -->
 		<form-list name="CompletedProducts" list="completedProductList" transition="findCompletedProducts">
 			<!-- show-csv-button="true" show-text-button="true" header-dialog="true" saved-finds="true" select-columns="true" -->
 			<field name="pseudoId">
@@ -56,41 +44,88 @@
 			</field>
 			<field name="productType">
 				<header-field show-order-by="true" title="产品类型">
+					<text-find size="2" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="managementChannelName">
+				<header-field show-order-by="true" title="资管通道">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<field name="publisher">
-				<header-field show-order-by="true" title="发行方">
+			<field name="assetSideName">
+				<header-field show-order-by="true" title="投向资产方">
 					<text-find size="10" hide-options="true" />
 				</header-field>
 				<default-field>
 					<display />
 				</default-field>
 			</field>
-			<field name="riskRating">
-				<header-field show-order-by="true" title="风险等级">
-					<!-- <text-find size="10" hide-options="true" /> -->
-					<drop-down allow-empty="true" style="readOnly">
-						<option key="L" text="安全" />
-						<option key="ML" text="保守" />
-						<option key="M" text="稳健" />
-						<option key="MH" text="积极" />
-						<option key="H" text="激进" />
-					</drop-down>
+			<field name="amountInvestment">
+				<header-field show-order-by="true" title="投资金额">
+					<text-find size="3" hide-options="true" />
 				</header-field>
 				<default-field>
-					<drop-down allow-empty="true" style="readOnly">
-						<option key="L" text="安全" />
-						<option key="ML" text="保守" />
-						<option key="M" text="稳健" />
-						<option key="MH" text="积极" />
-						<option key="H" text="激进" />
-					</drop-down>
+					<display />
 				</default-field>
 			</field>
+<!-- 			<field name="expectedRate">
+				<header-field show-order-by="true" title="预期收益率">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="interestDate">
+				<header-field show-order-by="true" title="起息日">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="dueDate">
+				<header-field show-order-by="true" title="到期日">
+					<text-find size="10" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field> -->
+			<field name="paymentDueDate">
+				<header-field show-order-by="true" title="到期还款日">
+					<text-find size="5" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="interestPeriod">
+				<header-field show-order-by="true" title="计息周期">
+					<text-find size="2" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<field name="isReturnMoney">
+				<header-field show-order-by="true" title="是否回款">
+					<text-find size="2" hide-options="true" />
+				</header-field>
+				<default-field>
+					<display />
+				</default-field>
+			</field>
+			<!-- <field name="publisher"> <header-field show-order-by="true" title="发行方"> <text-find size="10" hide-options="true" /> </header-field> <default-field> <display /> </default-field> </field> <field 
+				name="riskRating"> <header-field show-order-by="true" title="风险等级"> <text-find size="10" hide-options="true" /> <drop-down allow-empty="true" style="readOnly"> <option key="L" text="安全" /> <option key="ML" 
+				text="保守" /> <option key="M" text="稳健" /> <option key="MH" text="积极" /> <option key="H" text="激进" /> </drop-down> </header-field> <default-field> <drop-down allow-empty="true" style="readOnly"> <option 
+				key="L" text="安全" /> <option key="ML" text="保守" /> <option key="M" text="稳健" /> <option key="MH" text="积极" /> <option key="H" text="激进" /> </drop-down> </default-field> </field> -->
 			<field name="delete">
 				<header-field title="查找">
 					<submit />
@@ -98,7 +133,6 @@
 				<default-field>
 				</default-field>
 			</field>
-			<!-- <field name="searchButton"> <header-field title="查找"> <submit /> </header-field> <default-field> <display text="" /> </default-field> </field> -->
 		</form-list>
 	</widgets>
 </screen>

@@ -252,19 +252,34 @@
         <field name="remarks" type="text-medium"><description>备注</description></field>
         
     </entity>  
-<!--     <view-entity package="finance.product" entity-name="CompletedProduct">
-        <member-entity entity-alias="ATP" entity-name="moqui.security.ArtifactTarpit"/>
-        <member-entity entity-alias="AGM" entity-name="moqui.security.ArtifactGroupMember" join-from-alias="ATP">
-            <key-map field-name="artifactGroupId"/></member-entity>
-        <alias entity-alias="ATP" name="userGroupId"/>
-        <alias entity-alias="ATP" name="artifactGroupId"/>
-        <alias entity-alias="ATP" name="maxHitsCount"/>
-        <alias entity-alias="ATP" name="maxHitsDuration"/>
-        <alias entity-alias="ATP" name="tarpitDuration"/>
-        <alias entity-alias="AGM" name="artifactName"/>
-        <alias entity-alias="AGM" name="artifactTypeEnumId"/>
-        <alias entity-alias="AGM" name="nameIsPattern"/>
-    </view-entity> -->
+    <view-entity package="finance.product" entity-name="CompletedProduct">
+        <member-entity entity-alias="II" entity-name="finance.product.InvestmentInformation"/>
+        <member-entity entity-alias="RP" entity-name="finance.product.ReleasedProduct" join-from-alias="II">
+            <key-map field-name="productId"/></member-entity>
+        <member-entity entity-alias="MC" entity-name="finance.product.ManagementChannel" join-from-alias="II">
+            <key-map field-name="managementChannelId"/></member-entity>    
+        <member-entity entity-alias="TS" entity-name="finance.product.ToAssetSide" join-from-alias="II">
+            <key-map field-name="assetSideId"/></member-entity>    
+           <alias-all entity-alias="RP"></alias-all>
+           <alias-all entity-alias="II"></alias-all> 
+           <alias-all entity-alias="MC"></alias-all> 
+           <alias-all entity-alias="TS"></alias-all> 
+           <!-- <alias name="amountInvestment" function="sum"  entity-alias="II"></alias> -->
+<!--         <alias entity-alias="RP" name="productId"/>    
+        <alias entity-alias="RP" name="pseudoId"/>
+        <alias entity-alias="RP" name="productName"/>
+        <alias entity-alias="RP" name="productType"/>
+        <alias entity-alias="RP" name="numberOfDays"/>
+        <alias entity-alias="II" name="managementChannelId"/>
+        <alias entity-alias="II" name="assetSideId"/>
+        <alias entity-alias="II" name="amountInvestment"/>
+        <alias entity-alias="II" name="expectedRate"/>
+        <alias entity-alias="II" name="interestDate"/>
+        <alias entity-alias="II" name="dueDate"/>
+        <alias entity-alias="II" name="paymentDueDate"/>
+        <alias entity-alias="II" name="interestPeriod"/>
+        <alias entity-alias="II" name="isReturnMoney"/> -->
+    </view-entity>
     
     
     

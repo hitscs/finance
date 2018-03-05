@@ -115,7 +115,7 @@
 			<parameter name="payBankAccount" required="true" />
 			<parameter name="productCategoryName" required="true" />
 			<parameter name="exchangeCode" required="true" />
-            <parameter name="trialDate" required="true" />
+			<parameter name="trialDate" required="true" />
 			<parameter name="versionNo" required="true" />
 		</in-parameters>
 		<out-parameters>
@@ -202,7 +202,6 @@
 				<then>
 					<message error="true">导出失败</message>
 				</then>
-
 			</if>
 		</actions>
 	</service>
@@ -217,7 +216,6 @@
 				<then>
 					<message error="true">导出失败</message>
 				</then>
-
 			</if>
 		</actions>
 	</service>
@@ -381,58 +379,45 @@
 			</if>
 		</actions>
 	</service>
-	
 	<service verb="remind" noun="TrialDate" authenticate="anonymous-all" allow-remote="false" type="inline">
 		<actions>
 			<script location="component://finance/service/finance/RemindTrialDate.groovy" />
 		</actions>
-	</service>	
-	
+	</service>
 	<service verb="remind" noun="MaturityDate" authenticate="anonymous-all" allow-remote="false" type="inline">
 		<actions>
 			<script location="component://finance/service/finance/RemindMaturityDate.groovy" />
 		</actions>
-	</service>	
-	<service verb="exportCompletedProducts" noun="ReleasedProduct" authenticate="anonymous-all" allow-remote="false" type="inline">
+	</service>
+	<service verb="exportCompletedProducts" noun="CompletedProduct" authenticate="anonymous-all" allow-remote="false" type="inline">
 		<in-parameters>
-			<parameter name="productName" required="true" />
-			<parameter name="provider" required="true" default-value="外贸信托信息服务有限公司" />
-			<parameter name="productType" required="true" />
-			<parameter name="publisher" required="true" />
-			<parameter name="publisherTradingCertificate" required="true" />
-			<parameter name="publisherBank" required="true" />
-			<parameter name="publisherBranchBank" required="true" />
-			<parameter name="publisherBankAccount" required="true" />
-			<parameter name="riskInstruction" required="true" />
-			<parameter name="earningInstruction" required="true" />
-			<parameter name="riskEvaluation" required="true" />
-			<parameter name="riskRating" required="false" />
-			<parameter name="numberOfDays" required="true" />
-			<parameter name="daysOfYear" required="true" />
-			<parameter name="interestDate" required="true" />
-			<parameter name="maturityDate" required="true" />
-			<parameter name="paymentDueDay" required="true" />
-			<parameter name="revenueType" required="true" />
-			<parameter name="fixedYieldRate" />
-			<parameter name="floatingYieldRate" />
-			<parameter name="totalAmountToRaise" required="true" />
-			<parameter name="minAmountToRaise" required="true" />
-			<parameter name="minimumMoney" required="true" />
-			<parameter name="perMoney" required="true" />
-			<parameter name="startTime" required="true" />
-			<parameter name="endTime" required="true" />
-			<parameter name="remark" />
-			<parameter name="payBankAccount" required="true" />
-			<parameter name="productCategoryName" required="true" />
-			<parameter name="exchangeCode" required="true" />
-			<parameter name="trialDate" required="true" />
-			<parameter name="projectCode" required="disabled" />
-			<parameter name="versionNo" required="true" />
+			<parameter name="productName" />
+			<parameter name="productType" />
+			<parameter name="pseudoId" />
+			<parameter name="managementChannelName" />
+			<parameter name="assetSideName" />
+			<parameter name="amountInvestment" />
+			<parameter name="paymentDueDate" />
+			<parameter name="interestPeriod" />
+			<parameter name="isReturnMoney" />
 		</in-parameters>
 		<out-parameters>
 		</out-parameters>
 		<actions>
-			<script location="component://finance/service/finance/exportCompletedProducts.groovy" />
+<!-- 			<entity-find entity-name="CompletedProduct" list="completedProductList">
+				<search-form-inputs />
+			</entity-find>
+			<log level="info" message="${completedProductList}"/>
+			<set field="completedProductList" from="completedProductList"/> -->
+			<script location="component://finance/service/finance/ExportCompletedProducts.groovy" />
+			<if condition="ec.message.hasError()">
+				<then>
+					<message error="true">导出失败</message>
+				</then>
+				<else>
+					<message>导出成功</message>
+				</else>
+			</if>
 		</actions>
-	</service>	
+	</service>
 </services>

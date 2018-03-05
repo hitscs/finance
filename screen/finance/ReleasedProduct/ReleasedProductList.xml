@@ -3,6 +3,9 @@
 	<transition name="releasedProductDetail">
 		<default-response url="../ReleasedProductDetail" />
 	</transition>
+		<transition name="completedProductDetail">
+		<default-response url="../../CompletedProduct/CompletedProductDetail" />
+	</transition>
 	<transition name="findReleasedProduct">
 		<default-response url="." />
 	</transition>
@@ -30,7 +33,7 @@
 	<actions>
 		<entity-find entity-name="ReleasedProduct" list="releasedProductList">
 			<search-form-inputs />
-			<econdition field-name="status" operator="not-equals" value="1" or-null="true"/>
+			<!-- <econdition field-name="status" operator="not-equals" value="1" or-null="true"/> -->
 		</entity-find>
 	</actions>
 	<widgets>
@@ -394,6 +397,9 @@
 				</header-field>
 				<default-field>
 					<link text="删除" url="deleteReleasedProduct" confirmation="确定要删除吗？" condition="isPublished != 'Y'">
+						<parameter name="productId" />
+					</link>
+					<link text="追加信息" url="completedProductDetail"  condition="status ==1">
 						<parameter name="productId" />
 					</link>
 					<link text="发送" url="sendToSFTP" confirmation="确定要发送吗？">

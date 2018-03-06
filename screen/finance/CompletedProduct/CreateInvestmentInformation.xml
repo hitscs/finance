@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品" default-menu-include="false">
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-2.1.xsd" default-menu-title="已完成产品"
+	default-menu-include="false">
 	<parameter name="productId" required="true" from="productId" />
 	<transition name="createInvestmentInformation">
 		<service-call name="create#finance.product.InvestmentInformation"></service-call>
@@ -145,7 +146,7 @@
 			</field>
 			<field name="remarks">
 				<default-field title="备注：">
-					<text-line size="20" />
+					<text-area />
 				</default-field>
 			</field>
 			<field name="submitButton">
@@ -170,10 +171,8 @@
 					<field-ref name="paymentDueDate" />
 					<field-ref name="interestPeriod" />
 				</field-row>
-				<field-row>
-					<field-ref name="isReturnMoney" />
-					<field-ref name="remarks" />
-				</field-row>
+				<field-ref name="isReturnMoney" />
+				<field-ref name="remarks" />
 				<field-ref name="submitButton" />
 			</field-layout>
 		</form-single>

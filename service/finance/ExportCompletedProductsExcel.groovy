@@ -1,4 +1,8 @@
 
+import org.apache.poi.ss.util.CellRangeAddress
+import org.apache.poi.xssf.usermodel.XSSFRow
+import org.apache.poi.xssf.usermodel.XSSFSheet
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.moqui.context.ExecutionContext
 import org.moqui.entity.EntityCondition
 import org.moqui.entity.EntityFind
@@ -11,8 +15,6 @@ ExecutionContext ec = context.ec
 
 
 
-println "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${productName}-----------------------------------"
-//EntityList completedProductList = ec.entity.find("finance.product.CompletedProduct").condition("productName", EntityCondition.LIKE, "%${productName}%").list()
 EntityFind ef = ec.entity.find("finance.product.CompletedProduct")
 if(productName)ef.condition("productName", EntityCondition.LIKE, "%${productType}%")
 if(productType)ef.condition("productType", EntityCondition.LIKE, "%${productName}%")
@@ -28,9 +30,6 @@ if(isReturnMoney)ef.condition("isReturnMoney", EntityCondition.LIKE, "%${isRetur
 
 def completedProductList=ef.list()
 
-/*if(completedProductList.size() == 0){
- ec.message.addError("没有找到结果。")
- }else{*/
 def response = ec.web.response
 String filename = "产品投资信息明细表.csv";
 response.setContentType("application/csv;charset=UTF-8");
@@ -75,4 +74,53 @@ for(EntityValue completedProduct:completedProductList){
 
 out.flush()
 out.close()
-//}
+
+
+
+
+
+
+
+XSSFWorkbook wb = new XSSFWorkbook();  
+          
+XSSFSheet sheet = wb.createSheet();  
+//这个就是合并单元格  
+//参数说明：1：开始行 2：结束行  3：开始列 4：结束列  
+//比如我要合并 第二行到第四行的    第六列到第八列     sheet.addMergedRegion(new CellRangeAddress(1,3,5,7));  
+sheet.addMergedRegion(new CellRangeAddress(0,0,0,1));  
+  
+XSSFRow row = sheet.createRow(number);
+
+
+
+
+sheet.addMergedRegion(new CellRangeAddress(0,3,0,0));
+sheet.addMergedRegion(new CellRangeAddress(0,3,3,3));
+sheet.addMergedRegion(new CellRangeAddress(0,3,4,4));
+  
+//第一行数据
+XSSFRow row = sheet.createRow(0);
+row.createCell(0).setCellValue("工作站");
+row.createCell(1).setCellValue("位置");
+row.createCell(2).setCellValue("序号");
+row.createCell(3).setCellValue("订单号");
+row.createCell(4).setCellValue("成品号/型号");
+  
+//第二行数据
+XSSFRow row = sheet.createRow(number);
+//row.createCell(0).setCellValue("工作站");//因为和上面的行合并了，所以不用再次 赋值了
+row.createCell(1).setCellValue("位置");
+row.createCell(2).setCellValue("序号");
+//row.createCell(3).setCellValue("订单号");//因为和上面的行合并了，所以不用再次 赋值了
+//row.createCell(4).setCellValue("成品号/型号");//因为和上面的行合并了，所以不用再次 赋值了
+
+
+
+
+
+
+
+
+
+
+

@@ -102,9 +102,10 @@ for(Map map:list){
 				}
 			}
 			reader.close();
-//导入销售文件后，产品状态变更为已完成交易			
-			EntityValue releasedProduct=ec.entity.find("finance.product.ReleasedProduct").condition("projectCode", fileNameSplit[0]).condition("versionNo", fileNameSplit[2]).one()
-			releasedProduct.status="1"
+//导入销售文件后，产品状态变更为已完成交易	
+			//println("+++++++++++++++++++++++++++++++${fileNameSplit[0]}++++++++++++++++++++++++++++++++++++++++++++++++++++")		
+			EntityValue releasedProduct=ec.entity.find("finance.product.ReleasedProduct").condition("pseudoId", fileNameSplit[0]).condition("versionNo", fileNameSplit[2]).one()
+			releasedProduct.set("status", 1)
 			releasedProduct.update()
 }
 if(list.size()==0)

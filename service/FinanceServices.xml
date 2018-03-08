@@ -406,14 +406,6 @@
 		<actions>
 			
 			<script location="component://finance/service/finance/ExportCompletedProducts.groovy" />
-<!-- 			<if condition="ec.message.hasError()">
-				<then>
-					<message error="true">导出失败</message>
-				</then>
-				<else>
-					<message>导出成功</message>
-				</else>
-			</if> -->
 		</actions>
 	</service>
 </services>

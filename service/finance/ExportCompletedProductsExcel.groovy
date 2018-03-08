@@ -30,75 +30,12 @@ if(isReturnMoney)ef.condition("isReturnMoney", EntityCondition.LIKE, "%${isRetur
 def completedProductList=ef.list()
 
 def response = ec.web.response
-String filename = "产品投资信息明细表.csv";
-response.setContentType("application/csv;charset=UTF-8");
-//response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
-response.setHeader("content-disposition", "attachment;filename=" + filename);
-response.setCharacterEncoding("UTF-8");
-def array = [(byte)0xef, (byte)0xbb, (byte)0xbf] as byte[]
 
-int len = 0;
-OutputStream out = response.getOutputStream();
-out.write(array);
+XSSFWorkbook wb = new XSSFWorkbook();
+
+XSSFSheet sheet = wb.createSheet();
 
 
-def header="产品编码,产品名称,产品类型,发行方,产品风险等级,起息日,到期日,试算日,到期还款日,计息周期,资管通道,投向资产方,投资金额,预期收益率,起息日,到期日,到期还款日,计息周期,是否回款,备注\r\n"
-out.write(header.getBytes("UTF-8"))
-def value=""
-for(EntityValue completedProduct:completedProductList){
-	
-	value=value+completedProduct.get("pseudoId")+"\t"+","
-	value=value+completedProduct.get("productName")+"\t"+","
-	value=value+completedProduct.get("productType")+","
-	value=value+completedProduct.get("publisher")+","
-	value=value+completedProduct.get("riskRating")+","
-	value=value+completedProduct.get("interestDate")+"\t"+","
-	value=value+completedProduct.get("maturityDate")+"\t"+","
-	value=value+completedProduct.get("trialDate")+"\t"+","
-	value=value+completedProduct.get("paymentDueDay")+"\t"+","
-	value=value+completedProduct.get("numberOfDays")+","
-	/*value=value+completedProduct.get("totleAmountInvestment")+","  //募集总金额
-	 */		value=value+completedProduct.get("managementChannelName")+","
-	value=value+completedProduct.get("assetSideName")+","
-	value=value+completedProduct.get("amountInvestment")+","
-	value=value+completedProduct.get("expectedRate")+","
-	value=value+completedProduct.get("interestDate")+"\t"+","
-	value=value+completedProduct.get("dueDate")+"\t"+","
-	value=value+completedProduct.get("paymentDueDate")+"\t"+","
-	value=value+completedProduct.get("interestPeriod")+","
-	value=value+completedProduct.get("isReturnMoney")+","
-	value=value+completedProduct.get("remarks")+"\r\n"
-
-	
-}
-out.write(value.getBytes("UTF-8"))
-
-out.flush()
-out.close()
-
-
-
-
-
-
-
-XSSFWorkbook wb = new XSSFWorkbook();  
-          
-XSSFSheet sheet = wb.createSheet();  
-//这个就是合并单元格  
-//参数说明：1：开始行 2：结束行  3：开始列 4：结束列  
-//比如我要合并 第二行到第四行的    第六列到第八列     sheet.addMergedRegion(new CellRangeAddress(1,3,5,7));  
-//sheet.addMergedRegion(new CellRangeAddress(0,0,0,1));  
-//  
-//XSSFRow row = sheet.createRow(number);
-//
-//
-//
-//
-//sheet.addMergedRegion(new CellRangeAddress(0,3,0,0));
-//sheet.addMergedRegion(new CellRangeAddress(0,3,3,3));
-//sheet.addMergedRegion(new CellRangeAddress(0,3,4,4));
-  
 //第一行数据
 XSSFRow row = sheet.createRow(0);
 row.createCell(0).setCellValue("产品编码");
@@ -131,47 +68,99 @@ row.createCell(20).setCellValue("备注");
 Map productMap=new HashMap()
 Map managementChannelMap=new HashMap()
 for(EntityValue completedProduct:completedProductList){
-	productMap.put(completedProduct.get("pseudoId"), completedProduct.get("pseudoId"))
-	managementChannelMap.put(completedProduct.get("pseudoId")+"_"+completedProduct.get("managementChannelId"), completedProduct.get("pseudoId")+"_"+completedProduct.get("managementChannelId"))
-	
+	productMap.put(completedProduct.get("productId"), completedProduct.get("productId"))
+	managementChannelMap.put(completedProduct.get("productId")+"_"+completedProduct.get("managementChannelId"), completedProduct.get("productId")+"_"+completedProduct.get("managementChannelId"))
+
 }
+List managementChannelList=new ArrayList()
 for(String key : managementChannelMap.keySet()) {
-	
-	
-	
-	
-	for() {
-		
+	String productId=key.split("_")[0]
+	String managementChannelId=key.split("_")[1]
+	List assetSideList=new ArrayList()
+	for(EntityValue completedProduct:completedProductList) {
+		if(productId.equals(completedProduct.get("productId"))&&managementChannelId.equals(completedProduct.get("managementChannelId"))) {
+			assetSideList.add(completedProduct)
+		}
 	}
-	
-	
-	
-	
-	
+	managementChannelList.add(assetSideList)
+}
+List list=new ArrayList()
+List collectTotalAmountList=new ArrayList()
+for(String key : productMap.keySet()) {
+	int collectTotalAmount=0
+	List productList=new ArrayList()
+	for(int i = 0; i < managementChannelList.size(); i++) {
+		List assetSideList=managementChannelList.get(0)
+		if(assetSideList.get(0).getAt("productId").equals(key)) {
+			productList.add(managementChannelList)
+
+		}
+	}
+	for(EntityValue completedProduct:completedProductList) {
+		if(completedProduct.get("productId").equals(key)) {
+			String amountInvestment=completedProduct.get("amountInvestment").toString()
+			collectTotalAmount=collectTotalAmount+Integer.parseInt(amountInvestment)
+		}
+
+	}
+	list.add(productList)
+	collectTotalAmountList.add(collectTotalAmount);
 }
 
-
-
-
-
-
-
-  
-//第二行数据
-XSSFRow row = sheet.createRow(number);
-//row.createCell(0).setCellValue("工作站");//因为和上面的行合并了，所以不用再次 赋值了
-row.createCell(1).setCellValue("位置");
-row.createCell(2).setCellValue("序号");
-//row.createCell(3).setCellValue("订单号");//因为和上面的行合并了，所以不用再次 赋值了
-//row.createCell(4).setCellValue("成品号/型号");//因为和上面的行合并了，所以不用再次 赋值了
-
-
-
-
-
-
-
-
-
-
-
+int productFirstRow=1
+int productLastRow=0
+//开始合并单元格
+for(int i = 0; i < list.size(); i++) {
+	List productList=list.get(i)
+	for(int j = 0; j < productList.size(); j++) {
+		List mList=productList.get(j)
+		productLastRow=productFirstRow+mList.size()
+		sheet.addMergedRegion(new CellRangeAddress(productFirstRow,productLastRow,11,11));
+	}
+	for(int m=0;m<11;m++) {
+		sheet.addMergedRegion(new CellRangeAddress(productFirstRow,productLastRow,m,m));
+	}
+	productFirstRow=productLastRow+1
+}
+//开始写入列表
+for(int i = 0; i < list.size(); i++) {
+	List productList=list.get(i)
+	for(int j = 0; j < productList.size(); j++) {
+		List mList=productList.get(j)
+		for(int k = 0; k < mList.size(); k++) {
+			EntityValue completedProduct=mList.get(j)
+			XSSFRow row = sheet.createRow((i+1)*(j+1)*k+1);
+			row.createCell(0).setCellValue(completedProduct.get("pseudoId"));
+			row.createCell(1).setCellValue(completedProduct.get("productName"));
+			row.createCell(2).setCellValue(completedProduct.get("productType"));
+			row.createCell(3).setCellValue(completedProduct.get("publisher"));
+			row.createCell(4).setCellValue(completedProduct.get("riskRating"));
+			row.createCell(5).setCellValue(completedProduct.get("interestDate"));
+			row.createCell(6).setCellValue(completedProduct.get("maturityDate"));
+			row.createCell(7).setCellValue(completedProduct.get("trialDate"));
+			row.createCell(8).setCellValue(completedProduct.get("paymentDueDay"));
+			row.createCell(9).setCellValue(completedProduct.get("numberOfDays"));
+			row.createCell(10).setCellValue(collectTotalAmountList.get(i));
+			row.createCell(11).setCellValue(completedProduct.get("managementChannelName"));
+			row.createCell(12).setCellValue(completedProduct.get("assetSideName"));
+			row.createCell(13).setCellValue(completedProduct.get("amountInvestment"));
+			row.createCell(14).setCellValue(completedProduct.get("expectedRate"));
+			row.createCell(15).setCellValue(completedProduct.get("interestDate"));
+			row.createCell(16).setCellValue(completedProduct.get("dueDate"));
+			row.createCell(17).setCellValue(completedProduct.get("paymentDueDate"));
+			row.createCell(18).setCellValue(completedProduct.get("interestPeriod"));
+			row.createCell(19).setCellValue(completedProduct.get("isReturnMoney"));
+			row.createCell(20).setCellValue(completedProduct.get("remarks"));
+		}
+	}
+}
+String downFileName = "产品投资信息明细表.xlsx";
+// 清空response
+response.reset();
+response.setContentType("application/msexcel");//设置生成的文件类型
+response.setCharacterEncoding("UTF-8");//设置文件头编码方式和文件名
+response.setHeader("Content-Disposition", "attachment; filename=" + new String(downFileName.getBytes("utf-8"), "ISO8859-1"));
+OutputStream os=response.getOutputStream();
+wb.write(os);
+os.flush();
+os.close();

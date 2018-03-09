@@ -73,6 +73,7 @@ if(completedProductList.size()>0) {
 		managementChannelMap.put(completedProduct.get("productId")+"_"+completedProduct.get("managementChannelId"), completedProduct.get("productId")+"_"+completedProduct.get("managementChannelId"))
 
 	}
+	println"++++++++++++++++++++++++++++++++++++ONE+++++++++++++++++++++++++++++++++++++++++++++++"
 	List managementChannelList=new ArrayList()
 	for(String key : managementChannelMap.keySet()) {
 		String productId=key.split("_")[0]
@@ -85,6 +86,7 @@ if(completedProductList.size()>0) {
 		}
 		managementChannelList.add(assetSideList)
 	}
+	println"++++++++++++++++++++++++++++++++++++TWO+++++++++++++++++++++++++++++++++++++++++++++++"
 	List list=new ArrayList()
 	List collectTotalAmountList=new ArrayList()
 	for(String key : productMap.keySet()) {
@@ -107,7 +109,7 @@ if(completedProductList.size()>0) {
 		list.add(productList)
 		collectTotalAmountList.add(collectTotalAmount);
 	}
-
+	println"++++++++++++++++++++++++++++++++++++THREE+++++++++++++++++++++++++++++++++++++++++++++++"
 	int productFirstRow=1
 	int productLastRow=0
 	//开始合并单元格
@@ -123,6 +125,7 @@ if(completedProductList.size()>0) {
 		}
 		productFirstRow=productLastRow+1
 	}
+	println"++++++++++++++++++++++++++++++++++++FOUR+++++++++++++++++++++++++++++++++++++++++++++++"
 	//开始写入列表
 	for(int i = 0; i < list.size(); i++) {
 		List productList=list.get(i)

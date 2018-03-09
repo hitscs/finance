@@ -1,31 +1,33 @@
-import org.moqui.context.ExecutionContext
-import com.finance.utils.DateUtils
-import org.moqui.entity.EntityValue
-import org.moqui.entity.EntityList
+import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.HtmlEmail
+import org.moqui.context.ExecutionContext
+import org.moqui.entity.EntityList
+import org.moqui.entity.EntityValue
+
+import com.finance.utils.DateUtils
 
 
 ExecutionContext ec = context.ec
 def emailMessageId="REMIND"
 def nowDate=DateUtils.getNowTime("yyyyMMdd")
 Date date=new Date()
-def trialDate=DateUtils.addDay(date, "yyyyMMdd", 1)
-EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", trialDate).list()
-EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", nowDate).list()
+def maturityDate=DateUtils.addDay(date, "yyyyMMdd", 1)
+EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("maturityDate", maturityDate).list()
+EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("maturityDate", nowDate).list()
 
-String bodyText ="今日试算产品：\r\n"
+String bodyText ="今日到期产品：\r\n"
 for(EntityValue todayTrialProduct:todayTrialProductList) {
-	bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("productName")+"    "+todayTrialProduct.get("trialDate")+"，请及时处理 \r\n"
+	bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("productName")+"    "+todayTrialProduct.get("maturityDate")+"，请及时处理 \r\n"
 	}
 
-	bodyText=bodyText+"明日试算产品：\r\n"
+	bodyText=bodyText+"明日到期产品：\r\n"
 	for(EntityValue tomorrowTrialProduct:tomorrowTrialProductList) {
-		bodyText=bodyText+tomorrowTrialProduct.get("pseudoId")+"    "+tomorrowTrialProduct.get("productName")+"    "+tomorrowTrialProduct.get("trialDate")+"，请及时处理 \r\n"
+		bodyText=bodyText+tomorrowTrialProduct.get("pseudoId")+"    "+tomorrowTrialProduct.get("productName")+"    "+tomorrowTrialProduct.get("maturityDate")+"，请及时处理 \r\n"
 		
 		}
 	EntityValue emailMessage = ec.entity.find("moqui.basic.email.EmailMessage").condition("emailMessageId", emailMessageId).one()
 	if (emailMessage == null) { ec.message.addError(ec.resource.expand('No EmailMessage record found for ID ${emailMessageId}','')); return }
-	String subject=nowDate+"试算产品"
+	String subject=nowDate+"到期产品"
 	String bodyHtml = emailMessage.body
 	//String bodyText = emailMessage.bodyText
 	String fromAddress = emailMessage.fromAddress

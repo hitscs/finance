@@ -11,9 +11,13 @@ ExecutionContext ec = context.ec
 def emailMessageId="REMIND"
 def nowDate=DateUtils.getNowTime("yyyyMMdd")
 Date date=new Date()
+Calendar calender = Calendar.getInstance();
+calender.setTime(date);
+calender.add(Calendar.DATE, 1);
 def trialDate=DateUtils.addDay(date, "yyyyMMdd", 1)
-EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", trialDate).list()
-EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", nowDate).list()
+println "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${trialDate}"
+EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", calender.getTime()).list()
+EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", date).list()
 
 String bodyText ="今日试算产品：\r\n"
 for(EntityValue todayTrialProduct:todayTrialProductList) {

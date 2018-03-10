@@ -15,7 +15,6 @@ Calendar calender = Calendar.getInstance();
 calender.setTime(date);
 calender.add(Calendar.DATE, 1);
 def trialDate=DateUtils.addDay(date, "yyyyMMdd", 1)
-println "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${trialDate}"
 EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", calender.getTime()).list()
 EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", date).list()
 

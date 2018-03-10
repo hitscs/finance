@@ -58,7 +58,9 @@ for(EntityValue todayTrialProduct:todayTrialProductList) {
 	email.setHostName(host)
 	email.setSmtpPort(port)
 	if (emailServer.mailUsername) {
+		println "++++++++++++++++++++++${emailServer.mailUsername}+++++++${emailServer.mailPassword}++++++++++++++++++++++++++++++++++++++++++="
 		email.setAuthenticator(new DefaultAuthenticator((String) emailServer.mailUsername, (String) emailServer.mailPassword))
+		
 	}
 	if (emailServer.smtpStartTls == "Y") {
 		email.setStartTLSEnabled(true)

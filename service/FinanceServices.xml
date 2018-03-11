@@ -405,7 +405,7 @@
 		</out-parameters>
 		<actions>
 			
-			<script location="component://finance/service/finance/ExportCompletedProductsExcel.groovy" />
+			<script location="component://finance/service/finance/ExportCompletedProducts.groovy" />
 		</actions>
 	</service>
 </services>

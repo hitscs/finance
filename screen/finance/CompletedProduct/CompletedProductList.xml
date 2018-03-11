@@ -14,7 +14,7 @@
 		<default-response url="." />
 	</transition>
 	<actions>
-		<entity-find entity-name="CompletedProduct" list="completedProductList">
+		<entity-find entity-name="finance.product.CompletedProduct" list="completedProductList">
 			<search-form-inputs />
 			<!-- <econdition field-name="status" operator="equals" value="1" /> -->
 		</entity-find>

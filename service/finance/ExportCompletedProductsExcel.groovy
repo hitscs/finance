@@ -132,8 +132,11 @@ if(completedProductList.size()>0) {
 		for(int j = 0; j < productList.size(); j++) {
 			List mList=productList.get(j)
 			for(int k = 0; k < mList.size(); k++) {
-				EntityValue completedProduct=mList.get(j)
-				XSSFRow valueRow = sheet.createRow((i+1)*(j+1)*k+1);
+				List assetSideList=mList.get(k)
+				for(int m = 0; m < assetSideList.size(); m++) {
+					EntityValue completedProduct=assetSideList.get(m)
+				
+				XSSFRow valueRow = sheet.createRow((i+1)*(j+1)*(k+1)*(m+1));
 				valueRow.createCell(0).setCellValue(completedProduct.get("pseudoId"));
 				valueRow.createCell(1).setCellValue(completedProduct.get("productName"));
 				valueRow.createCell(2).setCellValue(completedProduct.get("productType"));
@@ -155,6 +158,7 @@ if(completedProductList.size()>0) {
 				valueRow.createCell(18).setCellValue(completedProduct.get("interestPeriod"));
 				valueRow.createCell(19).setCellValue(completedProduct.get("isReturnMoney"));
 				valueRow.createCell(20).setCellValue(completedProduct.get("remarks"));
+				}
 			}
 		}
 	}

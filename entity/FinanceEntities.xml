@@ -252,7 +252,7 @@
         <field name="remarks" type="text-medium"><description>备注</description></field>
         
     </entity>  
-    <view-entity package="finance.product" entity-name="CompletedProduct">
+    <view-entity package="finance.product" entity-name="CompletedProduct" >
         <member-entity entity-alias="II" entity-name="finance.product.InvestmentInformation"/>
         <member-entity entity-alias="RP" entity-name="finance.product.ReleasedProduct" join-from-alias="II">
             <key-map field-name="productId"/></member-entity>

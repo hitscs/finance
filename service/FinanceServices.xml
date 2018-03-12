@@ -390,7 +390,7 @@
 		</actions>
 	</service>
 	<service verb="remind" noun="DueDate" authenticate="anonymous-all" allow-remote="false" type="inline">
-		<actions><description>投资产品到期提醒</description>
+		<actions>
 			<script location="component://finance/service/finance/RemindDueDate.groovy" />
 		</actions>
 	</service>	

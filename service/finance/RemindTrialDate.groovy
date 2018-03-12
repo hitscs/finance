@@ -17,19 +17,20 @@ calender.add(Calendar.DATE, 1);
 def trialDate=DateUtils.addDay(date, "yyyyMMdd", 1)
 EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", calender.getTime()).list()
 EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("trialDate", date).list()
-
-String bodyText ="今日试算产品：\r\n"
-for(EntityValue todayTrialProduct:todayTrialProductList) {
-	bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("productName")+"    "+todayTrialProduct.get("trialDate")+"，请及时处理 \r\n"
+if(tomorrowTrialProductList.size()>0||todayTrialProductList.size()>0) {
+	String bodyText ="今日试算产品：\r\n"
+	for(EntityValue todayTrialProduct:todayTrialProductList) {
+		bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("productName")+"    "+todayTrialProduct.get("trialDate")+"，请及时处理 \r\n"
 	}
 
 	bodyText=bodyText+"明日试算产品：\r\n"
 	for(EntityValue tomorrowTrialProduct:tomorrowTrialProductList) {
 		bodyText=bodyText+tomorrowTrialProduct.get("pseudoId")+"    "+tomorrowTrialProduct.get("productName")+"    "+tomorrowTrialProduct.get("trialDate")+"，请及时处理 \r\n"
-		
-		}
+	}
 	EntityValue emailMessage = ec.entity.find("moqui.basic.email.EmailMessage").condition("emailMessageId", emailMessageId).one()
-	if (emailMessage == null) { ec.message.addError(ec.resource.expand('No EmailMessage record found for ID ${emailMessageId}','')); return }
+	if (emailMessage == null) {
+		ec.message.addError(ec.resource.expand('No EmailMessage record found for ID ${emailMessageId}','')); return
+	}
 	String subject=nowDate+"试算产品"
 	String bodyHtml = emailMessage.body
 	//String bodyText = emailMessage.bodyText
@@ -43,7 +44,7 @@ for(EntityValue todayTrialProduct:todayTrialProductList) {
 	if (!toAddresses) ec.message.addError(ec.resource.expand('Email Message ${emailMessageId} has no to address',''))
 	if (ec.message.hasError()) return
 
-	EntityValue emailTemplate = (EntityValue) emailMessage.template
+		EntityValue emailTemplate = (EntityValue) emailMessage.template
 
 	EntityValue emailServer = (EntityValue) emailMessage.server
 	if (emailServer == null) { ec.message.addError(ec.resource.expand('No Email Server record found for Email Message ${emailMessageId}','')); return }
@@ -97,4 +98,5 @@ for(EntityValue todayTrialProduct:todayTrialProductList) {
 	// set the alternative plain text message
 	if (bodyText) email.setTextMsg(bodyText)
 
-      messageId = email.send()
+	messageId = email.send()
+}

@@ -14,25 +14,24 @@ Date date=new Date()
 Calendar calender = Calendar.getInstance();
 calender.setTime(date);
 calender.add(Calendar.DATE, 1);
-
-def maturityDate=DateUtils.addDay(date, "yyyyMMdd", 1)
-EntityList tomorrowTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("maturityDate", calender.getTime()).list()
-EntityList todayTrialProductList = ec.entity.find("finance.product.ReleasedProduct").condition("maturityDate", date).list()
-if(tomorrowTrialProductList.size()>0||todayTrialProductList.size()>0) {
-	String bodyText ="今日到期产品：\r\n"
-	for(EntityValue todayTrialProduct:todayTrialProductList) {
-		bodyText=bodyText+todayTrialProduct.get("pseudoId")+"    "+todayTrialProduct.get("productName")+"    "+todayTrialProduct.get("maturityDate")+"，请及时处理 \r\n"
+def trialDate=DateUtils.addDay(date, "yyyyMMdd", 1)
+EntityList tomorrowDueProductList = ec.entity.find("finance.product.CompletedProduct").condition("dueDate", calender.getTime()).list()
+EntityList todayDueProductList = ec.entity.find("finance.product.CompletedProduct").condition("dueDate", date).list()
+if(tomorrowDueProductList.size()>0||todayDueProductList.size()>0) {
+	String bodyText ="今日到期投资产品：\r\n"
+	for(EntityValue todayDueProduct:todayDueProductList) {
+		bodyText=bodyText+todayDueProduct.get("pseudoId")+"    "+todayDueProduct.get("productName")+"    "+todayDueProduct.get("managementChannelName")+"    "+todayDueProduct.get("assetSideName")+"    "+todayDueProduct.get("dueDate")+"，请及时处理 \r\n"
 	}
 
-	bodyText=bodyText+"明日到期产品：\r\n"
-	for(EntityValue tomorrowTrialProduct:tomorrowTrialProductList) {
-		bodyText=bodyText+tomorrowTrialProduct.get("pseudoId")+"    "+tomorrowTrialProduct.get("productName")+"    "+tomorrowTrialProduct.get("maturityDate")+"，请及时处理 \r\n"
+	bodyText=bodyText+"明日到期投资产品：\r\n"
+	for(EntityValue tomorrowDueProduct:tomorrowDueProductList) {
+		bodyText=bodyText+tomorrowDueProduct.get("pseudoId")+"    "+tomorrowDueProduct.get("productName")+"    "+tomorrowDueProduct.get("managementChannelName")+"    "+tomorrowDueProduct.get("assetSideName")+"    "+tomorrowDueProduct.get("dueDate")+"，请及时处理 \r\n"
 	}
 	EntityValue emailMessage = ec.entity.find("moqui.basic.email.EmailMessage").condition("emailMessageId", emailMessageId).one()
 	if (emailMessage == null) {
 		ec.message.addError(ec.resource.expand('No EmailMessage record found for ID ${emailMessageId}','')); return
 	}
-	String subject=nowDate+"到期产品"
+	String subject=nowDate+"投资产品到期提醒"
 	String bodyHtml = emailMessage.body
 	//String bodyText = emailMessage.bodyText
 	String fromAddress = emailMessage.fromAddress
@@ -59,9 +58,7 @@ if(tomorrowTrialProductList.size()>0||todayTrialProductList.size()>0) {
 	email.setHostName(host)
 	email.setSmtpPort(port)
 	if (emailServer.mailUsername) {
-		println "++++++++++++++++++++++${emailServer.mailUsername}+++++++${emailServer.mailPassword}++++++++++++++++++++++++++++++++++++++++++="
 		email.setAuthenticator(new DefaultAuthenticator((String) emailServer.mailUsername, (String) emailServer.mailPassword))
-
 	}
 	if (emailServer.smtpStartTls == "Y") {
 		email.setStartTLSEnabled(true)

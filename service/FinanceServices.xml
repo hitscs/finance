@@ -389,6 +389,11 @@
 			<script location="component://finance/service/finance/RemindMaturityDate.groovy" />
 		</actions>
 	</service>
+	<service verb="remind" noun="DueDate" authenticate="anonymous-all" allow-remote="false" type="inline">
+		<actions><description>投资产品到期提醒</description>
+			<script location="component://finance/service/finance/RemindDueDate.groovy" />
+		</actions>
+	</service>	
 	<service verb="exportCompletedProducts" noun="CompletedProduct" authenticate="anonymous-all" allow-remote="false" type="inline">
 		<in-parameters>
 			<parameter name="productName" />
